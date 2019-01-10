@@ -1,19 +1,49 @@
-dims() {
+#!/bin/bash
 
+}
+
+dims() {
+  echo "DIMS"
 }
 
 transpose() {
-
+  echo "TRANS"
 }
 
 mean() {
-
+  echo "MEAN"
 }
 
 add() {
-
+  echo "ADD"
 }
 
 multiply() {
-
+  echo "MULT"
 }
+###MAIN###
+
+case "$1" in
+    dims|d)
+      dims "${@:2}"
+      ;;
+    transpose|t)
+        transpose "${@:2}"
+        ;;
+    mean|m)
+        mean "${@:2}"
+        ;;
+    add|a)
+        add "${@:2}"
+        ;;
+    multiply|M)
+        multiply "${@:2}"
+        ;;
+    help|h)
+        echo $"Usage: $0 {dims|transpose|mean|add|multiply}"
+        exit 0
+        ;;
+    *)
+        echo $"Usage: $0 {dims|transpose|mean|add|multiply}"
+        exit 1
+esac
