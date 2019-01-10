@@ -3,24 +3,45 @@
 }
 
 dims() {
+  if [ "$#" -ne 1 ]; then
+      echo "Incorrect number of arguments. Expected 1, got $#. Please provide 1 matrix."
+      exit 1
+  fi
   echo "DIMS"
 }
 
 transpose() {
+  if [ "$#" -ne 1 ]; then
+      echo "Incorrect number of arguments. Expected 1, got $#. Please provide 1 matrix."
+      exit 1
+  fi
   echo "TRANS"
 }
 
 mean() {
+  if [ "$#" -ne 1 ]; then
+      echo "Incorrect number of arguments. Expected 1, got $#. Please provide 1 matrix."
+      exit 1
+  fi
   echo "MEAN"
 }
 
 add() {
+  if [ "$#" -ne 2 ]; then
+      echo "Incorrect number of arguments. Expected 2, got $#. Please provide 2 matrices."
+      exit 1
+  fi
   echo "ADD"
 }
 
 multiply() {
+  if [ "$#" -ne 2 ]; then
+      echo "Incorrect number of arguments. Expected 2, got $#. Please provide 2 matrices."
+      exit 1
+  fi
   echo "MULT"
 }
+
 ###MAIN###
 
 case "$1" in
