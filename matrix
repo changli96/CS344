@@ -1,5 +1,10 @@
 #!/bin/bash
 
+_FILE1 = ""
+_FILE2 = ""
+
+filein() {
+  
 }
 
 dims() {
@@ -8,6 +13,7 @@ dims() {
       exit 1
   fi
   echo "DIMS"
+  filein $1
 }
 
 transpose() {
@@ -16,6 +22,7 @@ transpose() {
       exit 1
   fi
   echo "TRANS"
+  filein $1
 }
 
 mean() {
@@ -24,6 +31,7 @@ mean() {
       exit 1
   fi
   echo "MEAN"
+  filein $1
 }
 
 add() {
@@ -32,6 +40,8 @@ add() {
       exit 1
   fi
   echo "ADD"
+  filein $1
+  filein $2
 }
 
 multiply() {
@@ -40,6 +50,8 @@ multiply() {
       exit 1
   fi
   echo "MULT"
+  filein $1
+  filein $2
 }
 
 ###MAIN###
