@@ -118,13 +118,17 @@ add() {
     POS2=$(($POS2 + 1))
     rowcount=$(($rowcount + 1))
     num3=$((num1 + num2))
-    if [[ $rowcount = $COLS ]];
+    if [[ $TOTALLEN = $(($count)) ]];
+    then
+      sep=""
+   else if [[ $rowcount = $COLS ]];
     then
       sep="\n"
       rowcount=$"0"
-    else
+   else
       sep="\t"
     fi
+fi
     finalstr=$finalstr$num3$sep
     count=$(($count + 1))
   done
@@ -178,11 +182,15 @@ multiply() {
      num3=$((num1 \* num2))
      if [[ $rowcount = $COLS ]];
      then
-      sep="\n"
-      rowcount=$"0"
-     else
-      sep="\t"
+       sep=""
+    else if [[ $rowcount = $COLS ]];
+     then
+       sep="\n"
+       rowcount=$"0"
+    else
+       sep="\t"
      fi
+ fi
      finalstr=$finalstr$num3$sep
      count=$(($count + 1))
    done
