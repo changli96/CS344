@@ -42,35 +42,96 @@ transpose() {
 }
 
 mean() {
-  if [ "$#" -ne 1 ]; then
+   if [ "$#" -ne 1 ]; then
       echo "Incorrect number of arguments. Expected 1, got $#. Please provide 1 matrix." >&2
       exit 1
-  fi
-  filein $1
-  FILE1=$FILE
-  dims $1 > temp
-  dim1=$(cat temp)
-  ROWS=$x
-  COLS=$COLS
-  TOTALLEN=$((x * COLS))
-  TOTALLEN=$((TOTALLEN - 1))
-  POS1=$"0"
+   fi
+   filein $1
+   FILE1=$FILE
+   dims $1 > $t0
+   dim1=$(cat $t0)
+   ROWS=$x
+   COLS=$COLS
 
-  echo "$FILE1" | grep -o "[0-9-]*[$'\t'$'\n']*" | grep -o "[0-9-]*" > temp1
-  FILE1=$(cat temp1)
-  while [[ $count -le $TOTALLEN ]]; do
-    num1=$""
-    re=-?[0-9]
-    while [[ ${FILE1:$POS1:1} =~ ${re} ]]; do
-      num1=$num1${FILE1:$POS1:1}
+   TOTALLEN=$((x * COLS))
+   TOTALLEN=$((TOTALLEN - 1))
+   POS1=$"0"
+   curRow=$"0"
+   curColumn=$"0"
+   resString="0"
+   for ((i=2; i<=$COLS; i++)) do
+      resString=$resString"\t0"
+   done
+   echo "$FILE1" | grep -o "[0-9-]*[$'\t'$'\n']*" | grep -o "[0-9-]*" > $t1
+   FILE1=$(cat $t1)
+   while [[ $count -le $TOTALLEN ]]; do
+      num1=$""
+      re=[0-9-]
+      while [[ ${FILE1:$POS1:1} =~ ${re} ]]; do
+         num1=$num1${FILE1:$POS1:1}
+         POS1=$(($POS1 + 1))
+      done
       POS1=$(($POS1 + 1))
-    done
-    total=$(($total + $num1))
-    POS1=$(($POS1 + 1))
-    count=$(($count + 1))
-  done
-  finalstr=$(($total / $TOTALLEN))
-  echo -e $finalstr
+      echo $num1
+      countB=$"0"
+      POS2=$"0"
+      while [[ $countB -ne $curColumn ]]; do
+         num2=$""
+         while [[ ${resString:$POS2:1} =~ ${re} ]]; do
+            num2=$num2${resString:$POS2:1}
+            POS2=$(($POS2 + 1))
+         done
+         POS2=$(($POS2 + 2))
+         countB=$(($countB + 1))
+      done
+      prestring=${resString:0:$POS2}
+      num2=""
+      while [[ ${resString:$POS2:1} =~ ${re} ]]; do
+         num2=$num2${resString:$POS2:1}
+         POS2=$(($POS2 + 1))
+      done
+      curNum=$((num2 + num1))
+      postString=${resString:$POS2:${#resString}}
+      echo -e $prestring":"$curNum":"$postString
+      resString=$prestring$curNum$postString
+      count=$(($count + 1))
+      if [[ $curColumn < $(($COLS -1)) ]]; then
+         curColumn=$(($curColumn + 1))
+      else
+         curRow=$(($curRow + 1))
+         curColumn=$"0"
+      fi
+   done
+   echo -e $resString
+   countC=$"1"
+   curColumn=$"1"
+   POS2=$"0"
+   while [[ $curColumn -le $COLS ]]; do
+      while [[ $countC -ne $curColumn ]]; do
+         num2=$""
+         while [[ ${resString:$POS2:1} =~ ${re} ]]; do
+            num2=$num2${resString:$POS2:1}
+            POS2=$(($POS2 + 1))
+         done
+         POS2=$(($POS2 + 1))
+         countC=$(($countC + 1))
+      done
+      prestring=${resString:0:$POS2}
+      #echo $prestring
+      num2=""
+      while [[ ${resString:$POS2:1} =~ ${re} ]]; do
+         num2=$num2${resString:$POS2:1}
+         POS2=$(($POS2 + 1))
+      done
+      #echo $num2
+      curNum=$((num2 / $ROWS))
+      #echo $curNum
+      postString=${resString:$POS2:${#resString}}
+      resString=$prestring$curNum$postString
+      curColumn=$(($curColumn + 1))
+   done
+
+   echo -e $resString
 }
 
 add() {
