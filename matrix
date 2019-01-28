@@ -15,10 +15,14 @@ numLines() {
 }
 
 dims() {
-  if [ "$#" -ne 1 ]; then
+   if [ "$#" -ne 1 ]; then
       echo "Incorrect number of arguments. Expected 1, got $#. Please provide 1 matrix." >&2
       exit 1
-  fi
+   fi
+   if ! [[ -r $1 ]]; then
+      echo "ERR">&2
+      exit 1
+   fi
   numLines $1
   x=$numL
   grep -o $'\t' $1 > $t0
@@ -37,8 +41,74 @@ transpose() {
       echo "Incorrect number of arguments. Expected 1, got $#. Please provide 1 matrix." >&2
       exit 1
   fi
-  echo "TRANS"
+
+  dims $1 > $t0
+  dim1=$(cat $t0)
+
   filein $1
+  FILE1=$FILE
+  ROWS=$x
+  COLS=$COLS
+  TOTALLEN=$((x * COLS))
+  TOTALLEN=$((TOTALLEN - 1))
+  POS1=$"0"
+  re=[0-9-]
+
+rowString=""
+colString=""
+
+   echo "$FILE1" | grep -o "[0-9-]*[$'\t'$'\n']*" | grep -o "[0-9-]*" >$t1
+   FILE1=$(cat $t1)
+   cat -A $t1
+   for ((col=1; col <= $COLS; col++)) do
+      rowString=""
+      POS1="0";
+      for ((row=1; row <= $ROWS; row++)) do
+         num1=""
+         charCTR="0"
+         while [[ $charCTR < $col ]]; do
+            num1=""
+            while [[ ${FILE1:$POS1:1} =~ ${re} ]]; do
+               num1=$num1${FILE1:$POS1:1}
+               POS1=$(($POS1 + 1))
+               echo $num1
+            done
+            POS1=$(($POS1 + 1))
+            echo $num1
+            charCTR=$(($charCTR + 1))
+         done
+         rowString=$rowString$sep$num1
+         ##Move to next row
+         ffcount=$"0"
+         while [[ $(($ffcount + $col)) < $COLS ]]; do
+            while [[ ${FILE1:$POS1:1} =~ ${re} ]]; do
+               num1=$num1${FILE1:$POS1:1}
+               POS1=$(($POS1 + 1))
+            done
+            ffcount=$(($ffcount + 1))
+         done
+         echo ROW:$rowString
+      done
+      colString=$colString$sep$rowString
+      echo COL:$colString
+   done
+   finalstr=$colString
+
+#   if [[ $TOTALLEN = $(($count)) ]];
+#   then
+#      sep=""
+#   else if [[ $rowcount = $COLS ]];
+#      then
+#         sep="\n"
+#         rowcount=$"0"
+#      else
+#         sep="\t"
+#      fi
+#   fi
+#    finalstr=$finalstr$num3$sep
+#    count=$(($count + 1))
+#  done
+  echo -e $finalstr
 }
 
 mean() {
@@ -200,7 +270,7 @@ multiply() {
    dims $2 > $t0
    dim2=$(cat $t0)
    if [[ "$dim1" != "$dim2" ]]; then
-      echo "Can't add mismatched matrices." >&2
+      echo "Can't multiply mismatched matrices." >&2
       exit 1
    fi
 
@@ -253,32 +323,91 @@ multiply() {
 }
 
 ###MAIN###
+targ1="$(mktemp temp.XXXXX)"
+targ2="$(mktemp temp.XXXXX)"
 t0="$(mktemp temp.XXXXX)"
 t1="$(mktemp temp.XXXXX)"
 t2="$(mktemp temp.XXXXX)"
-trap "rm -rf $t0 $t1 $t2; trap - EXIT" INT HUP TERM EXIT
+trap "rm -rf $targ1 $targ2 $t0 $t1 $t2; trap - EXIT" INT HUP TERM EXIT
 
 case "$1" in
-    dims|d)
-      dims "${@:2}"
+   dims|d)
+      if [ $# -gt 2 ]; then
+         echo "ERROR: Expected 1 arg, got $#." >&2
+         exit 1
+      else
+         if [ -r $2 ]; then
+            cat $2> $targ1
+            dims "$targ1"
+         else
+            echo "ERROR: Bad file." >&2
+            exit 1
+         fi
+      fi
       ;;
-    transpose|t)
-        transpose "${@:2}"
-        ;;
-    mean|m)
-        mean "${@:2}"
-        ;;
-    add|a)
-        add "${@:2}"
-        ;;
-    multiply|M)
-        multiply "${@:2}"
-        ;;
-    help|h)
-        echo $"Usage: $0 {dims|transpose|mean|add|multiply}"
-        ;;
-    *)
-        echo -e $"Command Does not Exist!\nUsage: $0 {dims|transpose|mean|add|multiply}">&2
-        exit 1
+   transpose|t)
+      if [ $# -gt 2 ]; then
+         echo "ERROR: Expected 1 arg, got $#." >&2
+         exit 1
+      else
+         if [ -r $2 ]; then
+            cat $2> $targ1
+            transpose "$targ1"
+         else
+            echo "ERROR: Bad file." >&2
+            exit 1
+         fi
+      fi
+      ;;
+   mean|m)
+      if [ $# -gt 2 ]; then
+         echo "ERROR: Expected 1 arg, got $#." >&2
+         exit 1
+      else
+         if [ -r $2 ]; then
+            cat $2> $targ1
+            mean "$targ1"
+         else
+            echo "ERROR: Bad file." >&2
+            exit 1
+         fi
+      fi
+      ;;
+   add|a)
+      if [ $# -gt 3 ] || [ $# -le 2 ]; then
+         echo "ERROR: Expected 2 args, got $#." >&2
+         exit 1
+      else
+         if [ -r $2 ] && [ -r $3 ]; then
+            cat $2> $targ1
+            cat $3> $targ2
+            add "$targ1" "$targ2"
+         else
+            echo "ERROR: Bad file." >&2
+            exit 1
+         fi
+      fi
+      ;;
+   multiply|M)
+      if [ $# -gt 3 ]; then
+         echo "ERROR: Expected 2 args, got $#." >&2
+         exit 1
+      else
+         if [ -r $2 ] && [ -r $3 ]; then
+            cat $2> $targ1
+            cat $3> $targ2
+            multiply "$targ1" "$targ2"
+         else
+            echo "ERROR: Bad file." >&2
+            exit 1
+         fi
+      fi
+      ;;
+   help|h)
+      echo $"Usage: $0 {dims|transpose|mean|add|multiply}"
+      ;;
+   *)
+      echo -e $"Command Does not Exist!\nUsage: $0 {dims|transpose|mean|add|multiply}">&2
+      exit 1
 esac
 exit 0
