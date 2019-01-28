@@ -179,8 +179,8 @@ multiply() {
      done
      POS2=$(($POS2 + 1))
      rowcount=$(($rowcount + 1))
-     num3=$((num1 \* num2))
-     if [[ $rowcount = $COLS ]];
+     num3=$((num1 * num2))
+     if [[ $TOTALLEN = $(($count)) ]];
      then
        sep=""
     else if [[ $rowcount = $COLS ]];
