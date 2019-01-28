@@ -19,8 +19,14 @@ dims() {
       echo "Incorrect number of arguments. Expected 1, got $#. Please provide 1 matrix." >&2
       exit 1
   fi
-  echo "DIMS"
-  filein $1
+  numLines $1
+  x=$numL
+  grep -o $'\t' $1 > temp
+  numLines temp
+  y=$numL
+  COLS=$((y/x))
+  COLS=$(($COLS+1))
+  echo $x $COLS
 }
 
 transpose() {
