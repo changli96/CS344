@@ -43,8 +43,31 @@ mean() {
       echo "Incorrect number of arguments. Expected 1, got $#. Please provide 1 matrix." >&2
       exit 1
   fi
-  echo "MEAN"
   filein $1
+  FILE1=$FILE
+  dims $1 > temp
+  dim1=$(cat temp)
+  ROWS=$x
+  COLS=$COLS
+  TOTALLEN=$((x * COLS))
+  TOTALLEN=$((TOTALLEN - 1))
+  POS1=$"0"
+
+  echo "$FILE1" | grep -o "[0-9-]*[$'\t'$'\n']*" | grep -o "[0-9-]*" > temp1
+  FILE1=$(cat temp1)
+  while [[ $count -le $TOTALLEN ]]; do
+    num1=$""
+    re=-?[0-9]
+    while [[ ${FILE1:$POS1:1} =~ ${re} ]]; do
+      num1=$num1${FILE1:$POS1:1}
+      POS1=$(($POS1 + 1))
+    done
+    total=$(($total + $num1))
+    POS1=$(($POS1 + 1))
+    count=$(($count + 1))
+  done
+  finalstr=$(($total / $TOTALLEN))
+  echo -e $finalstr
 }
 
 add() {
