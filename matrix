@@ -126,8 +126,6 @@ add() {
     count=$(($count + 1))
   done
   echo -e $finalstr
-
-  exit 0
 }
 
 multiply() {
@@ -197,29 +195,24 @@ trap "rm -rf $t0 $t1 $t2; trap - EXIT" INT HUP TERM EXIT
 case "$1" in
     dims|d)
       dims "${@:2}"
-      exit 0
       ;;
     transpose|t)
         transpose "${@:2}"
-        exit 0
         ;;
     mean|m)
         mean "${@:2}"
-        exit 0
         ;;
     add|a)
         add "${@:2}"
-        exit 0
         ;;
     multiply|M)
         multiply "${@:2}"
-        exit 0
         ;;
     help|h)
         echo $"Usage: $0 {dims|transpose|mean|add|multiply}"
-        exit 0
         ;;
     *)
         echo -e $"Command Does not Exist!\nUsage: $0 {dims|transpose|mean|add|multiply}">&2
         exit 1
 esac
+exit 0
