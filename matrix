@@ -15,10 +15,6 @@ numLines() {
 }
 
 dims() {
-   if [ "$#" -ne 1 ]; then
-      echo "Incorrect number of arguments. Expected 1, got $#. Please provide 1 matrix." >&2
-      exit 1
-   fi
    if ! [[ -r $1 ]]; then
       echo "ERR">&2
       exit 1
@@ -37,11 +33,6 @@ dims() {
 }
 
 transpose() {
-  if [ "$#" -ne 1 ]; then
-      echo "Incorrect number of arguments. Expected 1, got $#. Please provide 1 matrix." >&2
-      exit 1
-  fi
-
   dims $1 > $t0
   dim1=$(cat $t0)
 
@@ -112,10 +103,6 @@ colString=""
 }
 
 mean() {
-   if [ "$#" -ne 1 ]; then
-      echo "Incorrect number of arguments. Expected 1, got $#. Please provide 1 matrix." >&2
-      exit 1
-   fi
    filein $1
    FILE1=$FILE
    dims $1 > $t0
@@ -199,10 +186,6 @@ mean() {
 }
 
 add() {
-  if [ "$#" -ne 2 ]; then
-      echo "Incorrect number of arguments. Expected 2, got $#. Please provide 2 matrices." >&2
-      exit 1
-  fi
   dims $1 > $t0
   dim1=$(cat $t0)
   dims $2 > $t0
@@ -261,10 +244,6 @@ fi
 }
 
 multiply() {
-   if [ "$#" -ne 2 ]; then
-      echo "Incorrect number of arguments. Expected 2, got $#. Please provide 2 matrices." >&2
-      exit 1
-   fi
    dims $1 > $t0
    dim1=$(cat $t0)
    dims $2 > $t0
