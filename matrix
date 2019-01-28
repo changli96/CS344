@@ -1,15 +1,22 @@
 #!/bin/bash
 
-_FILE1 = ""
-_FILE2 = ""
-
 filein() {
-  
+  FILE=""
+  while read -r line; do
+    FILE=$FILE$line$"\n"
+  done < "$1"
+}
+
+numLines() {
+  numL=0
+  while read -r line; do
+    numL=$(($numL + 1))
+  done < "$1"
 }
 
 dims() {
   if [ "$#" -ne 1 ]; then
-      echo "Incorrect number of arguments. Expected 1, got $#. Please provide 1 matrix."
+      echo "Incorrect number of arguments. Expected 1, got $#. Please provide 1 matrix." >&2
       exit 1
   fi
   echo "DIMS"
@@ -18,7 +25,7 @@ dims() {
 
 transpose() {
   if [ "$#" -ne 1 ]; then
-      echo "Incorrect number of arguments. Expected 1, got $#. Please provide 1 matrix."
+      echo "Incorrect number of arguments. Expected 1, got $#. Please provide 1 matrix." >&2
       exit 1
   fi
   echo "TRANS"
@@ -27,7 +34,7 @@ transpose() {
 
 mean() {
   if [ "$#" -ne 1 ]; then
-      echo "Incorrect number of arguments. Expected 1, got $#. Please provide 1 matrix."
+      echo "Incorrect number of arguments. Expected 1, got $#. Please provide 1 matrix." >&2
       exit 1
   fi
   echo "MEAN"
@@ -36,7 +43,7 @@ mean() {
 
 add() {
   if [ "$#" -ne 2 ]; then
-      echo "Incorrect number of arguments. Expected 2, got $#. Please provide 2 matrices."
+      echo "Incorrect number of arguments. Expected 2, got $#. Please provide 2 matrices." >&2
       exit 1
   fi
   echo "ADD"
@@ -46,7 +53,7 @@ add() {
 
 multiply() {
   if [ "$#" -ne 2 ]; then
-      echo "Incorrect number of arguments. Expected 2, got $#. Please provide 2 matrices."
+      echo "Incorrect number of arguments. Expected 2, got $#. Please provide 2 matrices." >&2
       exit 1
   fi
   echo "MULT"
@@ -59,24 +66,29 @@ multiply() {
 case "$1" in
     dims|d)
       dims "${@:2}"
+      exit 0
       ;;
     transpose|t)
         transpose "${@:2}"
+        exit 0
         ;;
     mean|m)
         mean "${@:2}"
+        exit 0
         ;;
     add|a)
         add "${@:2}"
+        exit 0
         ;;
     multiply|M)
         multiply "${@:2}"
+        exit 0
         ;;
     help|h)
         echo $"Usage: $0 {dims|transpose|mean|add|multiply}"
         exit 0
         ;;
     *)
-        echo $"Usage: $0 {dims|transpose|mean|add|multiply}"
+        echo -e $"Command Does not Exist!\nUsage: $0 {dims|transpose|mean|add|multiply}">&2
         exit 1
 esac
