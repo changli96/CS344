@@ -21,8 +21,8 @@ dims() {
   fi
   numLines $1
   x=$numL
-  grep -o $'\t' $1 > temp
-  numLines temp
+  grep -o $'\t' $1 > $t0
+  numLines $t0
   y=$numL
   COLS=$((y/x))
   COLS=$(($COLS+1))
@@ -75,10 +75,10 @@ add() {
       echo "Incorrect number of arguments. Expected 2, got $#. Please provide 2 matrices." >&2
       exit 1
   fi
-  dims $1 > temp
-  dim1=$(cat temp)
-  dims $2 > temp
-  dim2=$(cat temp)
+  dims $1 > $t0
+  dim1=$(cat $t0)
+  dims $2 > $t0
+  dim2=$(cat $t0)
   if [[ "$dim1" != "$dim2" ]]; then
       echo "Can't add mismatched matrices." >&2
       exit 1
@@ -95,11 +95,10 @@ add() {
   POS1=$"0"
   POS2=$"0"
 
-  echo "$FILE1" | grep -o "[0-9-]*[$'\t'$'\n']*" | grep -o "[0-9-]*" > temp1
-  FILE1=$(cat temp1)
-  echo "$FILE2" | grep -o "[0-9-]*[$'\t'$'\n']*" | grep -o "[0-9-]*" > temp2
-  FILE2=$(cat temp2)
-  #echo $FILE1
+  echo "$FILE1" | grep -o "[0-9-]*[$'\t'$'\n']*" | grep -o "[0-9-]*" > $t1
+  FILE1=$(cat $t1)
+  echo "$FILE2" | grep -o "[0-9-]*[$'\t'$'\n']*" | grep -o "[0-9-]*" > $t2
+  FILE2=$(cat $t2)
   while [[ $count -le $TOTALLEN ]]; do
     num1=$""
     num2=$""
@@ -136,10 +135,10 @@ multiply() {
       echo "Incorrect number of arguments. Expected 2, got $#. Please provide 2 matrices." >&2
       exit 1
    fi
-   dims $1 > temp
-   dim1=$(cat temp)
-   dims $2 > temp
-   dim2=$(cat temp)
+   dims $1 > $t0
+   dim1=$(cat $t0)
+   dims $2 > $t0
+   dim2=$(cat $t0)
    if [[ "$dim1" != "$dim2" ]]; then
       echo "Can't add mismatched matrices." >&2
       exit 1
@@ -156,11 +155,10 @@ multiply() {
    POS1=$"0"
    POS2=$"0"
 
-   echo "$FILE1" | grep -o "[0-9-]*[$'\t'$'\n']*" | grep -o "[0-9-]*" > temp1
-   FILE1=$(cat temp1)
-   echo "$FILE2" | grep -o "[0-9-]*[$'\t'$'\n']*" | grep -o "[0-9-]*" > temp2
-   FILE2=$(cat temp2)
-   #echo $FILE1
+   echo "$FILE1" | grep -o "[0-9-]*[$'\t'$'\n']*" | grep -o "[0-9-]*" > $t1
+   FILE1=$(cat $t1)
+   echo "$FILE2" | grep -o "[0-9-]*[$'\t'$'\n']*" | grep -o "[0-9-]*" > $t2
+   FILE2=$(cat $t2)
    while [[ $count -le $TOTALLEN ]]; do
      num1=$""
      num2=$""
@@ -191,6 +189,10 @@ multiply() {
 }
 
 ###MAIN###
+t0="$(mktemp temp.XXXXX)"
+t1="$(mktemp temp.XXXXX)"
+t2="$(mktemp temp.XXXXX)"
+trap "rm -rf $t0 $t1 $t2; trap - EXIT" INT HUP TERM EXIT
 
 case "$1" in
     dims|d)
