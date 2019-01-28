@@ -109,13 +109,62 @@ add() {
 }
 
 multiply() {
-  if [ "$#" -ne 2 ]; then
+   if [ "$#" -ne 2 ]; then
       echo "Incorrect number of arguments. Expected 2, got $#. Please provide 2 matrices." >&2
       exit 1
-  fi
-  echo "MULT"
-  filein $1
-  filein $2
+   fi
+   dims $1 > temp
+   dim1=$(cat temp)
+   dims $2 > temp
+   dim2=$(cat temp)
+   if [[ "$dim1" != "$dim2" ]]; then
+      echo "Can't add mismatched matrices." >&2
+      exit 1
+   fi
+
+   filein $1
+   FILE1=$FILE
+   filein $2
+   FILE2=$FILE
+   ROWS=$x
+   COLS=$COLS
+   TOTALLEN=$((x * COLS))
+   TOTALLEN=$((TOTALLEN - 1))
+   POS1=$"0"
+   POS2=$"0"
+
+   echo "$FILE1" | grep -o "[0-9-]*[$'\t'$'\n']*" | grep -o "[0-9-]*" > temp1
+   FILE1=$(cat temp1)
+   echo "$FILE2" | grep -o "[0-9-]*[$'\t'$'\n']*" | grep -o "[0-9-]*" > temp2
+   FILE2=$(cat temp2)
+   #echo $FILE1
+   while [[ $count -le $TOTALLEN ]]; do
+     num1=$""
+     num2=$""
+     re=-?[0-9]
+     while [[ ${FILE1:$POS1:1} =~ ${re} ]]; do
+      num1=$num1${FILE1:$POS1:1}
+      POS1=$(($POS1 + 1))
+     done
+     POS1=$(($POS1 + 1))
+     while [[ "${FILE2:$POS2:1}" =~ ${re} ]]; do
+      num2=$num2${FILE2:$POS2:1}
+      POS2=$(($POS2 + 1))
+     done
+     POS2=$(($POS2 + 1))
+     rowcount=$(($rowcount + 1))
+     num3=$((num1 \* num2))
+     if [[ $rowcount = $COLS ]];
+     then
+      sep="\n"
+      rowcount=$"0"
+     else
+      sep="\t"
+     fi
+     finalstr=$finalstr$num3$sep
+     count=$(($count + 1))
+   done
+   echo -e $finalstr
 }
 
 ###MAIN###
