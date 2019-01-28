@@ -72,7 +72,7 @@ mean() {
          POS1=$(($POS1 + 1))
       done
       POS1=$(($POS1 + 1))
-      echo $num1
+      #echo $num1
       countB=$"0"
       POS2=$"0"
       while [[ $countB -ne $curColumn ]]; do
@@ -92,7 +92,7 @@ mean() {
       done
       curNum=$((num2 + num1))
       postString=${resString:$POS2:${#resString}}
-      echo -e $prestring":"$curNum":"$postString
+      #echo -e $prestring":"$curNum":"$postString
       resString=$prestring$curNum$postString
       count=$(($count + 1))
       if [[ $curColumn < $(($COLS -1)) ]]; then
@@ -102,36 +102,30 @@ mean() {
          curColumn=$"0"
       fi
    done
-   echo -e $resString
-   countC=$"1"
-   curColumn=$"1"
-   POS2=$"0"
-   while [[ $curColumn -le $COLS ]]; do
-      while [[ $countC -ne $curColumn ]]; do
-         num2=$""
-         while [[ ${resString:$POS2:1} =~ ${re} ]]; do
-            num2=$num2${resString:$POS2:1}
-            POS2=$(($POS2 + 1))
-         done
-         POS2=$(($POS2 + 1))
-         countC=$(($countC + 1))
+   #echo -e $resString
+   echo "$resString" | grep -o "[0-9-]*[$'\t'$'\n']*" | grep -o "[0-9-]*" > $t1
+   resString=$(cat $t1)
+   #echo -e $resString
+   POS1=$"0"
+   count="1"
+   while [[ $count -le $COLS ]]; do
+      re=[0-9-]
+      num1=""
+      while [[ ${resString:$POS1:1} =~ ${re} ]]; do
+         num1=$num1${resString:$POS1:1}
+         POS1=$(($POS1 + 1))
       done
-      prestring=${resString:0:$POS2}
-      #echo $prestring
-      num2=""
-      while [[ ${resString:$POS2:1} =~ ${re} ]]; do
-         num2=$num2${resString:$POS2:1}
-         POS2=$(($POS2 + 1))
-      done
-      #echo $num2
-      curNum=$((num2 / $ROWS))
-      #echo $curNum
-      postString=${resString:$POS2:${#resString}}
-      resString=$prestring$curNum$postString
-      curColumn=$(($curColumn + 1))
+      POS1=$(($POS1 + 1))
+      curNum=$((num1 / $ROWS))
+      if [[ $count = $COLS ]];
+      then sep=""
+      else sep="\t"
+      fi
+      finalString=$finalString$curNum$sep
+      #echo -e $finalString
+      count=$(($count + 1))
    done
-
-   echo -e $resString
+   echo -e $finalString
 }
 
 add() {
