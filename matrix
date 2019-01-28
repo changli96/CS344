@@ -105,7 +105,7 @@ add() {
   while [[ $count -le $TOTALLEN ]]; do
     num1=$""
     num2=$""
-    re=-?[0-9]
+    re=[0-9-]
     while [[ ${FILE1:$POS1:1} =~ ${re} ]]; do
       num1=$num1${FILE1:$POS1:1}
       POS1=$(($POS1 + 1))
@@ -163,7 +163,7 @@ multiply() {
    while [[ $count -le $TOTALLEN ]]; do
      num1=$""
      num2=$""
-     re=-?[0-9]
+     re=[0-9-]
      while [[ ${FILE1:$POS1:1} =~ ${re} ]]; do
       num1=$num1${FILE1:$POS1:1}
       POS1=$(($POS1 + 1))
