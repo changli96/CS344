@@ -33,73 +33,23 @@ dims() {
 }
 
 transpose() {
-  dims $1 > $t0
-  dim1=$(cat $t0)
-
-  filein $1
-  FILE1=$FILE
-  ROWS=$x
-  COLS=$COLS
-  TOTALLEN=$((x * COLS))
-  TOTALLEN=$((TOTALLEN - 1))
-  POS1=$"0"
-  re=[0-9-]
-
-rowString=""
-colString=""
-
-   echo "$FILE1" | grep -o "[0-9-]*[$'\t'$'\n']*" | grep -o "[0-9-]*" >$t1
-   FILE1=$(cat $t1)
-   cat -A $t1
-   for ((col=1; col <= $COLS; col++)) do
-      rowString=""
-      POS1="0";
-      for ((row=1; row <= $ROWS; row++)) do
-         num1=""
-         charCTR="0"
-         while [[ $charCTR < $col ]]; do
-            num1=""
-            while [[ ${FILE1:$POS1:1} =~ ${re} ]]; do
-               num1=$num1${FILE1:$POS1:1}
-               POS1=$(($POS1 + 1))
-               echo $num1
-            done
-            POS1=$(($POS1 + 1))
-            echo $num1
-            charCTR=$(($charCTR + 1))
+   dims $1 > $t0
+   dim1=$(cat $t0)
+   ROWS=$x
+   COLS=$COLS
+   FILESTR=$( cat $1 | tr '\n' '\t' )
+   POS1=1
+   for((curCol=0;curCol<COLS;curCol++)); do
+      for((curRow=0;curRow<ROWS;curRow++)); do
+         echo "$FILESTR" | cut -f $POS1 | tr -d "\n"
+         if [ $(($curRow + 1)) -lt $ROWS ]; then
+            printf "\t"
+         fi
+         POS1=$(($POS1 + $COLS))
          done
-         rowString=$rowString$sep$num1
-         ##Move to next row
-         ffcount=$"0"
-         while [[ $(($ffcount + $col)) < $COLS ]]; do
-            while [[ ${FILE1:$POS1:1} =~ ${re} ]]; do
-               num1=$num1${FILE1:$POS1:1}
-               POS1=$(($POS1 + 1))
-            done
-            ffcount=$(($ffcount + 1))
-         done
-         echo ROW:$rowString
-      done
-      colString=$colString$sep$rowString
-      echo COL:$colString
+      printf "\n"
+      POS1=$(($curCol + 2))
    done
-   finalstr=$colString
-
-#   if [[ $TOTALLEN = $(($count)) ]];
-#   then
-#      sep=""
-#   else if [[ $rowcount = $COLS ]];
-#      then
-#         sep="\n"
-#         rowcount=$"0"
-#      else
-#         sep="\t"
-#      fi
-#   fi
-#    finalstr=$finalstr$num3$sep
-#    count=$(($count + 1))
-#  done
-  echo -e $finalstr
 }
 
 mean() {
