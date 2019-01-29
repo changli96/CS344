@@ -196,59 +196,36 @@ fi
 multiply() {
    dims $1 > $t0
    dim1=$(cat $t0)
+   ROWS1=$COLS
+   COLS1=$x
    dims $2 > $t0
    dim2=$(cat $t0)
-   if [[ "$dim1" != "$dim2" ]]; then
+   ROWS2=$COLS
+   COLS2=$x
+   if [ "$ROWS1" != "$COLS2" ]; then
       echo "Can't multiply mismatched matrices." >&2
       exit 1
    fi
-
-   filein $1
-   FILE1=$FILE
-   filein $2
-   FILE2=$FILE
-   ROWS=$x
-   COLS=$COLS
-   TOTALLEN=$((x * COLS))
-   TOTALLEN=$((TOTALLEN - 1))
-   POS1=$"0"
-   POS2=$"0"
-
-   echo "$FILE1" | grep -o "[0-9-]*[$'\t'$'\n']*" | grep -o "[0-9-]*" > $t1
-   FILE1=$(cat $t1)
-   echo "$FILE2" | grep -o "[0-9-]*[$'\t'$'\n']*" | grep -o "[0-9-]*" > $t2
-   FILE2=$(cat $t2)
-   while [[ $count -le $TOTALLEN ]]; do
-     num1=$""
-     num2=$""
-     re=[0-9-]
-     while [[ ${FILE1:$POS1:1} =~ ${re} ]]; do
-      num1=$num1${FILE1:$POS1:1}
-      POS1=$(($POS1 + 1))
-     done
-     POS1=$(($POS1 + 1))
-     while [[ "${FILE2:$POS2:1}" =~ ${re} ]]; do
-      num2=$num2${FILE2:$POS2:1}
-      POS2=$(($POS2 + 1))
-     done
-     POS2=$(($POS2 + 1))
-     rowcount=$(($rowcount + 1))
-     num3=$((num1 * num2))
-     if [[ $TOTALLEN = $(($count)) ]];
-     then
-       sep=""
-    else if [[ $rowcount = $COLS ]];
-     then
-       sep="\n"
-       rowcount=$"0"
-    else
-       sep="\t"
-     fi
- fi
-     finalstr=$finalstr$num3$sep
-     count=$(($count + 1))
+   for ((x=1; x<=$COLS1; x++)); do
+      head -n $x $1 | tail -1 > $t1
+      for ((y=1; y<=$ROWS2; y++)); do
+         SUM=$"0"
+         cut -f $y $2 | tr "\n" "\t" > $t2
+         for ((z=1; z<=$COLS2; z++)); do
+            num1=$(cut -f $z $t1)
+            num2=$(cut -f $z $t2)
+            prod=$((num1 * num2))
+            SUM=$(($SUM + $prod))
+         done
+         printf "%d" $SUM
+         if [ $(($y % $ROWS2)) -eq 0 ]; then
+            printf "\n"
+         else
+            printf "\t"
+         fi
+      done
    done
-   echo -e $finalstr
+   exit 0
 }
 
 ###MAIN###
@@ -257,7 +234,8 @@ targ2="$(mktemp temp.XXXXX)"
 t0="$(mktemp temp.XXXXX)"
 t1="$(mktemp temp.XXXXX)"
 t2="$(mktemp temp.XXXXX)"
-trap "rm -rf $targ1 $targ2 $t0 $t1 $t2; trap - EXIT" INT HUP TERM EXIT
+tout="$(mktemp temp.XXXXXX)"
+trap "rm -rf $targ1 $targ2 $t0 $t1 $t2 $tout; trap - EXIT" INT HUP TERM EXIT
 
 case "$1" in
    dims|d)
