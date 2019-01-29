@@ -1,16 +1,22 @@
 #!/bin/bash
-##ZACHARY HORINE
-##CS344---BLOCK1
-#WINTER QTR 2018
-################
+##################
+##ZACHARY HORINE##
+##CS344---BLOCK1##
+##WINTER01282019##
+##################
 
+##function for reading in a file.
+##used in the add function
 filein() {
   FILE=""
+  #read lines until end of file. "returned" in variable named FILE
   while read -r line; do
     FILE=$FILE$line$"\n"
   done < "$1"
 }
 
+##function for reading in the number of lines in a file.
+##used in dims to get the nunber of rows and columns
 numLines() {
   numL=0
   while read -r line; do
@@ -18,31 +24,39 @@ numLines() {
   done < "$1"
 }
 
+##takes in a matrix and returns the dimensions.
+##also used in all other functions to get the size of the matrices.
 dims() {
+   #check if unreadable
    if ! [[ -r $1 ]]; then
       echo "ERR">&2
       exit 1
    fi
-  numLines $1
-  x=$numL
-  grep -o $'\t' $1 > $t0
-  numLines $t0
-  y=$numL
-  if [[ $x = 0 ]]; then
-     x=1
-  fi
-  COLS=$((y/x))
-  COLS=$(($COLS+1))
-  echo $x $COLS
+   #rows
+   numLines $1
+   x=$numL
+   #columns
+   grep -o $'\t' $1 > $t0
+   numLines $t0
+   y=$numL
+   #upper function returns total number of characters, so divide by number of rows
+   COLS=$((y/x))
+   COLS=$(($COLS+1))
+   echo $x $COLS
 }
 
+##function to flip the rows and columns on a matrix.
+##works by
 transpose() {
    dims $1 > $t0
    dim1=$(cat $t0)
    ROWS=$x
    COLS=$COLS
+   #pull all characters out of the file in order, make delimiters the same
    FILESTR=$( cat $1 | tr '\n' '\t' )
    POS1=1
+   #add elements back in, but switch row and col
+   #(walk through each row in the list of columns and get the next value to be entered, and print it)
    for((curCol=0;curCol<COLS;curCol++)); do
       for((curRow=0;curRow<ROWS;curRow++)); do
          echo "$FILESTR" | cut -f $POS1 | tr -d "\n"
@@ -52,22 +66,32 @@ transpose() {
          POS1=$(($POS1 + $COLS))
          done
       printf "\n"
+      #skip a delimiter
       POS1=$(($curCol + 2))
    done
 }
 
+##function to get the average value of each column
+##returns a 1xCOL array with the values in it
 mean() {
+   dims $1 > $t0
+   ROWS=$x
+   COLS=$COLS
    for (( curCol=1;curCol<=COLS;curCol++ )); do
       total=$"0"
+      #pull out a column
       col=$(cut -f "$curCol" $1 | tr '\n' '\t')
-      #echo $col
+      #walk through walues in column and add them together
       for i in $col; do
          total=$(($total + $i))
       done
+      #when total is reached, divide by total number of Rows
+      #issues on edge cases where straight division doesn't work, data needs to be normalized.
       rowMojo=$(((ROWS/2)*( (total>0)*2-1 )))
       mean=$(((total + rowMojo) / ROWS))
-
+      #print out the result
       printf "%d" $mean
+      #if it isn't the last value, print a tab character
       if [[ $curCol = $COLS ]]; then
          echo ""
       else
@@ -76,65 +100,79 @@ mean() {
    done
 }
 
+##adds two matrices of the same dimensions together
 add() {
-  dims $1 > $t0
-  dim1=$(cat $t0)
-  dims $2 > $t0
-  dim2=$(cat $t0)
-  if [[ "$dim1" != "$dim2" ]]; then
+   #get and check dimensions of both matrices
+   dims $1 > $t0
+   dim1=$(cat $t0)
+   dims $2 > $t0
+   dim2=$(cat $t0)
+   if [[ "$dim1" != "$dim2" ]]; then
       echo "Can't add mismatched matrices." >&2
       exit 1
-  fi
+   fi
 
-  filein $1
-  FILE1=$FILE
-  filein $2
-  FILE2=$FILE
-  ROWS=$x
-  COLS=$COLS
-  TOTALLEN=$((x * COLS))
-  TOTALLEN=$((TOTALLEN - 1))
-  POS1=$"0"
-  POS2=$"0"
+   #read in files and set variables
+   filein $1
+   FILE1=$FILE
+   filein $2
+   FILE2=$FILE
+   ROWS=$x
+   COLS=$COLS
+   TOTALLEN=$((x * COLS))
+   TOTALLEN=$((TOTALLEN - 1))
+   POS1=$"0"
+   POS2=$"0"
 
-  echo "$FILE1" | grep -o "[0-9-]*[$'\t'$'\n']*" | grep -o "[0-9-]*" > $t1
-  FILE1=$(cat $t1)
-  echo "$FILE2" | grep -o "[0-9-]*[$'\t'$'\n']*" | grep -o "[0-9-]*" > $t2
-  FILE2=$(cat $t2)
-  while [[ $count -le $TOTALLEN ]]; do
-    num1=$""
-    num2=$""
-    re=[0-9-]
-    while [[ ${FILE1:$POS1:1} =~ ${re} ]]; do
-      num1=$num1${FILE1:$POS1:1}
+   echo "$FILE1" | grep -o "[0-9-]*[$'\t'$'\n']*" | grep -o "[0-9-]*" > $t1
+   FILE1=$(cat $t1)
+   echo "$FILE2" | grep -o "[0-9-]*[$'\t'$'\n']*" | grep -o "[0-9-]*" > $t2
+   FILE2=$(cat $t2)
+   while [[ $count -le $TOTALLEN ]]; do
+      num1=$""
+      num2=$""
+      re=[0-9-]
+      #FILE1:pull out one character until the next character isn't a number
+      while [[ ${FILE1:$POS1:1} =~ ${re} ]]; do
+         num1=$num1${FILE1:$POS1:1}
+         POS1=$(($POS1 + 1))
+      done
+      #move past delimiter
       POS1=$(($POS1 + 1))
-    done
-    POS1=$(($POS1 + 1))
-    while [[ "${FILE2:$POS2:1}" =~ ${re} ]]; do
-      num2=$num2${FILE2:$POS2:1}
+      #FILE2:pull out one character until the next character isn't a number
+      while [[ "${FILE2:$POS2:1}" =~ ${re} ]]; do
+         num2=$num2${FILE2:$POS2:1}
+         POS2=$(($POS2 + 1))
+      done
+      #move past delimiter
       POS2=$(($POS2 + 1))
-    done
-    POS2=$(($POS2 + 1))
-    rowcount=$(($rowcount + 1))
-    num3=$((num1 + num2))
-    if [[ $TOTALLEN = $(($count)) ]];
-    then
-      sep=""
-   else if [[ $rowcount = $COLS ]];
-    then
-      sep="\n"
-      rowcount=$"0"
-   else
-      sep="\t"
-    fi
-fi
-    finalstr=$finalstr$num3$sep
-    count=$(($count + 1))
-  done
-  echo -e $finalstr
+      rowcount=$(($rowcount + 1))
+      #add the two numbers together
+      num3=$((num1 + num2))
+      #if it isn't the last value in the row print a tab
+      #unless it's the last in the file, then don't print anything
+      if [[ $TOTALLEN = $(($count)) ]];
+      then
+         sep=""
+      else if [[ $rowcount = $COLS ]];
+      then
+         sep="\n"
+         rowcount=$"0"
+      else
+         sep="\t"
+      fi
+   fi
+   #build string
+   finalstr=$finalstr$num3$sep
+   count=$(($count + 1))
+   done
+   #output
+   echo -e $finalstr
 }
 
+##function for doing matrix multiplication on compatable matrices.
 multiply() {
+   #get dimensions for both matrices
    dims $1 > $t0
    dim1=$(cat $t0)
    ROWS1=$COLS
@@ -143,22 +181,31 @@ multiply() {
    dim2=$(cat $t0)
    ROWS2=$COLS
    COLS2=$x
+
+   #check if matrices have the same length outer facing sides
    if [ "$ROWS1" != "$COLS2" ]; then
       echo "Can't multiply mismatched matrices." >&2
       exit 1
    fi
    for ((x=1; x<=$COLS1; x++)); do
+      #pull first row off matrix 1 string
       head -n $x $1 | tail -1 > $t1
+      #walk through column multiplying matrix 1 and matrix 2 and adding as we go
       for ((y=1; y<=$ROWS2; y++)); do
          SUM=$"0"
+         #pull first column off matrix 2 string
          cut -f $y $2 | tr "\n" "\t" > $t2
          for ((z=1; z<=$COLS2; z++)); do
+            #get one number from each string
             num1=$(cut -f $z $t1)
             num2=$(cut -f $z $t2)
+            #multuply and add to running total
             prod=$((num1 * num2))
             SUM=$(($SUM + $prod))
          done
+         #print the final value
          printf "%d" $SUM
+         #if it isn't the last value in the row print a tab
          if [ $(($y % $ROWS2)) -eq 0 ]; then
             printf "\n"
          else
@@ -170,6 +217,8 @@ multiply() {
 }
 
 ###MAIN###
+
+#setup temporary varaibles, and allow for them to be deleted on termination
 targ1="$(mktemp temp.XXXXX)"
 targ2="$(mktemp temp.XXXXX)"
 t0="$(mktemp temp.XXXXX)"
@@ -178,13 +227,17 @@ t2="$(mktemp temp.XXXXX)"
 tout="$(mktemp temp.XXXXXX)"
 trap "rm -rf $targ1 $targ2 $t0 $t1 $t2 $tout; trap - EXIT" INT HUP TERM EXIT
 
+##check first argument for a command name and match
 case "$1" in
    dims|d)
+      #check for num of arguments
       if [ $# -gt 2 ]; then
          echo "ERROR: Expected 1 arg, got $#." >&2
          exit 1
       else
+         #check if file is readable
          if [ -r $2 ]; then
+            #pull in values and execute function
             cat $2> $targ1
             dims "$targ1"
          else
@@ -194,11 +247,14 @@ case "$1" in
       fi
       ;;
    transpose|t)
+      #check for num of arguments
       if [ $# -gt 2 ]; then
          echo "ERROR: Expected 1 arg, got $#." >&2
          exit 1
       else
+         #check if file is readable
          if [ -r $2 ]; then
+            #pull in values and execute function
             cat $2> $targ1
             transpose "$targ1"
          else
@@ -208,11 +264,14 @@ case "$1" in
       fi
       ;;
    mean|m)
+      #check for num of arguments
       if [ $# -gt 2 ]; then
          echo "ERROR: Expected 1 arg, got $#." >&2
          exit 1
       else
+         #check if file is readable
          if [ -r $2 ]; then
+            #pull in values and execute function
             cat $2> $targ1
             mean "$targ1"
          else
@@ -222,11 +281,14 @@ case "$1" in
       fi
       ;;
    add|a)
+      #check for num of arguments
       if [ $# -gt 3 ] || [ $# -le 2 ]; then
          echo "ERROR: Expected 2 args, got $#." >&2
          exit 1
       else
+         #check if files are readable
          if [ -r $2 ] && [ -r $3 ]; then
+            #pull in values and execute function
             cat $2> $targ1
             cat $3> $targ2
             add "$targ1" "$targ2"
@@ -237,11 +299,14 @@ case "$1" in
       fi
       ;;
    multiply|M)
+      #check for num of arguments
       if [ $# -gt 3 ]; then
          echo "ERROR: Expected 2 args, got $#." >&2
          exit 1
       else
+         #check if files are readable
          if [ -r $2 ] && [ -r $3 ]; then
+            #pull in values and execute function
             cat $2> $targ1
             cat $3> $targ2
             multiply "$targ1" "$targ2"
@@ -255,6 +320,7 @@ case "$1" in
       echo $"Usage: $0 {dims|transpose|mean|add|multiply}"
       ;;
    *)
+      #command doesn't match. exit with error
       echo -e $"Command Does not Exist!\nUsage: $0 {dims|transpose|mean|add|multiply}">&2
       exit 1
 esac
