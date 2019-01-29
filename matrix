@@ -1,4 +1,8 @@
 #!/bin/bash
+##ZACHARY HORINE
+##CS344---BLOCK1
+#WINTER QTR 2018
+################
 
 filein() {
   FILE=""
