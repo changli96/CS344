@@ -1,0 +1,53 @@
+function generate(){
+	y=0
+	a=$3
+	b=$4
+	while [ $y -lt $1 ]
+	do
+		x=0
+		((y++))
+		while [ $x -lt $2 ]
+		do
+			((x++))
+			echo -n $((RANDOM%(b-a+1)+a))
+			if [ $x -ne $2 ]
+			then
+			echo -ne "\t"
+			else
+				echo
+			fi
+		done
+	done
+}
+
+# NAME
+# 	ident - generate identity matrix of specified size
+# SYNOPSIS
+#		ident ROWS COLS
+function ident(){
+	y=0
+	while [ $y -lt $1 ]
+	do
+		x=0
+		((y++))
+		while [ $x -lt $2 ]
+		do
+			((x++))
+			if [ $x -eq $y ]
+			then
+				echo -n 1
+			else
+				echo -n 0
+			fi
+			if [ $x -ne $2 ]
+			then
+				echo -ne "\t"
+			else
+				echo
+			fi
+		done
+	done
+}
+
+ident 10 10 > m21
+generate 10 15 -100 100 > m22
