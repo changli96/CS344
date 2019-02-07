@@ -103,7 +103,7 @@ outpipe2="$(mktemp stdout.XXXXX)"
 errpipe="$(mktemp stderr.XXXXX)"
 errpipe2="$(mktemp stderr.XXXXX)"
 
-trap "rm -rf $m1 $m2 $m3 $m4 $m5 $outpipe $outpipe2 $errpipe $errpipe2; trap - EXIT" INT HUP TERM EXIT 
+trap "rm -rf $m1 $m2 $m3 $m4 $m5 $outpipe $outpipe2 $errpipe $errpipe2; trap - EXIT" INT HUP TERM EXIT
 
 result=0
 
