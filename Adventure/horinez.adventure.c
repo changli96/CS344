@@ -30,6 +30,8 @@ struct Room{
    int connections[6];
 };
 struct Room rooms[7];
+FILE timeFile;
+int countTimer = 1;
 
 void *game();
 void *timer();
@@ -38,6 +40,17 @@ int main(){
 }
 
 void *timer() {
+   time_t now = time(NULL);
+   local = localtime(&now);
+   char hrTime[50];
+   while(countTimer == 1) {
+      strftime(hrTime, sizeof(hrTime), "%I:M%p, %A, %B %d, %Y", local); //HH:MMpm, WEEK, DAY dd, YYYY ex. 3:23pm, Wednesday, Febuary 13, 2019
+      timeFile = fopen("./currentTime.txt","w");
+      fprintf(timeFile,"%s",hrTime);
+      fclose(timeFile);
+   }
 }
+
+
 void *game() {
 }
