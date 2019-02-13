@@ -7,6 +7,26 @@
 
 #include <unistd.h>
 #include <stdio.h>
+typedef int bool;
+#define true 1
+#define false 0
+
+const int NONE = 0;
+const int START_ROOM = 1;
+const int MID_ROOM = 2;
+const int END_ROOM = 3;
+
+char *names[10] = {"Apple","Banana","Coconut","Date","Elderberry","Fig","Grape","Huckleberry","Imbe","Jackfruit"};
+
+struct Room{
+   char *name;
+   int id;
+   int roomType;
+   int numConnections;
+   int connections[6];
+};
+struct Room rooms[7];
+
 void printRoomtoFile(int x);
 bool IsGraphFull();
 void AddRandomConnection();
