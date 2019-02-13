@@ -62,6 +62,17 @@ int main() {
       AddRandomConnection();
    }
 
+   //add roomtypes
+   int startroom = GetRandomRoom();
+   rooms[startroom].roomType = START_ROOM;
+   int endroom = GetRandomRoom();
+   while (endroom == startroom) {endroom = GetRandomRoom();}
+   rooms[endroom].roomType = END_ROOM;
+   for (int i = 0; i < 7; i++) {
+      if (rooms[i].roomType == NONE) {
+         rooms[i].roomType = MID_ROOM;
+      }
+   }
 
 }
 
