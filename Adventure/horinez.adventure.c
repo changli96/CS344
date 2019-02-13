@@ -10,6 +10,8 @@
 #include <time.h>
 #include <stdlib.h>
 #include <string.h>
+#include <dirent.h>
+#include <sys/stat.h>
 
 typedef int bool;
 #define true 1
@@ -29,5 +31,13 @@ struct Room{
 };
 struct Room rooms[7];
 
-int main() {
+void *game();
+void *timer();
+
+int main(){
+}
+
+void *timer() {
+}
+void *game() {
 }
