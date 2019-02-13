@@ -42,7 +42,6 @@ bool IsSameRoom(int x, int y);
 
 int main() {
    srand(time(NULL));   // random initialization
-   printf("Process ID: %d\n", getpid());
    for (int i = 0; i < 7; i++) {
       struct Room temp;
       temp.name = names[i];
@@ -122,13 +121,11 @@ void AddRandomConnection() {
 
    while(true) {
       A = GetRandomRoom();
-      printf("A: %d\n",A);
       if (CanAddConnectionFrom(A) == true)
          break;
    }
    do {
       B = GetRandomRoom();
-      printf("Pick B: %d\n", B);
    } while(CanAddConnectionFrom(B) == false || IsSameRoom(A, B) == true || ConnectionAlreadyExists(A, B) == true);
 
    ConnectRoom(A, B);
