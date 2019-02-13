@@ -41,9 +41,8 @@ void ConnectRoom(int x, int y);
 bool IsSameRoom(int x, int y);
 
 int main() {
-   
-}
    srand(time(NULL));   // random initialization
+   printf("Process ID: %d\n", getpid());
    for (int i = 0; i < 7; i++) {
       struct Room temp;
       temp.name = names[i];
@@ -73,6 +72,37 @@ int main() {
          rooms[i].roomType = MID_ROOM;
       }
    }
+
+   char dirName[100];
+   sprintf(dirName,"./horinez.rooms.%d",getpid());
+   mkdir(dirName,0755);
+   for (int i = 0; i < 7; i++) {
+      printRoomtoFile(i);
+   }
+
+}
+
+void printRoomtoFile(int x) {
+   struct Room temp = rooms[x];
+
+   char fileName[100];
+   char roomName[25];
+   char connection[25];
+   char roomType[10];
+
+   sprintf(fileName,"./horinez.rooms.%d/%s_room",getpid(),temp.name);
+   FILE *file = fopen(fileName,"w");
+   sprintf(roomName,"ROOM NAME: %s\n",temp.name);
+   fprintf(file,roomName);
+   for (int i = 0; i < temp.numConnections; i++) {
+      sprintf(connection,"CONNECTION %d: %s\n",i+1,rooms[temp.connections[i]].name);
+      fprintf(file,connection);
+   }
+   if (temp.roomType == START_ROOM) {sprintf(roomType,"ROOM TYPE: %s\n","START_ROOM");}
+   else if (temp.roomType == MID_ROOM) {sprintf(roomType,"ROOM TYPE: %s\n","MID_ROOM");}
+   else if (temp.roomType == END_ROOM) {sprintf(roomType,"ROOM TYPE: %s\n","END_ROOM");}
+   fprintf(file,roomType);
+   int fclose(FILE *file);
 
 }
 
