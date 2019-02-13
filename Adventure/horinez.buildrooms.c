@@ -43,6 +43,17 @@ bool IsSameRoom(int x, int y);
 int main() {
    
 }
+   for (int i = 0; i < 7; i++) {
+      struct Room temp;
+      temp.name = names[i];
+      temp.id = i;
+      temp.roomType = NONE;
+      temp.numConnections = 0;
+      for (int j = 0; j < 6; j++) {
+         temp.connections[j] = -1;
+      }
+      rooms[i] = temp;
+   }
 
 
 
