@@ -56,6 +56,11 @@ int main() {
       rooms[i] = temp;
    }
 
+   // Create all connections in graph
+   while (IsGraphFull() == false)
+   {
+      AddRandomConnection();
+   }
 
 
 }
