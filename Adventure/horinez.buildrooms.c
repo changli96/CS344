@@ -43,6 +43,7 @@ bool IsSameRoom(int x, int y);
 int main() {
    
 }
+   srand(time(NULL));   // random initialization
    for (int i = 0; i < 7; i++) {
       struct Room temp;
       temp.name = names[i];
