@@ -42,9 +42,22 @@ bool IsSameRoom(int x, int y);
 
 int main() {
    srand(time(NULL));   // random initialization
+
+   int ex1 = 0;
+   int ex2 = 0;
+   int ex3 = 0;
+   while (ex1 == ex2 || ex1 == ex3 || ex2 == ex3) {
+      ex1 = rand() % 10;
+      ex2 = rand() % 10;
+      ex3 = rand() % 10;
+   }
+   printf("%d,%d,%d\n",ex1,ex2,ex3);
+   int namejumper = 0;
    for (int i = 0; i < 7; i++) {
       struct Room temp;
-      temp.name = names[i];
+      if (i+namejumper == ex1 || i+namejumper == ex2 || i+namejumper == ex3){namejumper++;}
+      printf("%d:%d\n", i,namejumper);
+      temp.name = names[i+namejumper];
       temp.id = i;
       temp.roomType = NONE;
       temp.numConnections = 0;
