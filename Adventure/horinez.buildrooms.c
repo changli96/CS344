@@ -10,6 +10,8 @@
 #include <time.h>
 #include <stdlib.h>
 #include <string.h>
+#include <sys/stat.h>
+#include <sys/types.h>
 
 typedef int bool;
 #define true 1
@@ -87,36 +89,27 @@ int main() {
    sprintf(dirName,"./horinez.rooms.%d",getpid());
    mkdir(dirName,0755);
    for (i = 0; i < 7; i++) {
-      printf("i: %d", i);
       printRoomtoFile(i);
    }
 
 }
 
 void printRoomtoFile(int x) {
-   printf("%d\n",96);
-   struct Room temp = rooms[x];
-
    char fileName[100];
    char roomName[25];
    char connection[25];
    char roomType[10];
-   printf("%d\n",103);
    sprintf(fileName,"./horinez.rooms.%d/%s_room",getpid(),rooms[x].name);
    FILE *file = fopen(fileName,"w");
    sprintf(roomName,"ROOM NAME: %s\n",rooms[x].name);
    fprintf(file,roomName);
-   printf("%d\n",108);
-   for (i = 0; i < rooms[x].numConnections; i++) {
-      printf("%d\n",110);
-      sprintf(connection,"CONNECTION %d: %s\n",i+1,rooms[rooms[x].connections[i]].name);
+   for (j = 0; j < rooms[x].numConnections; j++) {
+      sprintf(connection,"CONNECTION %d: %s\n",j+1,rooms[rooms[x].connections[j]].name);
       fprintf(file,connection);
    }
-   printf("%d\n",114);
    if (rooms[x].roomType == START_ROOM) {sprintf(roomType,"ROOM TYPE: %s\n","START_ROOM");}
    else if (rooms[x].roomType == MID_ROOM) {sprintf(roomType,"ROOM TYPE: %s\n","MID_ROOM");}
    else if (rooms[x].roomType == END_ROOM) {sprintf(roomType,"ROOM TYPE: %s\n","END_ROOM");}
-   printf("%d\n",118);
    fprintf(file,roomType);
    int fclose(FILE *file);
 
