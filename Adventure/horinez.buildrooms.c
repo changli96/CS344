@@ -93,24 +93,29 @@ int main() {
 }
 
 void printRoomtoFile(int x) {
+   printf("%d\n",96);
    struct Room temp = rooms[x];
 
    char fileName[100];
    char roomName[25];
    char connection[25];
    char roomType[10];
-
+   printf("%d\n",103);
    sprintf(fileName,"./horinez.rooms.%d/%s_room",getpid(),temp.name);
    FILE *file = fopen(fileName,"w");
    sprintf(roomName,"ROOM NAME: %s\n",temp.name);
    fprintf(file,roomName);
+   printf("%d\n",108);
    for (i = 0; i < temp.numConnections; i++) {
+      printf("%d\n",110);
       sprintf(connection,"CONNECTION %d: %s\n",i+1,rooms[temp.connections[i]].name);
       fprintf(file,connection);
    }
+   printf("%d\n",114);
    if (temp.roomType == START_ROOM) {sprintf(roomType,"ROOM TYPE: %s\n","START_ROOM");}
    else if (temp.roomType == MID_ROOM) {sprintf(roomType,"ROOM TYPE: %s\n","MID_ROOM");}
    else if (temp.roomType == END_ROOM) {sprintf(roomType,"ROOM TYPE: %s\n","END_ROOM");}
+   printf("%d\n",118);
    fprintf(file,roomType);
    int fclose(FILE *file);
 
