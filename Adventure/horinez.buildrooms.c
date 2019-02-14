@@ -59,7 +59,7 @@ int main() {
       temp.id = i;
       temp.roomType = NONE;
       temp.numConnections = 0;
-      for (i = 0; j < 6; j++) {
+      for (j = 0; j < 6; j++) {
          temp.connections[j] = -1;
       }
       rooms[i] = temp;
@@ -159,7 +159,7 @@ bool CanAddConnectionFrom(int x) {
 }
 // Returns true if a connection from Room x to Room y already exists, false otherwise
 bool ConnectionAlreadyExists(int x, int y) {
-   for (i = 0; j < rooms[x].numConnections; j++) {
+   for (j = 0; j < rooms[x].numConnections; j++) {
       if (rooms[x].connections[j] == y){
          return true;
       }
