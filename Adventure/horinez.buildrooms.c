@@ -51,12 +51,10 @@ int main() {
       ex2 = rand() % 10;
       ex3 = rand() % 10;
    }
-   printf("%d,%d,%d\n",ex1,ex2,ex3);
    int namejumper = 0;
    for (int i = 0; i < 7; i++) {
       struct Room temp;
       if (i+namejumper == ex1 || i+namejumper == ex2 || i+namejumper == ex3){namejumper++;}
-      printf("%d:%d\n", i,namejumper);
       temp.name = names[i+namejumper];
       temp.id = i;
       temp.roomType = NONE;
