@@ -49,21 +49,21 @@ int main(){
    int timeThreadInt;
 
    pthread_mutex_init(&mutex,NULL) != 0;
-   gameThreadInt=pthread_create(&gameT,NULL,game,NULL);
+   gameThreadInt=pthread_create(&gameT,NULL,game,NULL);  //init threads
    timeThreadInt=pthread_create(&timeT,NULL,timer,NULL);
-   pthread_join(gameT,NULL);
+   pthread_join(gameT,NULL);  //threads will wait for the other thread's completion
    pthread_join(timeT,NULL);
    pthread_mutex_destroy(&mutex);
 }
 
 void *timer() {
-   while(countTimer) {
-      time_t now = time(NULL);
+   while(countTimer) {  //constantly running (when allowed)
+      time_t now = time(NULL);   //get raw time
       struct tm *local = localtime(&now);
       char hrTime[50];
       pthread_mutex_lock(&mutex);
-      strftime(hrTime, sizeof(hrTime), "%I:%M%p, %A, %B %d, %Y", local); //HH:MMpm, WEEK, DAY dd, YYYY ex. 3:23pm, Wednesday, Febuary 13, 2019
-      timeFile = fopen("./currentTime.txt","w");
+      strftime(hrTime, sizeof(hrTime), "%I:%M%p, %A, %B %d, %Y", local); //for mat time: HH:MMpm, WEEK, DAY dd, YYYY ex. 3:23pm, Wednesday, Febuary 13, 2019
+      timeFile = fopen("./currentTime.txt","w");   //write time to file
       fprintf(timeFile,"%s",hrTime);
       fclose(timeFile);
       pthread_mutex_unlock(&mutex);
@@ -74,11 +74,11 @@ void *timer() {
 void *game() {
    pthread_mutex_lock(&mutex);
 
-   DIR *topLvlDir = opendir(".");
+   DIR *topLvlDir = opendir(".");   //current directory
    struct dirent *newestdir;
    struct dirent *checkdir = readdir(topLvlDir);
    time_t newestdirTime = 0;
-
+   //walk through all directories
    while (checkdir != NULL) {
       struct stat res;
       stat(checkdir->d_name,&res);
@@ -89,7 +89,7 @@ void *game() {
             newestdirTime = lastmod;
          }
       }
-      checkdir = readdir(topLvlDir);
+      checkdir = readdir(topLvlDir); //get next directory
    }
    closedir(topLvlDir);
 
@@ -100,7 +100,7 @@ void *game() {
 
    char curdir[100];
    sprintf(curdir,"./%s",newestdir->d_name);
-   printf("%s\n", curdir);
+   //printf("%s\n", curdir);
    DIR *roomDir = opendir(curdir);
    checkdir = readdir(roomDir);
 
@@ -117,31 +117,31 @@ void *game() {
          FILE *file;
          file = fopen(filePath,"r");
          char line[50];
-         rooms[fileNum].id = fileNum;
-         rooms[fileNum].numConnections = 0;
+         rooms[fileNum].id = fileNum;  //set id
+         rooms[fileNum].numConnections = 0;  //initialize numConnections
          while (fgets(line, sizeof(line), file)) {
-            if (line[5] == 'N') { //ROOM NAME:
+            if (line[5] == 'N') { //ROOM NAME: ______
                char name[15];
                for (int i = 0; i < 25; i++){
                   name[i] = line[i+11];
-                  if (line[i+11] == '\n'){
+                  if (line[i+11] == '\n'){   //remove trailing newlines
                      name[i] = '\0';
                   }
                }
                sprintf(rooms[fileNum].name,"%s",name);
             }
-            if (line[0] == 'C') { //CONNECTION x:
+            if (line[0] == 'C') { //CONNECTION x: ______
                char conn[25];
                for (int i = 0; i < 25; i++){
                   conn[i] = line[i+14];
-                  if (line[i+14] == '\n'){
+                  if (line[i+14] == '\n'){   //remove trailing newlines
                      conn[i] = '\0';
                   }
                }
                rooms[fileNum].connectionNames[rooms[fileNum].numConnections] = conn[0];
                rooms[fileNum].numConnections++;
             }
-            if (line[5] == 'T') { //ROOM TYPE:
+            if (line[5] == 'T') { //ROOM TYPE: ______   sets roomType in room, as well as sets global start and end variables
                if (line[11] == 'S'){ //START_ROOM
                   rooms[fileNum].roomType = START_ROOM;
                   startRoom = fileNum;
@@ -158,14 +158,13 @@ void *game() {
          int fclose(FILE *file);
          fileNum++;
       }
-      checkdir = readdir(roomDir);
+      checkdir = readdir(roomDir);  //get next file
    }
+   //convert text values to integer representations
    for (int i = 0; i < 7; i++){  //each room
       for (int j = 0; j < rooms[i].numConnections; j++){ //each connection
          for (int k = 0; k < 7; k++){  //search for connection id
-            //printf("%s:%s,%d\n",rooms[k].name,rooms[i].name,i);
             if (rooms[i].connectionNames[j] == rooms[k].name[0]){
-               //printf("%s%s",rooms[i].connectionNames[j],rooms[k].name);
                rooms[i].connections[j] = k;
             }
          }
@@ -177,57 +176,57 @@ void *game() {
    int steps = 0;
    int path[100];
    bool lastinstTime = false;
-   while (currentRoom != endRoom){
-      if (lastinstTime != true){
+   while (currentRoom != endRoom){  //start game
+      if (lastinstTime != true){ //check if last command run was "time" if so, don't print room info
          printf("CURRENT LOCATION: %s\n",rooms[currentRoom].name);
          printf("POSSIBLE CONNECTIONS:");
-         for (int i = 0; i < rooms[currentRoom].numConnections; i++){
+         for (int i = 0; i < rooms[currentRoom].numConnections; i++){   //walk through connections and print out names
             if (i == rooms[currentRoom].numConnections-1){
-               printf(" %s%s",rooms[rooms[currentRoom].connections[i]].name,".\n");
+               printf(" %s%s",rooms[rooms[currentRoom].connections[i]].name,".\n"); //if last one, print a period
             }
             else{
-               printf(" %s%s",rooms[rooms[currentRoom].connections[i]].name,",");
+               printf(" %s%s",rooms[rooms[currentRoom].connections[i]].name,","); //otherwise, print a comma
             }
          }
          lastinstTime = false;
       }
       printf("WHERE TO? >");
-      fgets(linein,100,stdin);
+      fgets(linein,100,stdin);   //get user input
       printf("\n");
-      if (strcmp(linein,"time\n") == 0) {
+      if (strcmp(linein,"time\n") == 0) { //open other thread, sleep for 1 sec, close other thread
          char timetxt[50];
          pthread_mutex_unlock(&mutex);
          sleep(1);
          pthread_mutex_lock(&mutex);
-         timeFile = fopen("./currentTime.txt","r");
+         timeFile = fopen("./currentTime.txt","r");   //read in time from file
          fgets(timetxt, sizeof(timetxt), timeFile);
          printf(" %s\n\n", timetxt);
          int fclose(FILE *timeFile);
          lastinstTime = true;
       }
-      else {
+      else {   //check for match against available connections
          bool togo = false;
          for (int i = 0; i < rooms[currentRoom].numConnections; i++){
             char testline[25];
-            sprintf(testline,"%s\n",rooms[rooms[currentRoom].connections[i]].name);
+            sprintf(testline,"%s\n",rooms[rooms[currentRoom].connections[i]].name); //add '\n' on to end of input to match user input
             if (strcmp(linein,testline) == 0){
                currentRoom = rooms[rooms[currentRoom].connections[i]].id;
-               path[steps] = currentRoom;
+               path[steps] = currentRoom; //add room id to path
                steps++;
                togo = true;
             }
          }
-         if (togo == false){
+         if (togo == false){  //does not match any room or command
             printf("HUH? I DON’T UNDERSTAND THAT ROOM. TRY AGAIN.\n\n");
          }
       }
    }
-
+   //ending
    printf("YOU HAVE FOUND THE END ROOM. CONGRATULATIONS!\n");
    printf("YOU TOOK %d STEPS. YOUR PATH TO VICTORY WAS:\n", steps);
    for (int i = 0; i < steps; i++){
-      printf("%s\n",rooms[path[i]].name);
+      printf("%s\n",rooms[path[i]].name); //read path back out
    }
-   countTimer = false;
+   countTimer = false;  //stop timer thread
    pthread_mutex_unlock(&mutex);
 }
