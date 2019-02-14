@@ -33,13 +33,38 @@ struct Room{
    char connectionNames[6];
 };
 struct Room rooms[7];
-FILE timeFile;
+
+pthread_mutex_t mutex;
+pthread_t gameT;
+pthread_t timeT;
+
+FILE *timeFile;
 bool countTimer = true;
 
 void *game();
 void *timer();
 
 int main(){
+   int gameThreadInt;
+   int timeThreadInt;
+
+   if (pthread_mutex_init(&mutex,NULL) != 0){
+      printf("ERR: BAD MUTEX\n");
+      exit(1);
+   }
+   if (gameThreadInt=pthread_create(&gameT,NULL,game,NULL)){
+      printf("ERR: BAD GAME MUTEX\n");
+      exit(1);
+   }
+   if (timeThreadInt=pthread_create(&timeT,NULL,timer,NULL)){
+      printf("ERR: BAD TIME MUTEX\n");
+      exit(1);
+   }
+   pthread_join(gameT,NULL);
+   pthread_join(timeT,NULL);
+
+   //end
+   pthread_mutex_destroy(&mutex);
 }
 
 void *timer() {
@@ -54,11 +79,11 @@ void *timer() {
       fclose(timeFile);
       pthread_mutex_unlock(&mutex);
    }
-}*/
+}
 
 
-void game() {
-//   pthread_mutex_lock(&mutex);
+void *game() {
+   pthread_mutex_lock(&mutex);
 
    DIR *topLvlDir = opendir(".");
    struct dirent *newestdir;
@@ -99,9 +124,7 @@ void game() {
    while (checkdir != NULL) {
       if (checkdir->d_name[0] != '.'){ //name is not "." or "..", or a hidden file
          sprintf(fileName, "%s",checkdir->d_name);
-         printf("%s\n",fileName);
          sprintf(filePath, "%s/%s",curdir,fileName);
-         printf("%s\n",filePath);
          FILE *file;
          file = fopen(filePath,"r");
          char line[50];
@@ -204,4 +227,5 @@ void game() {
    for (int i = 0; i < steps; i++){
       printf("%s\n",rooms[path[i]].name);
    }
+   pthread_mutex_unlock(&mutex);
 }
