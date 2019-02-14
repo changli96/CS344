@@ -48,22 +48,11 @@ int main(){
    int gameThreadInt;
    int timeThreadInt;
 
-   if (pthread_mutex_init(&mutex,NULL) != 0){
-      printf("ERR: BAD MUTEX\n");
-      exit(1);
-   }
-   if (gameThreadInt=pthread_create(&gameT,NULL,game,NULL)){
-      printf("ERR: BAD GAME MUTEX\n");
-      exit(1);
-   }
-   if (timeThreadInt=pthread_create(&timeT,NULL,timer,NULL)){
-      printf("ERR: BAD TIME MUTEX\n");
-      exit(1);
-   }
+   pthread_mutex_init(&mutex,NULL) != 0;
+   gameThreadInt=pthread_create(&gameT,NULL,game,NULL);
+   timeThreadInt=pthread_create(&timeT,NULL,timer,NULL);
    pthread_join(gameT,NULL);
    pthread_join(timeT,NULL);
-
-   //end
    pthread_mutex_destroy(&mutex);
 }
 
