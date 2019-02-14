@@ -68,10 +68,10 @@ int main(){
 }
 
 void *timer() {
-   time_t now = time(NULL);
-   local = localtime(&now);
-   char hrTime[50];
    while(countTimer) {
+      time_t now = time(NULL);
+      struct tm *local = localtime(&now);
+      char hrTime[50];
       pthread_mutex_lock(&mutex);
       strftime(hrTime, sizeof(hrTime), "%I:M%p, %A, %B %d, %Y", local); //HH:MMpm, WEEK, DAY dd, YYYY ex. 3:23pm, Wednesday, Febuary 13, 2019
       timeFile = fopen("./currentTime.txt","w");
