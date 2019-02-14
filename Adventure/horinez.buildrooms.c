@@ -102,20 +102,20 @@ void printRoomtoFile(int x) {
    char connection[25];
    char roomType[10];
    printf("%d\n",103);
-   sprintf(fileName,"./horinez.rooms.%d/%s_room",getpid(),temp.name);
+   sprintf(fileName,"./horinez.rooms.%d/%s_room",getpid(),rooms[x].name);
    FILE *file = fopen(fileName,"w");
-   sprintf(roomName,"ROOM NAME: %s\n",temp.name);
+   sprintf(roomName,"ROOM NAME: %s\n",rooms[x].name);
    fprintf(file,roomName);
    printf("%d\n",108);
-   for (i = 0; i < temp.numConnections; i++) {
+   for (i = 0; i < rooms[x].numConnections; i++) {
       printf("%d\n",110);
-      sprintf(connection,"CONNECTION %d: %s\n",i+1,rooms[temp.connections[i]].name);
+      sprintf(connection,"CONNECTION %d: %s\n",i+1,rooms[rooms[x].connections[i]].name);
       fprintf(file,connection);
    }
    printf("%d\n",114);
-   if (temp.roomType == START_ROOM) {sprintf(roomType,"ROOM TYPE: %s\n","START_ROOM");}
-   else if (temp.roomType == MID_ROOM) {sprintf(roomType,"ROOM TYPE: %s\n","MID_ROOM");}
-   else if (temp.roomType == END_ROOM) {sprintf(roomType,"ROOM TYPE: %s\n","END_ROOM");}
+   if (rooms[x].roomType == START_ROOM) {sprintf(roomType,"ROOM TYPE: %s\n","START_ROOM");}
+   else if (rooms[x].roomType == MID_ROOM) {sprintf(roomType,"ROOM TYPE: %s\n","MID_ROOM");}
+   else if (rooms[x].roomType == END_ROOM) {sprintf(roomType,"ROOM TYPE: %s\n","END_ROOM");}
    printf("%d\n",118);
    fprintf(file,roomType);
    int fclose(FILE *file);
