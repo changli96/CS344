@@ -42,7 +42,6 @@ bool IsSameRoom(int x, int y);
 
 int main() {
    srand(time(NULL));   // random initialization
-
    int ex1 = 0;
    int ex2 = 0;
    int ex3 = 0;
