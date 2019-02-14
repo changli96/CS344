@@ -158,4 +158,48 @@ void game() {
       }
    }
 
+   char linein[100];
+   int currentRoom = startRoom;
+   int steps = 0;
+   int path[100];
+   while (currentRoom != endRoom){
+      printf("CURRENT LOCATION: %s\n",rooms[currentRoom].name);
+      printf("POSSIBLE CONNECTIONS:");
+      for (int i = 0; i < rooms[currentRoom].numConnections; i++){
+         if (i == rooms[currentRoom].numConnections-1){
+            printf(" %s%s",rooms[rooms[currentRoom].connections[i]].name,".\n");
+         }
+         else{
+            printf(" %s%s",rooms[rooms[currentRoom].connections[i]].name,",");
+         }
+      }
+      printf("WHERE TO? >");
+      fgets(linein,100,stdin);
+      printf("\n");
+      if (strcmp(linein,"time\n") == 0) {
+         printf("time\n");
+      }
+      else {
+         bool togo = false;
+         for (int i = 0; i < rooms[currentRoom].numConnections; i++){
+            char testline[25];
+            sprintf(testline,"%s\n",rooms[rooms[currentRoom].connections[i]].name);
+            if (strcmp(linein,testline) == 0){
+               currentRoom = rooms[rooms[currentRoom].connections[i]].id;
+               path[steps] = currentRoom;
+               steps++;
+               togo = true;
+            }
+         }
+         if (togo == false){
+            printf("HUH? I DON’T UNDERSTAND THAT ROOM. TRY AGAIN.\n\n");
+         }
+      }
+   }
+
+   printf("YOU HAVE FOUND THE END ROOM. CONGRATULATIONS!\n");
+   printf("YOU TOOK %d STEPS. YOUR PATH TO VICTORY WAS:\n", steps);
+   for (int i = 0; i < steps; i++){
+      printf("%s\n",rooms[path[i]].name);
+   }
 }
