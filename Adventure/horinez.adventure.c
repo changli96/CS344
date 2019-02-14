@@ -187,22 +187,34 @@ void *game() {
    int currentRoom = startRoom;
    int steps = 0;
    int path[100];
+   bool lastinstTime = false;
    while (currentRoom != endRoom){
-      printf("CURRENT LOCATION: %s\n",rooms[currentRoom].name);
-      printf("POSSIBLE CONNECTIONS:");
-      for (int i = 0; i < rooms[currentRoom].numConnections; i++){
-         if (i == rooms[currentRoom].numConnections-1){
-            printf(" %s%s",rooms[rooms[currentRoom].connections[i]].name,".\n");
+      if (lastinstTime != true){
+         printf("CURRENT LOCATION: %s\n",rooms[currentRoom].name);
+         printf("POSSIBLE CONNECTIONS:");
+         for (int i = 0; i < rooms[currentRoom].numConnections; i++){
+            if (i == rooms[currentRoom].numConnections-1){
+               printf(" %s%s",rooms[rooms[currentRoom].connections[i]].name,".\n");
+            }
+            else{
+               printf(" %s%s",rooms[rooms[currentRoom].connections[i]].name,",");
+            }
          }
-         else{
-            printf(" %s%s",rooms[rooms[currentRoom].connections[i]].name,",");
-         }
+         lastinstTime = false;
       }
       printf("WHERE TO? >");
       fgets(linein,100,stdin);
       printf("\n");
       if (strcmp(linein,"time\n") == 0) {
-         printf("time\n");
+         char timetxt[50];
+         pthread_mutex_unlock(&mutex);
+         sleep(1);
+         pthread_mutex_lock(&mutex);
+         timeFile = fopen("./currentTime.txt","r");
+         fgets(timetxt, sizeof(timetxt), timeFile);
+         printf(" %s\n\n", timetxt);
+         int fclose(FILE *timeFile);
+         lastinstTime = true;
       }
       else {
          bool togo = false;
