@@ -239,5 +239,6 @@ void *game() {
    for (int i = 0; i < steps; i++){
       printf("%s\n",rooms[path[i]].name);
    }
+   countTimer = false;
    pthread_mutex_unlock(&mutex);
 }
