@@ -23,11 +23,12 @@ const int MID_ROOM = 2;
 const int END_ROOM = 3;
 
 struct Room{
-   char *name;
+   char name[15];
    int id;
    int roomType;
    int numConnections;
    int connections[6];
+   char connectionNames[6];
 };
 struct Room rooms[7];
 FILE timeFile;
@@ -102,39 +103,59 @@ void game() {
          FILE *file;
          file = fopen(filePath,"r");
          char line[50];
-         struct Room temp;
-         temp.id = fileNum;
-         temp.numConnections = 0;
+         rooms[fileNum].id = fileNum;
+         rooms[fileNum].numConnections = 0;
          while (fgets(line, sizeof(line), file)) {
             if (line[5] == 'N') { //ROOM NAME:
-               char name[25];
+               char name[15];
                for (int i = 0; i < 25; i++){
                   name[i] = line[i+11];
+                  if (line[i+11] == '\n'){
+                     name[i] = '\0';
+                  }
                }
-               temp.name = name;
+               sprintf(rooms[fileNum].name,"%s",name);
             }
             if (line[0] == 'C') { //CONNECTION x:
-               temp.connections[temp.numConnections] = line[14];
-               temp.numConnections++;
+               char conn[25];
+               for (int i = 0; i < 25; i++){
+                  conn[i] = line[i+14];
+                  if (line[i+14] == '\n'){
+                     conn[i] = '\0';
+                  }
+               }
+               rooms[fileNum].connectionNames[rooms[fileNum].numConnections] = conn[0];
+               rooms[fileNum].numConnections++;
             }
             if (line[5] == 'T') { //ROOM TYPE:
                if (line[11] == 'S'){ //START_ROOM
-                  temp.roomType = START_ROOM;
+                  rooms[fileNum].roomType = START_ROOM;
                   startRoom = fileNum;
                }
                if (line[11] == 'M'){ //MID_ROOM
-                  temp.roomType = MID_ROOM;
+                  rooms[fileNum].roomType = MID_ROOM;
                }
                if (line[11] == 'E'){ //END_ROOM
-                  temp.roomType = END_ROOM;
+                  rooms[fileNum].roomType = END_ROOM;
                   endRoom = fileNum;
                }
             }
          }
          int fclose(FILE *file);
-         rooms[fileNum] = temp;
          fileNum++;
       }
       checkdir = readdir(roomDir);
    }
+   for (int i = 0; i < 7; i++){  //each room
+      for (int j = 0; j < rooms[i].numConnections; j++){ //each connection
+         for (int k = 0; k < 7; k++){  //search for connection id
+            //printf("%s:%s,%d\n",rooms[k].name,rooms[i].name,i);
+            if (rooms[i].connectionNames[j] == rooms[k].name[0]){
+               //printf("%s%s",rooms[i].connectionNames[j],rooms[k].name);
+               rooms[i].connections[j] = k;
+            }
+         }
+      }
+   }
+
 }
