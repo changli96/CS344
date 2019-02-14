@@ -31,7 +31,7 @@ struct Room{
 };
 struct Room rooms[7];
 FILE timeFile;
-int countTimer = 1;
+bool countTimer = true;
 
 void *game();
 void *timer();
@@ -43,29 +43,31 @@ void *timer() {
    time_t now = time(NULL);
    local = localtime(&now);
    char hrTime[50];
-   while(countTimer == 1) {
+   while(countTimer) {
+      pthread_mutex_lock(&mutex);
       strftime(hrTime, sizeof(hrTime), "%I:M%p, %A, %B %d, %Y", local); //HH:MMpm, WEEK, DAY dd, YYYY ex. 3:23pm, Wednesday, Febuary 13, 2019
       timeFile = fopen("./currentTime.txt","w");
       fprintf(timeFile,"%s",hrTime);
       fclose(timeFile);
+      pthread_mutex_unlock(&mutex);
    }
-}
+}*/
 
 
-void *game() {
-   DIR topLvlDir = opendir(".");
-   char curdir[100];
-   char filename[100];
-   struct dirent newestdir;
-   struct dirent checkdir = readdir(topLvlDir);
+void game() {
+//   pthread_mutex_lock(&mutex);
+
+   DIR *topLvlDir = opendir(".");
+   struct dirent *newestdir;
+   struct dirent *checkdir = readdir(topLvlDir);
    time_t newestdirTime = 0;
 
-   while (dir != NULL) {
+   while (checkdir != NULL) {
       struct stat res;
-      stat(checkdir->d_name,res);
+      stat(checkdir->d_name,&res);
       time_t lastmod = res.st_mtime;
-      if (S_ISDIR(res.st_mode) && checkdir->d_name[0] != '.') { //is a directory and is not the "." directory
-         if lastmod > newestdirTime ) { //current dir time is newer than previous best
+      if (S_ISDIR(res.st_mode) && checkdir->d_name[0] != '.') { //is a directory and is not the "." or ".." directories
+         if (lastmod > newestdirTime) { //current dir time is newer than previous best
             newestdir = checkdir;
             newestdirTime = lastmod;
          }
