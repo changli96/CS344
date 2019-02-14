@@ -80,4 +80,61 @@ void game() {
       printf("ERR: NO ROOM FOLDERS DETECTED");
       exit(1);
    }
+
+   char curdir[100];
+   sprintf(curdir,"./%s",newestdir->d_name);
+   printf("%s\n", curdir);
+   DIR *roomDir = opendir(curdir);
+   checkdir = readdir(roomDir);
+
+   char fileName[25];
+   char filePath[100];
+   int startRoom = -1;
+   int endRoom = -1;
+   int fileNum = 0;
+   //read in files
+   while (checkdir != NULL) {
+      if (checkdir->d_name[0] != '.'){ //name is not "." or "..", or a hidden file
+         sprintf(fileName, "%s",checkdir->d_name);
+         printf("%s\n",fileName);
+         sprintf(filePath, "%s/%s",curdir,fileName);
+         printf("%s\n",filePath);
+         FILE *file;
+         file = fopen(filePath,"r");
+         char line[50];
+         struct Room temp;
+         temp.id = fileNum;
+         temp.numConnections = 0;
+         while (fgets(line, sizeof(line), file)) {
+            if (line[5] == 'N') { //ROOM NAME:
+               char name[25];
+               for (int i = 0; i < 25; i++){
+                  name[i] = line[i+11];
+               }
+               temp.name = name;
+            }
+            if (line[0] == 'C') { //CONNECTION x:
+               temp.connections[temp.numConnections] = line[14];
+               temp.numConnections++;
+            }
+            if (line[5] == 'T') { //ROOM TYPE:
+               if (line[11] == 'S'){ //START_ROOM
+                  temp.roomType = START_ROOM;
+                  startRoom = fileNum;
+               }
+               if (line[11] == 'M'){ //MID_ROOM
+                  temp.roomType = MID_ROOM;
+               }
+               if (line[11] == 'E'){ //END_ROOM
+                  temp.roomType = END_ROOM;
+                  endRoom = fileNum;
+               }
+            }
+         }
+         int fclose(FILE *file);
+         rooms[fileNum] = temp;
+         fileNum++;
+      }
+      checkdir = readdir(roomDir);
+   }
 }
