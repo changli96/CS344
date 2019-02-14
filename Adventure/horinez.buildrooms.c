@@ -19,6 +19,7 @@ const int NONE = 0;
 const int START_ROOM = 1;
 const int MID_ROOM = 2;
 const int END_ROOM = 3;
+int i,j;
 
 char *names[10] = {"Apple","Banana","Coconut","Date","Elderberry","Fig","Grape","Huckleberry","Imbe","Jackfruit"};
 
@@ -51,14 +52,14 @@ int main() {
       ex3 = rand() % 10;
    }
    int namejumper = 0;
-   for (int i = 0; i < 7; i++) {
+   for (i = 0; i < 7; i++) {
       struct Room temp;
       if (i+namejumper == ex1 || i+namejumper == ex2 || i+namejumper == ex3){namejumper++;}
       temp.name = names[i+namejumper];
       temp.id = i;
       temp.roomType = NONE;
       temp.numConnections = 0;
-      for (int j = 0; j < 6; j++) {
+      for (i = 0; j < 6; j++) {
          temp.connections[j] = -1;
       }
       rooms[i] = temp;
@@ -76,7 +77,7 @@ int main() {
    int endroom = GetRandomRoom();
    while (endroom == startroom) {endroom = GetRandomRoom();}
    rooms[endroom].roomType = END_ROOM;
-   for (int i = 0; i < 7; i++) {
+   for (i = 0; i < 7; i++) {
       if (rooms[i].roomType == NONE) {
          rooms[i].roomType = MID_ROOM;
       }
@@ -85,7 +86,7 @@ int main() {
    char dirName[100];
    sprintf(dirName,"./horinez.rooms.%d",getpid());
    mkdir(dirName,0755);
-   for (int i = 0; i < 7; i++) {
+   for (i = 0; i < 7; i++) {
       printRoomtoFile(i);
    }
 
@@ -103,7 +104,7 @@ void printRoomtoFile(int x) {
    FILE *file = fopen(fileName,"w");
    sprintf(roomName,"ROOM NAME: %s\n",temp.name);
    fprintf(file,roomName);
-   for (int i = 0; i < temp.numConnections; i++) {
+   for (i = 0; i < temp.numConnections; i++) {
       sprintf(connection,"CONNECTION %d: %s\n",i+1,rooms[temp.connections[i]].name);
       fprintf(file,connection);
    }
@@ -117,7 +118,7 @@ void printRoomtoFile(int x) {
 
 // Returns true if all rooms have 3 to 6 outbound connections, false otherwise
 bool IsGraphFull() {
-   for (int i = 0; i < 7; i++) {
+   for (i = 0; i < 7; i++) {
       if (rooms[i].numConnections < 3 || rooms[i].numConnections > 6) {
          return false;
       }
@@ -158,7 +159,7 @@ bool CanAddConnectionFrom(int x) {
 }
 // Returns true if a connection from Room x to Room y already exists, false otherwise
 bool ConnectionAlreadyExists(int x, int y) {
-   for (int j = 0; j < rooms[x].numConnections; j++) {
+   for (i = 0; j < rooms[x].numConnections; j++) {
       if (rooms[x].connections[j] == y){
          return true;
       }
