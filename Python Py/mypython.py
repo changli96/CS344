@@ -1,6 +1,6 @@
 import random;
 import sys;
-for f in range(3):
+for f in range(1,4):
     string = "";
     for i in range(10):
         string = string + chr(random.randint(97, 122));
