@@ -103,6 +103,19 @@ void parseCmd() {
       printf("\"%s\"\n",word);
       fflush(stdout);
 
+      //look for all occurences of '$$' and replace them with the PID
+      while (strstr(word,"$$") != NULL){
+         char pid[10];
+         printf("%d", getpid());
+         sprintf(pid,"%d",getpid());
+         char newstring[strlen(word) + strlen(pid)];
+         strcpy(newstring,word);
+         char *s = strstr(newstring,"$$");
+         char *secondhalf = strstr(word,"$$")+2;
+         strncpy(s,pid,strlen(pid));
+         strcpy(s+strlen(pid),secondhalf);
+         strcpy(word,newstring);
+      }
       if (strcmp(word,"<") == 0) {
          word = strtok(NULL," \n");
          if (word != NULL) {
