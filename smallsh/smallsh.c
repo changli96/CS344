@@ -5,18 +5,38 @@
 //##################\\
 //smallsh.c
 
+#include <unistd.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <sys/stat.h>
+#include <sys/types.h>
+#include <sys/wait.h>
+#include <fcntl.h>
+#include <time.h>
+#include <string.h>
+#include <dirent.h>
+#include <pthread.h>
+
+typedef int bool;
+#define true 1
+#define false 0
+
 int COMMAND = 0;
 int ARG = 1;
 int REDIR_STDIN = 2;
 int REDIR_STDOUT = 3;
+int COMMENT = 4;
 
 char linein[2048];
 char command[1024];
 char* args[512];
 int numargs = 0;
-char stdin[512];
-char stdout[512];
+char stdinLoc[512];
+char stdoutLoc[512];
+char curdir[512];
 
+bool running = true;
+bool allowBackground = true;
 
 
 int main() {
