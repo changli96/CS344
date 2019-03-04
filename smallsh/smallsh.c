@@ -39,16 +39,27 @@ bool running = true;
 bool allowBackground = true;
 
 
+void parseCmd();
+void status_cmd();
+void cd_cmd();
+
+
 int main() {
 
+   getcwd(curdir, sizeof(curdir));
+
+   while(running){
+      command = "";
+      numargs = 0;
+      printf(": ");
+      fflush(stdout);
+      fgets(linein,2048,stdin);   //get user input
+      printf("PARSE\n");
+      fflush(stdout);
+      parseCmd();
+   }
 }
 
-void cd_cmd() {
-
-}
-
-void exit_cmd() {
-   exit(0);
 }
 
 void status_cmd() {
