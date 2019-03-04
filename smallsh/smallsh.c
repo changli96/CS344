@@ -98,6 +98,12 @@ void parseCmd() {
    int nextwordType = COMMAND;
    numargs = 0;
    bool backgroundProcess = false;
+   if (strstr(linein,"#") == linein) {
+      //this is a comment, exit parsing and return blank string
+      sprintf(command,"%s","");
+      fflush(stdout);
+      return;
+   }
    char *word = strtok(linein, " \n");
    while (word != NULL) {
       printf("\"%s\"\n",word);
