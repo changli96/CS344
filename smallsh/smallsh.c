@@ -95,44 +95,45 @@ void status_cmd() {
 }
 
 void parseCmd() {
-   int wordStart = 0;
-   char word[1024];
    int nextwordType = COMMAND;
    numargs = 0;
-   for (int i = 0; i < linein.length; i++){
-      if (linein[i] == ' '){
-         snprintf(word, i-wordStart, "%s", linein[wordStart]);
-         if (word == "#") {
-            //this is a comment, exit parsing and return blank string
-            command = "";
-            return;
-         }
-         else if (word == "<") {
-            nextwordType = REDIR_STDIN;
-         }
-         else if (word == ">") {
-            nextwordType = REDIR_STDOUT;
-         }
-         else if (word == "&") {
+   bool backgroundProcess = false;
+   char *word = strtok(linein, " \n");
+   while (word != NULL) {
+      printf("\"%s\"\n",word);
+      fflush(stdout);
 
-         }
-         else if (nextwordType == COMMAND) {
-            sprintf(command, "%s", word);
+      if (strcmp(word,"<") == 0) {
+         word = strtok(NULL," \n");
+         if (word != NULL) {
+            sprintf(stdinLoc,"%s",word);
             nextwordType = ARG;
          }
-         else if (nextwordType == ARG) {
-            sprintf(args[numargs],"%s",word);
-            numargs++;
-         }
-         else if (nextwordType == REDIR_STDIN) {
-            sprintf(stdin,"%s",word);
+      }
+      else if (strcmp(word,">") == 0) {
+         word = strtok(NULL," \n");
+         if (word != NULL) {
+            sprintf(stdoutLoc,"%s",word);
             nextwordType = ARG;
          }
-         else if (nextwordType == REDIR_STDOUT) {
-            sprintf(stdout,"%s",word);
-            nextwordType = ARG;
+      }
+      else if (strcmp(word,"&") == 0) {
+         word = strtok(NULL," \n");
+         if (word == NULL) {
+            backgroundProcess = true;
          }
-         wordStart = i+1;
+      }
+      else if (nextwordType == COMMAND) {
+         sprintf(command, "%s", word);
+         nextwordType = ARG;
+      }
+      else if (nextwordType == ARG) {
+         printf("ARG: %s\n", word);
+         args[numargs] = word;
+         numargs++;
+      }
+      if (word != NULL){
+         word = strtok(NULL," \n");
       }
    }
 }
