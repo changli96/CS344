@@ -75,18 +75,17 @@ void cd_cmd() {
       sprintf(curdir,"%s", getenv("HOME"));
    }
    else {
-      if (&args[0][0] == "." && &args[0][1] == "/"){
-         //char *arg = args[0];
-         //arg += 2;
-         sprintf(args[0],"%s%s",curdir,args[0][2]);
+      if (strstr(args[0],"./") == args[0]){
+         char *secondhalf = strstr(args[0],"./")+1;
+         strcat(curdir,secondhalf);
       }
       else{
-         printf("%s%s:%s\n", args[0][0],args[0][1],&args[0][0]);
+         strcpy(curdir,args[0]);
       }
-      printf("%d",chdir(args[0]));
-      sprintf(curdir,"%s", args[0]);
+      chdir(curdir);
+      //sprintf(curdir,"%s", args[0]);
    }
-   printf("%d%s\n", 90,curdir);
+   printf("%s\n", curdir);
    fflush(stdout);
 }
 
