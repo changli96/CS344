@@ -37,7 +37,6 @@ char curdir[512];
 bool running = true;
 bool allowBackground = true;
 int status;
-bool ctrlztoggle = false;
 
 int backgroundProcesses[256];
 int numBackgroundProcesses = 0;
@@ -68,6 +67,7 @@ int main() {
    ctrlz.sa_flags = 0;
    sigfillset(&ctrlz.sa_mask);
    sigaction(SIGTSTP, &ctrlz, NULL);
+   /*
    //set up signal handlers (ctrlc)
    struct sigaction ctrlc = {0};
    ctrlc.sa_handler = SIG_IGN;
@@ -76,26 +76,12 @@ int main() {
    sigaction(SIGINT, &ctrlc, NULL);
    int forkedPid;
    int result = 0;
+   */
 
 
 
    getcwd(curdir, sizeof(curdir));
    while(running){
-      //check for returned processes
-      for (int i = 0; i < numBackgroundProcesses; i++) {
-         int status;
-         int child = waitpid(backgroundProcesses[i],&status,WNOHANG);
-         if (child > 0){
-            for (int j = 0; j < numBackgroundProcesses; j++){
-               backgroundProcesses[j] = backgroundProcesses[j+1];
-            }
-            numBackgroundProcesses--;
-            i--; //keeps i in line with the head of the array, as we just removed one
-            completedProcesses[numCompletedProcesses] = child;
-            completedProcessesExitValues[numCompletedProcesses] = status;
-            numCompletedProcesses++;
-         }
-      }
 
       //roll through exited background processes and print them to the screen
       for (int i = 0; i < numCompletedProcesses; i++) {
@@ -111,51 +97,74 @@ int main() {
       sprintf(command,"");
       sprintf(stdinLoc,"");
       sprintf(stdoutLoc,"");
+      for (int i = 0; i < numargs; i++){
+         args[i] = "\0";
+      }
       numargs = 0;
       backgroundProcess = false;
-      if(!ctrlztoggle){
-         //print prompt
-         printf(": ");
-         fflush(stdout);
-         fgets(linein,2048,stdin);   //get user input
-         parseCmd();
-         fflush(stdout);
-      }
-      if (ctrlztoggle){ctrlztoggle = false;}
-      else if (strcmp(command,"exit") == 0) {
+
+      //print prompt
+      printf(": ");
+      fflush(stdout);
+      fgets(linein,2048,stdin);   //get user input
+      parseCmd(linein, command, args, &numargs, &backgroundProcess, stdinLoc, stdoutLoc);
+      printf("%s%d%d\n", command,numargs,backgroundProcess);
+      fflush(stdout);
+
+      if (strcmp(command,"exit") == 0) {  //exit called
          for (int i = 0; i < numBackgroundProcesses; i++) {
             kill(backgroundProcesses[i],SIGTSTP);
          }
          exit(0);
       }
-      else if (strcmp(command,"cd") == 0) {
+      else if (strcmp(command,"cd") == 0) { //cd called
          cd_cmd();
       }
-      else if (strcmp(command,"status") == 0) {
-         printf("The last foreground process exited with a value of %d.",status);
+      else if (strcmp(command,"status") == 0) { //status called
+         printf("The last foreground process exited with a value of %d.\n",status);
       }
-      else if (strcmp(command, "") != 0) {
-         callChild();
+      else if (strcmp(command, "") != 0) { //call a non-built-in
+         callChild(command, args, numargs, backgroundProcess, stdinLoc, stdoutLoc);
+      }
+      //check for returned processes
+      for (int i = 0; i < numBackgroundProcesses; i++) {
+         int child = waitpid(backgroundProcesses[i],&status,WNOHANG);
+         if (child > 0){
+            for (int j = 0; j < numBackgroundProcesses; j++){
+               backgroundProcesses[j] = backgroundProcesses[j+1];
+            }
+            numBackgroundProcesses--;
+            i--; //keeps i in line with the head of the array, as we just removed one
+            completedProcesses[numCompletedProcesses] = child;
+            completedProcessesExitValues[numCompletedProcesses] = status;
+            numCompletedProcesses++;
+         }
       }
    }
    return 0;
 }
 
-void cd_cmd() {
+void cd_cmd(char curdir[], char* args[], int numargs[]) {
+   char workingdir[512];
+   strcpy(workingdir,curdir);
    if (numargs == 0){
       chdir(getenv("HOME"));
       sprintf(curdir,"%s", getenv("HOME"));
    }
    else {
-      if (strstr(args[0],"./") == args[0]){
-         char *secondhalf = strstr(args[0],"./")+1;
+      if (strstr(args[1],"./") == args[1]){
+         char *secondhalf = strstr(args[1],"./")+1;
          strcat(curdir,secondhalf);
       }
       else{
-         strcpy(curdir,args[0]);
+         strcpy(curdir,args[1]);
       }
-      chdir(curdir);
-      //sprintf(curdir,"%s", args[0]);
+      if (chdir(curdir) == -1){
+         printf("The directory \"%s\" does not exist, staying in current directory.\n", curdir);
+         strcpy(curdir,workingdir);
+         chdir(workingdir);
+      }
+      //sprintf(curdir,"%s", args[1]);
    }
    printf("%s\n", curdir);
    fflush(stdout);
@@ -221,64 +230,69 @@ void parseCmd() {
    }
 }
 
-void callChild() {
+void callChild(char command[], char *args[], int numargs, bool backgroundProcess, char stdinLoc[], char stdoutLoc[]) {
+   if (allowBackground == false) {backgroundProcess = false;}
    //fork creates a duplicate process. forkedPid is equal to the childPid within the parent, and 0 in the child
-   forkedPid = fork();
-   if (forkedPid = -1) {
-      //failed fork
+   pid_t forkedPid = fork();
+   if (forkedPid = -1) { //failed fork
       status = 1;
    }
-   else if (forkedPid == 0) {
-      //if not a background process, set the ctrlc and ctrlz values back to operational
-      if (backgroundProcess == false || allowBackground == false){
+   else if (forkedPid == 0) { //child process
+      //allow CTRL-c to be default as normal
+      if (!backgroundProcess) {
          signal(SIGINT, SIG_DFL);
-         signal(SIGTSTP, SIG_DFL);
       }
-      //set the input and output sources. if not set, then they will default to stdin and stdout
-      if (strcmp(stdinLoc,"") != 0){
+
+      //IO redirection: stdin
+      if (strcmp(stdinLoc,"") != 0){ //stdin var set (open file)
          int infile = open(stdinLoc,O_RDONLY);
          if (infile == -1) { //fail to read file
-            printf("Cannot open file for input: %s", stdinLoc);
+            printf("Cannot open file \"%s\" for input.\n", stdinLoc);
             status = 1;
          }
-         else {
+         else { //no error, set file as input
             dup2(infile,0);
             fcntl(infile, F_SETFD, FD_CLOEXEC);
          }
       }
-      else if(backgroundProcess && allowBackground){
+      else if (backgroundProcess){ //stdin var not set, default to /dev/null
          int devnull = open("/dev/null",O_WRONLY);
          dup2(devnull,0);
       }
-      if (strcmp(stdinLoc,"") != 0){
+      //IO redirection: stdout
+      if (strcmp(stdoutLoc,"") != 0){ //stdout var set (open file)
          int outfile = open(stdoutLoc,O_WRONLY | O_APPEND | O_CREAT);
          if (outfile == -1) { //fail to write file
             printf("Cannot open file for output: %s", stdoutLoc);
             status = 1;
          }
-         else {
+         else { //no error, set file as output
             dup2(outfile,1);
             fcntl(outfile, F_SETFD, FD_CLOEXEC);
          }
       }
-      else if(backgroundProcess && allowBackground){
+      else if(backgroundProcess){ //stdin var not set, default to /dev/null
          int devnull = open("/dev/null",O_WRONLY);
          dup2(devnull,1);
       }
 
-      result = execvp(command,args);
-      if (result < 0){
-         printf("Bad Command!\n");
+      //command execution
+      int result = execvp(command, args);
+      //check result for error
+      if (result < 0) {
+         printf("Error on execution\n");
          fflush(stdout);
          result = 0;
       }
+      exit(1);
    }
-   else{
-      if (backgroundProcess && allowBackground){
+   else{ //parent process
+      if (backgroundProcess){
          printf("Background process id is %d\n", forkedPid);
          fflush(stdout);
          backgroundProcesses[numBackgroundProcesses] = forkedPid;
          numBackgroundProcesses++;
+         backgroundProcess = false;
       }
       else{ //handle foreground waiting
          int child = waitpid(forkedPid,&status,0);
