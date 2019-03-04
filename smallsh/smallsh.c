@@ -57,9 +57,37 @@ int main() {
       printf("PARSE\n");
       fflush(stdout);
       parseCmd();
+      if (strcmp(command,"exit\n") == 0) {
+         exit(0);
+      }
+      if (strcmp(command,"cd") == 0) {
+         cd_cmd();
+      }
+      if (strcmp(command,"status") == 0) {
+         status_cmd();
+      }
    }
 }
 
+void cd_cmd() {
+   if (numargs == 0){
+      chdir(getenv("HOME"));
+      sprintf(curdir,"%s", getenv("HOME"));
+   }
+   else {
+      if (&args[0][0] == "." && &args[0][1] == "/"){
+         //char *arg = args[0];
+         //arg += 2;
+         sprintf(args[0],"%s%s",curdir,args[0][2]);
+      }
+      else{
+         printf("%s%s:%s\n", args[0][0],args[0][1],&args[0][0]);
+      }
+      printf("%d",chdir(args[0]));
+      sprintf(curdir,"%s", args[0]);
+   }
+   printf("%d%s\n", 90,curdir);
+   fflush(stdout);
 }
 
 void status_cmd() {
