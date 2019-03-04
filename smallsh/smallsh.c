@@ -49,18 +49,26 @@ int numCompletedProcesses = 0;
 void parseCmd();
 void status_cmd();
 void cd_cmd();
-void backgroundManager();
 void callChild();
 
+void backgroundManager(){
+   allowBackground = !allowBackground;
+   if (allowBackground){
+      write(1,"\nExiting foreground only mode\n",30);
+   } else {
+      write(1,"\nEntering foreground only mode\n",31);
+   }
+   fflush(stdout);
+}
 
 int main() {
-
+   //set up signal handlers (ctrlz)
    struct sigaction ctrlz = {0};
    ctrlz.sa_handler = backgroundManager;
    ctrlz.sa_flags = 0;
    sigfillset(&ctrlz.sa_mask);
    sigaction(SIGTSTP, &ctrlz, NULL);
-
+   //set up signal handlers (ctrlc)
    struct sigaction ctrlc = {0};
    ctrlc.sa_handler = SIG_IGN;
    ctrlc.sa_flags = 0;
@@ -151,16 +159,6 @@ void cd_cmd() {
    }
    printf("%s\n", curdir);
    fflush(stdout);
-}
-
-void backgroundManager() {
-   if (allowBackground) {
-      allowBackground = false;
-   }
-   else {
-      allowBackground = true;
-   }
-   ctrlztoggle = true;
 }
 
 void parseCmd() {
