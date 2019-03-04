@@ -144,10 +144,10 @@ int main() {
    return 0;
 }
 
-void cd_cmd(char curdir[], char* args[], int numargs[]) {
+void cd_cmd() {
    char workingdir[512];
    strcpy(workingdir,curdir);
-   if (numargs == 0){
+   if (numargs == 1){
       chdir(getenv("HOME"));
       sprintf(curdir,"%s", getenv("HOME"));
    }
@@ -218,6 +218,8 @@ void parseCmd() {
       }
       else if (nextwordType == COMMAND) {
          sprintf(command, "%s", word);
+         args[numargs] = word;
+         numargs++;
          nextwordType = ARG;
       }
       else if (nextwordType == ARG) {
