@@ -46,8 +46,6 @@ int numCompletedProcesses = 0;
 
 
 void parseCmd();
-void status_cmd();
-void cd_cmd();
 void callChild();
 
 void backgroundManager(){
@@ -118,7 +116,29 @@ int main() {
          exit(0);
       }
       else if (strcmp(command,"cd") == 0) { //cd called
-         cd_cmd();
+         char workingdir[512];
+         strcpy(workingdir,curdir);
+         if (numargs == 1){
+            chdir(getenv("HOME"));
+            sprintf(curdir,"%s", getenv("HOME"));
+         }
+         else {
+            if (strstr(args[1],"./") == args[1]){
+               char *secondhalf = strstr(args[1],"./")+1;
+               strcat(curdir,secondhalf);
+            }
+            else{
+               strcpy(curdir,args[1]);
+            }
+            if (chdir(curdir) == -1){
+               printf("The directory \"%s\" does not exist, staying in current directory.\n", curdir);
+               strcpy(curdir,workingdir);
+               chdir(workingdir);
+            }
+            //sprintf(curdir,"%s", args[1]);
+         }
+         printf("%s\n", curdir);
+         fflush(stdout);
       }
       else if (strcmp(command,"status") == 0) { //status called
          printf("The last foreground process exited with a value of %d.\n",status);
@@ -142,32 +162,6 @@ int main() {
       }
    }
    return 0;
-}
-
-void cd_cmd() {
-   char workingdir[512];
-   strcpy(workingdir,curdir);
-   if (numargs == 1){
-      chdir(getenv("HOME"));
-      sprintf(curdir,"%s", getenv("HOME"));
-   }
-   else {
-      if (strstr(args[1],"./") == args[1]){
-         char *secondhalf = strstr(args[1],"./")+1;
-         strcat(curdir,secondhalf);
-      }
-      else{
-         strcpy(curdir,args[1]);
-      }
-      if (chdir(curdir) == -1){
-         printf("The directory \"%s\" does not exist, staying in current directory.\n", curdir);
-         strcpy(curdir,workingdir);
-         chdir(workingdir);
-      }
-      //sprintf(curdir,"%s", args[1]);
-   }
-   printf("%s\n", curdir);
-   fflush(stdout);
 }
 
 void parseCmd() {
