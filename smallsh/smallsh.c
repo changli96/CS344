@@ -19,11 +19,11 @@ typedef int bool;
 #define true 1
 #define false 0
 
-int COMMAND = 0;
-int ARG = 1;
-int REDIR_STDIN = 2;
-int REDIR_STDOUT = 3;
-int COMMENT = 4;
+#define COMMAND 0
+#define ARG 1
+#define REDIR_STDIN 2
+#define REDIR_STDOUT 3
+#define COMMENT 4
 
 char linein[2048];
 char command[1024];
