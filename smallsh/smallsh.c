@@ -232,12 +232,11 @@ void callChild(char command[], char *args[], int numargs, bool backgroundProcess
    pid_t forkedPid = fork();
    if (forkedPid = -1) { //failed fork
       status = 1;
+      exit(1);
    }
    else if (forkedPid == 0) { //child process
       //allow CTRL-c to be default as normal
-      if (!backgroundProcess) {
-         signal(SIGINT, SIG_DFL);
-      }
+      //signal(SIGINT, SIG_DFL);
 
       //IO redirection: stdin
       if (strcmp(stdinLoc,"") != 0){ //stdin var set (open file)
@@ -284,6 +283,7 @@ void callChild(char command[], char *args[], int numargs, bool backgroundProcess
    }
    else{ //parent process
       if (backgroundProcess){
+         pid_t child = waitpid(forkedPid, &status, WNOHANG);
          printf("Background process id is %d\n", forkedPid);
          fflush(stdout);
          backgroundProcesses[numBackgroundProcesses] = forkedPid;
@@ -291,7 +291,7 @@ void callChild(char command[], char *args[], int numargs, bool backgroundProcess
          backgroundProcess = false;
       }
       else{ //handle foreground waiting
-         int child = waitpid(forkedPid,&status,0);
+         pid_t child = waitpid(forkedPid,&status,0);
          if(status == 256){status = 1;}
          else if(WIFEXITED(status) <= 0){
              printf("Process exited with value of %d\n",WTERMSIG(status));
