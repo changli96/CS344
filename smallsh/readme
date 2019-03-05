@@ -1,0 +1,2 @@
+compile using:
+   gcc -o smallsh smallsh.c
