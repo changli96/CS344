@@ -88,7 +88,9 @@ void callCmd(char* args[], int* fgExitStatus, bool* backgroundProcess, char stdi
       if (strcmp(stdinLoc,"") != 0){ //stdin var set (open file)
          int infile = open(stdinLoc,O_RDONLY);
          if (infile == -1) { //fail to read file
-            printf("Cannot open file \"%s\" for input.\n", stdinLoc);
+            printf("Cannot open \"%s\" for input.\n", stdinLoc);
+            fflush(stdout);
+            exit(1);
          }
          else { //no error, set file as input
             dup2(infile,0);
@@ -103,7 +105,9 @@ void callCmd(char* args[], int* fgExitStatus, bool* backgroundProcess, char stdi
       if (strcmp(stdoutLoc,"") != 0){ //stdout var set (open file)
          int outfile = open(stdoutLoc,O_WRONLY | O_TRUNC | O_CREAT);
          if (outfile == -1) { //fail to write file
-            printf("Cannot open file for output: %s", stdoutLoc);
+            printf("Cannot open \"%s\" for output.\n", stdoutLoc);
+            fflush(stdout);
+            exit(1);
          }
          else { //no error, set file as output
             dup2(outfile,1);
@@ -118,7 +122,7 @@ void callCmd(char* args[], int* fgExitStatus, bool* backgroundProcess, char stdi
       // command execution
       int result = execvp(args[0], (char* const*)args);
       if (result < 0) { //issue in running the command
-         printf("Error on execution\n");
+         printf("%s: no such file or directory\n", args[0]);
          fflush(stdout);
          result = 0;
          exit(1); //exit the child fork
@@ -128,31 +132,23 @@ void callCmd(char* args[], int* fgExitStatus, bool* backgroundProcess, char stdi
       // Execute a process in the background ONLY if allowBackground
       if (*backgroundProcess) {
          pid_t actualPid = waitpid(forkedPid, &childExitStatus, WNOHANG);
-         printf("Background process %d has been started.\n", forkedPid);
+         printf("background pid is %d\n", forkedPid);
          fflush(stdout);
          *backgroundProcess = 0;
       }
       // Otherwise execute it like normal
       else {
          pid_t actualPid = waitpid(forkedPid, fgExitStatus, 0);
+         if(*fgExitStatus == 256){*fgExitStatus = 1;}
+         else if(WIFEXITED(*fgExitStatus) <= 0){
+             printf("terminated by signal %d\n",WTERMSIG(*fgExitStatus));
+             fflush(stdout);
+         }
       }
-   }
-
-   // check for finished background processes
-   pid_t childPid;
-   while ((childPid = waitpid(-1, &childExitStatus, WNOHANG)) > 0) {
-      printf("child %d terminated\n", forkedPid);
-      if (WIFEXITED(childExitStatus)) { // If exited by status
-         printf("exit value %d\n", WEXITSTATUS(childExitStatus));
-      }
-      else { // If terminated by signal
-         printf("terminated by signal %d\n", WTERMSIG(childExitStatus));
-      }
-      fflush(stdout);
    }
 }
 
-void backgroundManager(){
+void backgroundManager(int sig){
    if (allowBackground){
       allowBackground = false;
       write(1,"\nEntering foreground only mode\n",31);
@@ -191,15 +187,28 @@ int main(){
    int forkedPid;
    int result = 0;
 
-   int fgProcessStatus = -5;// Foreground
+   int fgProcessStatus = 0;// Foreground
    int bgProcessStatus = -5;// Background
 
    //Signal handling
    sigaction(SIGINT, &ctrlc, NULL);
    sigaction(SIGTSTP, &ctrlz, NULL);
 
-
    while(running){
+      // check for finished background processes
+      pid_t childPid;
+      int childExitStatus;
+      while ((childPid = waitpid(-1, &childExitStatus, WNOHANG)) > 0) {
+         printf("background pid %d is done: ", childPid);
+         if (WIFEXITED(childExitStatus)) { // If exited by status
+            printf("exit value %d\n", WEXITSTATUS(childExitStatus));
+         }
+         else { // terminated by signal
+            printf("terminated by signal %d\n", WTERMSIG(childExitStatus));
+         }
+         fflush(stdout);
+      }
+
       //reinitalize variables
       sprintf(stdinLoc,"");
       sprintf(stdoutLoc,"");
@@ -234,11 +243,18 @@ int main(){
                chdir(workingdir);
             }
          }
-         printf("%s\n", curdir);
+         //printf("%s\n", curdir);
          fflush(stdout);
       }
       else if (strcmp(args[0],"status") == 0) { //status called
-        printf("The last foreground process exited with a value of %d.\n",fgProcessStatus);
+         if (WIFEXITED(fgProcessStatus)) {
+            // status
+            printf("exit value %d\n", WEXITSTATUS(fgProcessStatus));
+         }
+         else {
+            // terminated by signal
+            printf("terminated by signal %d\n", WTERMSIG(fgProcessStatus));
+         }
       }
       else if (strcmp(args[0],"exit") == 0) {  //exit called
          exit(0);
