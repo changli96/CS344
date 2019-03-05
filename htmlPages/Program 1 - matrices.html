@@ -1,0 +1,1103 @@
+<!DOCTYPE html>
+<!-- saved from url=(0071)https://oregonstate.instructure.com/courses/1706554/assignments/7426250 -->
+<html class="" dir="ltr" lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+  <title>Program 1 - matrices</title>
+  <!--[if lte IE 9]> <meta http-equiv=refresh content="0; URL=/ie-9-is-not-supported.html" /> <![endif]-->
+
+  <link rel="preload" href="https://du11hjcvx0uqb.cloudfront.net/dist/fonts/lato/latin/LatoLatin-Regular-3cd3657802.woff2" as="font" type="font/woff2" crossorigin="">
+  <link rel="shortcut icon" type="image/x-icon" href="https://du11hjcvx0uqb.cloudfront.net/dist/images/favicon-e10d657a73.ico">
+  <link rel="apple-touch-icon" href="https://du11hjcvx0uqb.cloudfront.net/dist/images/apple-touch-icon-585e5d997d.png">
+
+  <link rel="stylesheet" media="all" href="./Program 1 - matrices_files/variables-750d72b9d3e5d522f965bf904110c132.css">
+  <link rel="stylesheet" media="all" href="./style.css">
+  <script type="text/javascript" async="" src="./Program 1 - matrices_files/ga.js"></script><script>
+//<![CDATA[
+
+!function(){
+  function get(u){document.write('<scr'+'ipt src="'+ u +'"></sc'+'ript>')}
+  var o,s,v;
+  if (!(window.Promise && Object.assign && Object.values && [].find && [].includes && (o={},s=Symbol(),v={},o[s]=v,o[s]===v) && (function f(){}).bind().name==='bound f')) {
+    get("https://du11hjcvx0uqb.cloudfront.net/dist/ie11-polyfill-8ce5cd9c92.js");
+  }
+  window.fetch || get("https://cdnjs.cloudflare.com/ajax/libs/fetch/2.0.4/fetch.min.js");
+}();
+
+//]]>
+</script>
+  <script src="./Program 1 - matrices_files/lato-fontfaceobserver-155484df40.js" async="async"></script>
+
+  <meta name="apple-itunes-app" content="app-id=480883488">
+<link rel="manifest" href="https://oregonstate.instructure.com/web-app-manifest/manifest.json">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#252525">
+  <link rel="stylesheet" media="all" href="./Program 1 - matrices_files/assignments-880158796a.css">
+<link rel="stylesheet" media="all" href="./Program 1 - matrices_files/learning_outcomes-f40ec34c4b.css">
+
+  <link rel="stylesheet" media="all" href="./Program 1 - matrices_files/hide_addeditmedia_btn.css">
+  <script>
+    function _earlyClick(e){
+      var c = e.target
+      while (c && c.ownerDocument) {
+        if (c.getAttribute('href') == '#' || c.getAttribute('data-method')) {
+          e.preventDefault()
+          (_earlyClick.clicks = _earlyClick.clicks || []).push(c)
+          break
+        }
+        c = c.parentNode
+      }
+    }
+    document.addEventListener('click', _earlyClick)
+  </script>
+  <script src="./Program 1 - matrices_files/variables-750d72b9d3e5d522f965bf904110c132.js" defer="defer"></script>
+  <script src="./Program 1 - matrices_files/vendor.bundle-523e71006b.js" defer="defer"></script>
+<script src="./Program 1 - matrices_files/Los_Angeles-d9cac65c52.js" defer="defer"></script>
+<script src="./Program 1 - matrices_files/en_US-80a0ce259b.js" defer="defer"></script>
+<script src="./Program 1 - matrices_files/appBootstrap.bundle-86219cc569.js" defer="defer"></script>
+<script src="./Program 1 - matrices_files/common.bundle-f6a1e684ee.js" defer="defer"></script>
+<script src="./Program 1 - matrices_files/progress_pill.bundle-7de2c9de9b.js" defer="defer"></script>
+<script src="./Program 1 - matrices_files/assignment_show.bundle-d2d78eb145.js" defer="defer"></script>
+<script src="./Program 1 - matrices_files/edit_rubric.bundle-85f0278943.js" defer="defer"></script>
+<style type="text/css"></style><style type="text/css">.mejs-offscreen{clip:rect(1px 1px 1px 1px);clip:rect(1px,1px,1px,1px);clip-path:polygon(0px 0,0 0,0 0,0 0);position:absolute!important;height:1px;width:1px;overflow:hidden}.mejs-container{position:relative;background:#000;font-family:Helvetica,Arial,serif;text-align:left;vertical-align:top;text-indent:0}.mejs-fill-container,.mejs-fill-container .mejs-container{width:100%;height:100%}.mejs-fill-container{overflow:hidden}.mejs-container:focus{outline:0}.me-plugin{position:absolute}.mejs-embed,.mejs-embed body{width:100%;height:100%;margin:0;padding:0;background:#000;overflow:hidden}.mejs-fullscreen{overflow:hidden!important}.mejs-container-fullscreen{position:fixed;left:0;top:0;right:0;bottom:0;overflow:hidden;z-index:1000}.mejs-container-fullscreen .mejs-mediaelement,.mejs-container-fullscreen video{width:100%;height:100%}.mejs-clear{clear:both}.mejs-background{position:absolute;top:0;left:0}.mejs-mediaelement{position:absolute;top:0;left:0;width:100%;height:100%}.mejs-poster{position:absolute;top:0;left:0;background-size:contain;background-position:50% 50%;background-repeat:no-repeat}:root .mejs-poster img{display:none}.mejs-poster img{border:0;padding:0}.mejs-overlay{position:absolute;top:0;left:0}.mejs-overlay-play{cursor:pointer}.mejs-overlay-button{position:absolute;top:50%;left:50%;width:100px;height:100px;margin:-50px 0 0 -50px;background:url(https://du11hjcvx0uqb.cloudfront.net/dist/webpack-production/746c3af7a145a09239a36e5ef61cfea0.svg) no-repeat}.no-svg .mejs-overlay-button{background-image:url(https://du11hjcvx0uqb.cloudfront.net/dist/webpack-production/716436fb3df0d29e6b37dd62d952676a.png)}.mejs-overlay:hover .mejs-overlay-button{background-position:0 -100px}.mejs-overlay-loading{position:absolute;top:50%;left:50%;width:80px;height:80px;margin:-40px 0 0 -40px;background:#333;background:url(https://du11hjcvx0uqb.cloudfront.net/dist/webpack-production/703c659e4bf563a05c6338a1727e006c.png);background:rgba(0,0,0,.9);background:-webkit-gradient(linear,0 0,0 100%,from(rgba(50,50,50,.9)),to(rgba(0,0,0,.9)));background:-webkit-linear-gradient(top,rgba(50,50,50,.9),rgba(0,0,0,.9));background:-moz-linear-gradient(top,rgba(50,50,50,.9),rgba(0,0,0,.9));background:-o-linear-gradient(top,rgba(50,50,50,.9),rgba(0,0,0,.9));background:-ms-linear-gradient(top,rgba(50,50,50,.9),rgba(0,0,0,.9));background:linear-gradient(rgba(50,50,50,.9),rgba(0,0,0,.9))}.mejs-overlay-loading span{display:block;width:80px;height:80px;background:transparent url(https://du11hjcvx0uqb.cloudfront.net/dist/webpack-production/76b326f4d44222126fee21076595bef5.gif) 50% 50% no-repeat}.mejs-container .mejs-controls{position:absolute;list-style-type:none;margin:0;padding:0;bottom:0;left:0;background:url(https://du11hjcvx0uqb.cloudfront.net/dist/webpack-production/703c659e4bf563a05c6338a1727e006c.png);background:rgba(0,0,0,.7);background:-webkit-gradient(linear,0 0,0 100%,from(rgba(50,50,50,.7)),to(rgba(0,0,0,.7)));background:-webkit-linear-gradient(top,rgba(50,50,50,.7),rgba(0,0,0,.7));background:-moz-linear-gradient(top,rgba(50,50,50,.7),rgba(0,0,0,.7));background:-o-linear-gradient(top,rgba(50,50,50,.7),rgba(0,0,0,.7));background:-ms-linear-gradient(top,rgba(50,50,50,.7),rgba(0,0,0,.7));background:linear-gradient(rgba(50,50,50,.7),rgba(0,0,0,.7));height:30px;width:100%}.mejs-container .mejs-controls div{list-style-type:none;background-image:none;display:block;float:left;margin:0;padding:0;width:26px;height:26px;font-size:11px;line-height:11px;font-family:Helvetica,Arial,serif;border:0}.mejs-controls .mejs-button button{cursor:pointer;display:block;font-size:0;line-height:0;text-decoration:none;margin:7px 5px;padding:0;position:absolute;height:16px;width:16px;border:0;background:transparent url(https://du11hjcvx0uqb.cloudfront.net/dist/webpack-production/40f56f5a736da4effeb790cedb8a52f0.svg) no-repeat}.no-svg .mejs-controls .mejs-button button{background-image:url(https://du11hjcvx0uqb.cloudfront.net/dist/webpack-production/24a0227fbdd3acfd86ff03fc3fc6c8a4.png)}.mejs-controls .mejs-button button:focus{outline:dotted 1px #999}.mejs-container .mejs-controls .mejs-time{color:#fff;display:block;height:17px;width:auto;padding:10px 3px 0;overflow:hidden;text-align:center;-moz-box-sizing:content-box;-webkit-box-sizing:content-box;box-sizing:content-box}.mejs-container .mejs-controls .mejs-time a{color:#fff;font-size:11px;line-height:12px;display:block;float:left;margin:1px 2px 0 0;width:auto}.mejs-controls .mejs-play button{background-position:0 0}.mejs-controls .mejs-pause button{background-position:0 -16px}.mejs-controls .mejs-stop button{background-position:-112px 0}.mejs-controls div.mejs-time-rail{direction:ltr;width:200px;padding-top:5px}.mejs-controls .mejs-time-rail span,.mejs-controls .mejs-time-rail a{display:block;position:absolute;width:180px;height:10px;-webkit-border-radius:2px;-moz-border-radius:2px;border-radius:2px;cursor:pointer}.mejs-controls .mejs-time-rail .mejs-time-total{margin:5px;background:#333;background:rgba(50,50,50,.8);background:-webkit-gradient(linear,0 0,0 100%,from(rgba(30,30,30,.8)),to(rgba(60,60,60,.8)));background:-webkit-linear-gradient(top,rgba(30,30,30,.8),rgba(60,60,60,.8));background:-moz-linear-gradient(top,rgba(30,30,30,.8),rgba(60,60,60,.8));background:-o-linear-gradient(top,rgba(30,30,30,.8),rgba(60,60,60,.8));background:-ms-linear-gradient(top,rgba(30,30,30,.8),rgba(60,60,60,.8));background:linear-gradient(rgba(30,30,30,.8),rgba(60,60,60,.8))}.mejs-controls .mejs-time-rail .mejs-time-buffering{width:100%;background-image:-o-linear-gradient(-45deg,rgba(255,255,255,.15) 25%,transparent 25%,transparent 50%,rgba(255,255,255,.15) 50%,rgba(255,255,255,.15) 75%,transparent 75%,transparent);background-image:-webkit-gradient(linear,0 100%,100% 0,color-stop(0.25,rgba(255,255,255,.15)),color-stop(0.25,transparent),color-stop(0.5,transparent),color-stop(0.5,rgba(255,255,255,.15)),color-stop(0.75,rgba(255,255,255,.15)),color-stop(0.75,transparent),to(transparent));background-image:-webkit-linear-gradient(-45deg,rgba(255,255,255,.15) 25%,transparent 25%,transparent 50%,rgba(255,255,255,.15) 50%,rgba(255,255,255,.15) 75%,transparent 75%,transparent);background-image:-moz-linear-gradient(-45deg,rgba(255,255,255,.15) 25%,transparent 25%,transparent 50%,rgba(255,255,255,.15) 50%,rgba(255,255,255,.15) 75%,transparent 75%,transparent);background-image:-ms-linear-gradient(-45deg,rgba(255,255,255,.15) 25%,transparent 25%,transparent 50%,rgba(255,255,255,.15) 50%,rgba(255,255,255,.15) 75%,transparent 75%,transparent);background-image:linear-gradient(-45deg,rgba(255,255,255,.15) 25%,transparent 25%,transparent 50%,rgba(255,255,255,.15) 50%,rgba(255,255,255,.15) 75%,transparent 75%,transparent);-webkit-background-size:15px 15px;-moz-background-size:15px 15px;-o-background-size:15px 15px;background-size:15px 15px;-webkit-animation:buffering-stripes 2s linear infinite;-moz-animation:buffering-stripes 2s linear infinite;-ms-animation:buffering-stripes 2s linear infinite;-o-animation:buffering-stripes 2s linear infinite;animation:buffering-stripes 2s linear infinite}@-webkit-keyframes buffering-stripes{from{background-position:0 0}to{background-position:30px 0}}@-moz-keyframes buffering-stripes{from{background-position:0 0}to{background-position:30px 0}}@-ms-keyframes buffering-stripes{from{background-position:0 0}to{background-position:30px 0}}@-o-keyframes buffering-stripes{from{background-position:0 0}to{background-position:30px 0}}@keyframes buffering-stripes{from{background-position:0 0}to{background-position:30px 0}}.mejs-controls .mejs-time-rail .mejs-time-loaded{background:#3caac8;background:rgba(60,170,200,.8);background:-webkit-gradient(linear,0 0,0 100%,from(rgba(44,124,145,.8)),to(rgba(78,183,212,.8)));background:-webkit-linear-gradient(top,rgba(44,124,145,.8),rgba(78,183,212,.8));background:-moz-linear-gradient(top,rgba(44,124,145,.8),rgba(78,183,212,.8));background:-o-linear-gradient(top,rgba(44,124,145,.8),rgba(78,183,212,.8));background:-ms-linear-gradient(top,rgba(44,124,145,.8),rgba(78,183,212,.8));background:linear-gradient(rgba(44,124,145,.8),rgba(78,183,212,.8));width:0}.mejs-controls .mejs-time-rail .mejs-time-current{background:#fff;background:rgba(255,255,255,.8);background:-webkit-gradient(linear,0 0,0 100%,from(rgba(255,255,255,.9)),to(rgba(200,200,200,.8)));background:-webkit-linear-gradient(top,rgba(255,255,255,.9),rgba(200,200,200,.8));background:-moz-linear-gradient(top,rgba(255,255,255,.9),rgba(200,200,200,.8));background:-o-linear-gradient(top,rgba(255,255,255,.9),rgba(200,200,200,.8));background:-ms-linear-gradient(top,rgba(255,255,255,.9),rgba(200,200,200,.8));background:linear-gradient(rgba(255,255,255,.9),rgba(200,200,200,.8));width:0}.mejs-controls .mejs-time-rail .mejs-time-handle{display:none;position:absolute;margin:0;width:10px;background:#fff;-webkit-border-radius:5px;-moz-border-radius:5px;border-radius:5px;cursor:pointer;border:solid 2px #333;top:-2px;text-align:center}.mejs-controls .mejs-time-rail .mejs-time-float{position:absolute;display:none;background:#eee;width:36px;height:17px;border:solid 1px #333;top:-26px;margin-left:-18px;text-align:center;color:#111}.mejs-controls .mejs-time-rail .mejs-time-float-current{margin:2px;width:30px;display:block;text-align:center;left:0}.mejs-controls .mejs-time-rail .mejs-time-float-corner{position:absolute;display:block;width:0;height:0;line-height:0;border:solid 5px #eee;border-color:#eee transparent transparent;-webkit-border-radius:0;-moz-border-radius:0;border-radius:0;top:15px;left:13px}.mejs-long-video .mejs-controls .mejs-time-rail .mejs-time-float{width:48px}.mejs-long-video .mejs-controls .mejs-time-rail .mejs-time-float-current{width:44px}.mejs-long-video .mejs-controls .mejs-time-rail .mejs-time-float-corner{left:18px}.mejs-controls .mejs-fullscreen-button button{background-position:-32px 0}.mejs-controls .mejs-unfullscreen button{background-position:-32px -16px}.mejs-controls .mejs-volume-button{}.mejs-controls .mejs-mute button{background-position:-16px -16px}.mejs-controls .mejs-unmute button{background-position:-16px 0}.mejs-controls .mejs-volume-button{position:relative}.mejs-controls .mejs-volume-button .mejs-volume-slider{height:115px;width:25px;background:url(https://du11hjcvx0uqb.cloudfront.net/dist/webpack-production/703c659e4bf563a05c6338a1727e006c.png);background:rgba(50,50,50,.7);-webkit-border-radius:0;-moz-border-radius:0;border-radius:0;top:-115px;left:0;z-index:1;position:absolute;margin:0}.mejs-controls .mejs-volume-button:hover{-webkit-border-radius:0 0 4px 4px;-moz-border-radius:0 0 4px 4px;border-radius:0 0 4px 4px}.mejs-controls .mejs-volume-button .mejs-volume-slider .mejs-volume-total{position:absolute;left:11px;top:8px;width:2px;height:100px;background:#ddd;background:rgba(255,255,255,.5);margin:0}.mejs-controls .mejs-volume-button .mejs-volume-slider .mejs-volume-current{position:absolute;left:11px;top:8px;width:2px;height:100px;background:#ddd;background:rgba(255,255,255,.9);margin:0}.mejs-controls .mejs-volume-button .mejs-volume-slider .mejs-volume-handle{position:absolute;left:4px;top:-3px;width:16px;height:6px;background:#ddd;background:rgba(255,255,255,.9);cursor:N-resize;-webkit-border-radius:1px;-moz-border-radius:1px;border-radius:1px;margin:0}.mejs-controls a.mejs-horizontal-volume-slider{height:26px;width:56px;position:relative;display:block;float:left;vertical-align:middle}.mejs-controls .mejs-horizontal-volume-slider .mejs-horizontal-volume-total{position:absolute;left:0;top:11px;width:50px;height:8px;margin:0;padding:0;font-size:1px;-webkit-border-radius:2px;-moz-border-radius:2px;border-radius:2px;background:#333;background:rgba(50,50,50,.8);background:-webkit-gradient(linear,0 0,0 100%,from(rgba(30,30,30,.8)),to(rgba(60,60,60,.8)));background:-webkit-linear-gradient(top,rgba(30,30,30,.8),rgba(60,60,60,.8));background:-moz-linear-gradient(top,rgba(30,30,30,.8),rgba(60,60,60,.8));background:-o-linear-gradient(top,rgba(30,30,30,.8),rgba(60,60,60,.8));background:-ms-linear-gradient(top,rgba(30,30,30,.8),rgba(60,60,60,.8));background:linear-gradient(rgba(30,30,30,.8),rgba(60,60,60,.8))}.mejs-controls .mejs-horizontal-volume-slider .mejs-horizontal-volume-current{position:absolute;left:0;top:11px;width:50px;height:8px;margin:0;padding:0;font-size:1px;-webkit-border-radius:2px;-moz-border-radius:2px;border-radius:2px;background:#fff;background:rgba(255,255,255,.8);background:-webkit-gradient(linear,0 0,0 100%,from(rgba(255,255,255,.9)),to(rgba(200,200,200,.8)));background:-webkit-linear-gradient(top,rgba(255,255,255,.9),rgba(200,200,200,.8));background:-moz-linear-gradient(top,rgba(255,255,255,.9),rgba(200,200,200,.8));background:-o-linear-gradient(top,rgba(255,255,255,.9),rgba(200,200,200,.8));background:-ms-linear-gradient(top,rgba(255,255,255,.9),rgba(200,200,200,.8));background:linear-gradient(rgba(255,255,255,.9),rgba(200,200,200,.8))}.mejs-controls .mejs-horizontal-volume-slider .mejs-horizontal-volume-handle{display:none}.mejs-controls .mejs-captions-button{position:relative}.mejs-controls .mejs-captions-button button{background-position:-48px 0}.mejs-controls .mejs-captions-button .mejs-captions-selector{position:absolute;bottom:26px;right:-51px;width:85px;height:100px;background:url(https://du11hjcvx0uqb.cloudfront.net/dist/webpack-production/703c659e4bf563a05c6338a1727e006c.png);background:rgba(50,50,50,.7);border:solid 1px transparent;padding:10px 10px 0;overflow:hidden;-webkit-border-radius:0;-moz-border-radius:0;border-radius:0}.mejs-controls .mejs-captions-button .mejs-captions-selector ul{margin:0;padding:0;display:block;list-style-type:none!important;overflow:hidden}.mejs-controls .mejs-captions-button .mejs-captions-selector ul li{margin:0 0 6px;padding:0;list-style-type:none!important;display:block;color:#fff;overflow:hidden}.mejs-controls .mejs-captions-button .mejs-captions-selector ul li input{clear:both;float:left;margin:3px 3px 0 5px}.mejs-controls .mejs-captions-button .mejs-captions-selector ul li label{width:55px;float:left;padding:4px 0 0;line-height:15px;font-family:Helvetica,Arial,serif;font-size:10px}.mejs-controls .mejs-captions-button .mejs-captions-translations{font-size:10px;margin:0 0 5px}.mejs-chapters{position:absolute;top:0;left:0;border-right:solid 1px #fff;width:10000px;z-index:1}.mejs-chapters .mejs-chapter{position:absolute;float:left;background:#222;background:rgba(0,0,0,.7);background:-webkit-gradient(linear,0 0,0 100%,from(rgba(50,50,50,.7)),to(rgba(0,0,0,.7)));background:-webkit-linear-gradient(top,rgba(50,50,50,.7),rgba(0,0,0,.7));background:-moz-linear-gradient(top,rgba(50,50,50,.7),rgba(0,0,0,.7));background:-o-linear-gradient(top,rgba(50,50,50,.7),rgba(0,0,0,.7));background:-ms-linear-gradient(top,rgba(50,50,50,.7),rgba(0,0,0,.7));background:linear-gradient(rgba(50,50,50,.7),rgba(0,0,0,.7));filter:progid:DXImageTransform.Microsoft.Gradient(GradientType=0, startColorstr=#323232, endColorstr=#000000);overflow:hidden;border:0}.mejs-chapters .mejs-chapter .mejs-chapter-block{font-size:11px;color:#fff;padding:5px;display:block;border-right:solid 1px #333;border-bottom:solid 1px #333;cursor:pointer}.mejs-chapters .mejs-chapter .mejs-chapter-block-last{border-right:0}.mejs-chapters .mejs-chapter .mejs-chapter-block:hover{background:#666;background:rgba(102,102,102,.7);background:-webkit-gradient(linear,0 0,0 100%,from(rgba(102,102,102,.7)),to(rgba(50,50,50,.6)));background:-webkit-linear-gradient(top,rgba(102,102,102,.7),rgba(50,50,50,.6));background:-moz-linear-gradient(top,rgba(102,102,102,.7),rgba(50,50,50,.6));background:-o-linear-gradient(top,rgba(102,102,102,.7),rgba(50,50,50,.6));background:-ms-linear-gradient(top,rgba(102,102,102,.7),rgba(50,50,50,.6));background:linear-gradient(rgba(102,102,102,.7),rgba(50,50,50,.6));filter:progid:DXImageTransform.Microsoft.Gradient(GradientType=0, startColorstr=#666666, endColorstr=#323232)}.mejs-chapters .mejs-chapter .mejs-chapter-block .ch-title{font-size:12px;font-weight:700;display:block;white-space:nowrap;text-overflow:ellipsis;margin:0 0 3px;line-height:12px}.mejs-chapters .mejs-chapter .mejs-chapter-block .ch-timespan{font-size:12px;line-height:12px;margin:3px 0 4px;display:block;white-space:nowrap;text-overflow:ellipsis}.mejs-captions-layer{position:absolute;bottom:0;left:0;text-align:center;line-height:20px;font-size:16px;color:#fff}.mejs-captions-layer a{color:#fff;text-decoration:underline}.mejs-captions-layer[lang=ar]{font-size:20px;font-weight:400}.mejs-captions-position{position:absolute;width:100%;bottom:15px;left:0}.mejs-captions-position-hover{bottom:35px}.mejs-captions-text,.mejs__captions-text *{padding:0;background:url(https://du11hjcvx0uqb.cloudfront.net/dist/webpack-production/703c659e4bf563a05c6338a1727e006c.png);background:rgba(20,20,20,.5);white-space:pre-wrap;-webkit-box-shadow:5px 0 0 rgba(20,20,20,.5),-5px 0 0 rgba(20,20,20,.5);box-shadow:5px 0 0 rgba(20,20,20,.5),-5px 0 0 rgba(20,20,20,.5)}.me-cannotplay{}.me-cannotplay a{color:#fff;font-weight:700}.me-cannotplay span{padding:15px;display:block}.mejs-controls .mejs-loop-off button{background-position:-64px -16px}.mejs-controls .mejs-loop-on button{background-position:-64px 0}.mejs-controls .mejs-backlight-off button{background-position:-80px -16px}.mejs-controls .mejs-backlight-on button{background-position:-80px 0}.mejs-controls .mejs-picturecontrols-button{background-position:-96px 0}.mejs-contextmenu{position:absolute;width:150px;padding:10px;border-radius:4px;top:0;left:0;background:#fff;border:solid 1px #999;z-index:1001}.mejs-contextmenu .mejs-contextmenu-separator{height:1px;font-size:0;margin:5px 6px;background:#333}.mejs-contextmenu .mejs-contextmenu-item{font-family:Helvetica,Arial,serif;font-size:12px;padding:4px 6px;cursor:pointer;color:#333}.mejs-contextmenu .mejs-contextmenu-item:hover{background:#2C7C91;color:#fff}.mejs-controls .mejs-sourcechooser-button{position:relative}.mejs-controls .mejs-sourcechooser-button button{background-position:-128px 0}.mejs-controls .mejs-sourcechooser-button .mejs-sourcechooser-selector{position:absolute;bottom:26px;right:-10px;width:130px;height:100px;background:url(https://du11hjcvx0uqb.cloudfront.net/dist/webpack-production/703c659e4bf563a05c6338a1727e006c.png);background:rgba(50,50,50,.7);border:solid 1px transparent;padding:10px;overflow:hidden;-webkit-border-radius:0;-moz-border-radius:0;border-radius:0}.mejs-controls .mejs-sourcechooser-button .mejs-sourcechooser-selector ul{margin:0;padding:0;display:block;list-style-type:none!important;overflow:hidden}.mejs-controls .mejs-sourcechooser-button .mejs-sourcechooser-selector ul li{margin:0 0 6px;padding:0;list-style-type:none!important;display:block;color:#fff;overflow:hidden}.mejs-controls .mejs-sourcechooser-button .mejs-sourcechooser-selector ul li input{clear:both;float:left;margin:3px 3px 0 5px}.mejs-controls .mejs-sourcechooser-button .mejs-sourcechooser-selector ul li label{width:100px;float:left;padding:4px 0 0;line-height:15px;font-family:Helvetica,Arial,serif;font-size:10px}.mejs-postroll-layer{position:absolute;bottom:0;left:0;width:100%;height:100%;background:url(https://du11hjcvx0uqb.cloudfront.net/dist/webpack-production/703c659e4bf563a05c6338a1727e006c.png);background:rgba(50,50,50,.7);z-index:1000;overflow:hidden}.mejs-postroll-layer-content{width:100%;height:100%}.mejs-postroll-close{position:absolute;right:0;top:0;background:url(https://du11hjcvx0uqb.cloudfront.net/dist/webpack-production/703c659e4bf563a05c6338a1727e006c.png);background:rgba(50,50,50,.7);color:#fff;padding:4px;z-index:100;cursor:pointer}div.mejs-speed-button{width:46px!important;position:relative}.mejs-controls .mejs-button.mejs-speed-button button{background:transparent;width:36px;font-size:11px;line-height:normal;color:#fff}.mejs-controls .mejs-speed-button .mejs-speed-selector{position:absolute;top:-100px;left:-10px;width:60px;height:100px;background:url(https://du11hjcvx0uqb.cloudfront.net/dist/webpack-production/703c659e4bf563a05c6338a1727e006c.png);background:rgba(50,50,50,.7);border:solid 1px transparent;padding:0;overflow:hidden;-webkit-border-radius:0;-moz-border-radius:0;border-radius:0}.mejs-controls .mejs-speed-button .mejs-speed-selector ul li label.mejs-speed-selected{color:rgba(33,248,248,1)}.mejs-controls .mejs-speed-button .mejs-speed-selector ul{margin:0;padding:0;display:block;list-style-type:none!important;overflow:hidden}.mejs-controls .mejs-speed-button .mejs-speed-selector ul li{margin:0 0 6px;padding:0 10px;list-style-type:none!important;display:block;color:#fff;overflow:hidden}.mejs-controls .mejs-speed-button .mejs-speed-selector ul li input{clear:both;float:left;margin:3px 3px 0 5px}.mejs-controls .mejs-speed-button .mejs-speed-selector ul li label{width:60px;float:left;padding:4px 0 0;line-height:15px;font-family:Helvetica,Arial,serif;font-size:11px;color:#fff;margin-left:5px;cursor:pointer}.mejs-controls .mejs-speed-button .mejs-speed-selector ul li:hover{background-color:#c8c8c8!important;background-color:rgba(255,255,255,.4)!important}.mejs-controls .mejs-button.mejs-jump-forward-button{background:transparent url(https://du11hjcvx0uqb.cloudfront.net/dist/webpack-production/15e1ac8cbacc2efdf1ac2677de48a253.png) no-repeat 3px 3px}.mejs-controls .mejs-button.mejs-jump-forward-button button{background:transparent;font-size:9px;line-height:normal;color:#fff}.mejs-controls .mejs-button.mejs-skip-back-button{background:transparent url(https://du11hjcvx0uqb.cloudfront.net/dist/webpack-production/cd6dc830eb45b3a5a96bbc936ff54846.png) no-repeat 3px 3px}.mejs-controls .mejs-button.mejs-skip-back-button button{background:transparent;font-size:9px;line-height:normal;color:#fff}</style><style type="text/css">/*
+ * Copyright (C) 2014 - present Instructure, Inc.
+ *
+ * This file is part of Canvas.
+ *
+ * Canvas is free software: you can redistribute it and/or modify it under
+ * the terms of the GNU Affero General Public License as published by the Free
+ * Software Foundation, version 3 of the License.
+ *
+ * Canvas is distributed in the hope that it will be useful, but WITHOUT ANY
+ * WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR
+ * A PARTICULAR PURPOSE. See the GNU Affero General Public License for more
+ * details.
+ *
+ * You should have received a copy of the GNU Affero General Public License along
+ * with this program. If not, see <http://www.gnu.org/licenses/>.
+ */
+
+/* customizations to mediaelementplayer css */
+
+/*
+  Because this file is not proccessed by our brandable_css sass pipeline,
+  it cannot use our sass-direction helpers. So we have to handle RTL manually
+  by putting direction-specific styles in [dir="ltr"] or [dir="rtl"] blocks.
+*/
+/* stylelint-disable property-blacklist, declaration-property-value-blacklist */
+
+/* good menu widths */
+.mejs-sourcechooser-selector {
+  width: 160px;
+}
+.mejs-sourcechooser-selector label {
+  width: 160px !important;
+}
+
+.mejs-captions-selector {
+  width: 105px;
+}
+[dir="ltr"]  .mejs-captions-selector { text-align: left }
+[dir="rtl"]  .mejs-captions-selector { text-align: right }
+
+.mejs-captions-selector label {
+  width: 70px !important;
+}
+
+/* Subtitile upload link */
+.mejs-captions-selector .upload-track {
+  color: white;
+  margin-top: 3px;
+  margin-bottom: 5px;
+}
+[dir="ltr"] .mejs-captions-selector .upload-track {
+  margin-right: 0px;
+  margin-left: 5px;
+  float: left;
+}
+[dir="rtl"] .mejs-captions-selector .upload-track {
+  margin-left: 0px;
+  margin-right: 5px;
+  float: right;
+}
+
+/* "x" button to remove a subtitle */
+.mejs-captions-selector a[data-remove] {
+  position: absolute;
+  top: 0;
+  color: white;
+}
+[dir="ltr"] .mejs-captions-selector a[data-remove] { right: 0 }
+[dir="rtl"] .mejs-captions-selector a[data-remove] { left: 0 }
+
+
+/* style menu items without a radio button */
+.mejs-button [role="menu"] {
+  padding: 0 !important;
+}
+ /* compensate for above 0 padding */
+ .mejs-button [role="menu"] ul li {
+  position: relative;
+  padding: 0 10px !important;
+}
+/* add a hover effect */
+.mejs-button [role="menu"] ul li:hover {
+  background-color: #c8c8c8 !important;
+  background-color: rgba(255, 255, 255, 0.4) !important;
+}
+.mejs-button [role="menu"] ul li input {
+  border: 0;
+  clip: rect(0 0 0 0);
+  position: absolute;
+  overflow: hidden;
+  margin: -1px;
+  padding: 0;
+  width: 1px;
+  height: 1px;
+}
+.mejs-button [role="menu"] ul li label {
+  cursor: pointer;
+}
+[dir="ltr"] .mejs-button [role="menu"] ul li label { margin-left: 5px }
+[dir="rtl"] .mejs-button [role="menu"] ul li label { margin-right: 5px }
+
+
+.mejs-button [role="menu"] label.mejs-selected {
+  color: #21f8f8 !important;
+}
+
+/* stylelint-enable property-blacklist, declaration-property-value-blacklist */
+</style><style type="text/css" data-glamor=""></style><link rel="stylesheet" href="./Program 1 - matrices_files/PaginatedView-bf30c3a7d1.css" data-loaded-by-brandablecss="true"><link rel="stylesheet" href="./Program 1 - matrices_files/KeyboardShortcuts-f4493af988.css" data-loaded-by-brandablecss="true"><script type="text/javascript" charset="utf-8" async="" src="./Program 1 - matrices_files/CanvasRCEAsyncChunk.chunk-ba1db557e0.js"></script><link rel="stylesheet" href="./Program 1 - matrices_files/TreeBrowser-d5f73d406a.css" data-loaded-by-brandablecss="true"><link rel="stylesheet" href="./Program 1 - matrices_files/MoveOutcomeDialog-9d1c3f4686.css" data-loaded-by-brandablecss="true"><link id="rsmod_Styles" type="text/css" rel="stylesheet" href="./Program 1 - matrices_files/ReadSpeaker.Styles.css"><link id="rsskin_ReadSpeakerToggleSkin2_style" type="text/css" rel="stylesheet" href="./Program 1 - matrices_files/ReadSpeakerToggleSkin2.css"><script id="rsskin_ReadSpeakerToggleSkin2_js" type="text/javascript" src="./Program 1 - matrices_files/ReadSpeakerToggleSkin2.js" async=""></script><script id="req_Core" type="text/javascript" src="./Program 1 - matrices_files/ReadSpeaker.Core.js" async=""></script><script id="req_pub_Config" type="text/javascript" src="./Program 1 - matrices_files/ReadSpeaker.pub.Config.js" async=""></script><script id="rsmod_lib_Facade.adapter.jquery" type="text/javascript" src="./Program 1 - matrices_files/ReadSpeaker.lib.Facade.adapter.jquery.js"></script><script id="rsmod_Base" type="text/javascript" src="./Program 1 - matrices_files/ReadSpeaker.Base.js" async=""></script><style type="text/css" id="readspeaker_inline_styles"></style></head>
+
+<body class="with-left-side course-menu-expanded with-right-side assignments primary-nav-expanded full-width context-course_1706554 lato-font-not-loaded-yet webkit chrome no-touch" data-rsevent-id="rs_682436">
+
+<noscript>
+  <div role="alert" class="ic-flash-static ic-flash-error">
+    <div class="ic-flash__icon" aria-hidden="true">
+      <i class="icon-warning"></i>
+    </div>
+    <h1>You need to have JavaScript enabled in order to access this site.</h1>
+  </div>
+</noscript>
+
+
+
+
+
+<ul id="flash_message_holder"></ul>
+<div id="flash_screenreader_holder" role="alert" aria-live="assertive" aria-relevant="additions" class="screenreader-only" aria-atomic="false"></div>
+
+<div id="application" class="ic-app">
+
+  <header id="header" class="ic-app-header no-print ">
+    <a href="https://oregonstate.instructure.com/courses/1706554/assignments/7426250#content" id="skip_navigation_link">Skip To Content</a>
+      <div role="region" class="ic-app-header__main-navigation" aria-label="Global Navigation">
+        <div class="ic-app-header__logomark-container">
+          <a href="https://oregonstate.instructure.com/" class="ic-app-header__logomark">
+            <span class="screenreader-only">Dashboard</span>
+          </a>
+        </div>
+        <ul id="menu" class="ic-app-header__menu-list">
+            <li class="menu-item ic-app-header__menu-list-item ">
+              <a id="global_nav_profile_link" href="https://oregonstate.instructure.com/profile" class="ic-app-header__menu-list-link">
+                <div class="menu-item-icon-container" aria-hidden="true">
+                  <div class="ic-avatar ">
+                    <img src="./Program 1 - matrices_files/38d6cfaefaaab464d5ba8bb7c0602a2a.jpeg" alt="Zachary Horine">
+                  </div>
+                </div>
+                <div class="menu-item__text">
+                  Account
+                </div>
+              </a>
+            </li>
+          <li class="ic-app-header__menu-list-item ">
+            <a id="global_nav_dashboard_link" href="https://oregonstate.instructure.com/" class="ic-app-header__menu-list-link">
+              <div class="menu-item-icon-container" aria-hidden="true">
+                  <svg xmlns="http://www.w3.org/2000/svg" class="ic-icon-svg ic-icon-svg--dashboard" version="1.1" x="0" y="0" viewBox="0 0 280 200" enable-background="new 0 0 280 200" xml:space="preserve"><path d="M273.09,180.75H197.47V164.47h62.62A122.16,122.16,0,1,0,17.85,142a124,124,0,0,0,2,22.51H90.18v16.29H6.89l-1.5-6.22A138.51,138.51,0,0,1,1.57,142C1.57,65.64,63.67,3.53,140,3.53S278.43,65.64,278.43,142a137.67,137.67,0,0,1-3.84,32.57ZM66.49,87.63,50.24,71.38,61.75,59.86,78,76.12Zm147,0L202,76.12l16.25-16.25,11.51,11.51ZM131.85,53.82v-23h16.29v23Zm15.63,142.3a31.71,31.71,0,0,1-28-16.81c-6.4-12.08-15.73-72.29-17.54-84.25a8.15,8.15,0,0,1,13.58-7.2c8.88,8.21,53.48,49.72,59.88,61.81a31.61,31.61,0,0,1-27.9,46.45ZM121.81,116.2c4.17,24.56,9.23,50.21,12,55.49A15.35,15.35,0,1,0,161,157.3C158.18,152,139.79,133.44,121.81,116.2Z"></path></svg>
+
+              </div>
+              <div class="menu-item__text">Dashboard</div>
+            </a>
+          </li>
+          <li class="menu-item ic-app-header__menu-list-item ic-app-header__menu-list-item--active">
+            <a id="global_nav_courses_link" href="https://oregonstate.instructure.com/courses" class="ic-app-header__menu-list-link">
+              <div class="menu-item-icon-container" aria-hidden="true">
+                <svg xmlns="http://www.w3.org/2000/svg" class="ic-icon-svg ic-icon-svg--courses" version="1.1" x="0" y="0" viewBox="0 0 280 259" enable-background="new 0 0 280 259" xml:space="preserve"><path d="M73.31,198c-11.93,0-22.22,8-24,18.73a26.67,26.67,0,0,0-.3,3.63v.3a22,22,0,0,0,5.44,14.65,22.47,22.47,0,0,0,17.22,8H200V228.19h-134V213.08H200V198Zm21-105.74h90.64V62H94.3ZM79.19,107.34V46.92H200v60.42Zm7.55,30.21V122.45H192.49v15.11ZM71.65,16.71A22.72,22.72,0,0,0,49,39.36V190.88a41.12,41.12,0,0,1,24.32-8h157V16.71ZM33.88,39.36A37.78,37.78,0,0,1,71.65,1.6H245.36V198H215.15v45.32h22.66V258.4H71.65a37.85,37.85,0,0,1-37.76-37.76Z"></path></svg>
+
+              </div>
+              <div class="menu-item__text">
+                Courses
+              </div>
+            </a>
+          </li>
+            <li class="menu-item ic-app-header__menu-list-item ">
+              <a id="global_nav_groups_link" href="https://oregonstate.instructure.com/groups" class="ic-app-header__menu-list-link">
+                <div class="menu-item-icon-container" aria-hidden="true">
+                  <svg xmlns="http://www.w3.org/2000/svg" class="ic-icon-svg ic-icon-svg--groups" viewBox="0 0 200 135"><path d="M134.5 129.4c0-1.1 0-19.8-6.2-31.1-4.5-8.5-16.4-12.4-35-19.2-1.7-.6-3.4-1.1-5.1-1.7v-8.5c5.6-5.1 8.5-12.4 8.5-20.3V29.4C96.6 13 83.6 0 67.2 0S37.9 13 37.9 29.4v19.2c0 7.3 3.4 14.7 8.5 20.3v8.5c-1.7.6-3.4 1.1-5.1 1.7-18.6 6.2-30.5 10.7-35 19.2C0 109.6 0 128.8 0 129.4c0 3.4 2.3 5.6 5.6 5.6h123.7c3.5 0 5.7-2.3 5.2-5.6zm-123.2-5.7c.6-5.6 1.7-14.7 3.4-19.8C17 98.8 30 94.3 43.5 89.8c2.8-1.1 5.6-2.3 9-3.4 2.3-.6 4-2.8 4-5.1V66.7c0-1.7-.6-3.4-1.7-4.5-4-3.4-6.2-8.5-6.2-13.6V29.4c0-10.2 7.9-18.1 18.1-18.1s18.1 7.9 18.1 18.1v19.2c0 5.1-2.3 10.2-6.2 13.6-1.1 1.1-1.7 2.8-1.7 4.5v14.7c0 2.3 1.7 4.5 4 5.1 2.8 1.1 6.2 2.3 9 3.4 13.6 5.1 26.6 9.6 28.8 14.1 2.8 5.1 4 13.6 4.5 19.8H11.3zM196 79.1c-2.8-6.2-11.3-9.6-22.6-13.6l-1.7-.6v-3.4c4.5-4 6.8-9.6 6.8-15.8V35c0-12.4-9.6-22-22-22s-22 10.2-22 22v10.7c0 6.2 2.3 11.9 6.8 15.8V65l-1.7.6c-7.3 2.8-13 4.5-16.9 7.3-1.7 1.1-2.3 2.8-2.3 5.1.6 1.7 1.7 3.4 3.4 4.5 7.9 4 12.4 7.3 14.1 10.7 2.3 4.5 4 10.2 5.1 18.1.6 2.3 2.8 4.5 5.6 4.5h45.8c3.4 0 5.6-2.8 5.6-5.1 0-3.9 0-24.3-4-31.6zm-42.9 25.4c-1.1-6.8-2.8-12.4-5.1-16.9-1.7-4-5.1-6.8-9.6-10.2 1.7-1.1 3.4-1.7 5.1-2.3l5.6-2.3c1.7-.6 3.4-2.8 3.4-5.1v-9.6c0-1.7-.6-3.4-2.3-4.5-2.8-1.7-4.5-5.1-4.5-8.5V34.5c0-6.2 4.5-10.7 10.7-10.7s10.7 5.1 10.7 10.7v10.7c0 3.4-1.7 6.2-4.5 8.5-1.1 1.1-2.3 2.8-2.3 4.5v10.2c0 2.3 1.1 4.5 3.4 5.1l5.6 2.3c6.8 2.3 15.3 5.6 16.4 7.9 1.7 2.8 2.8 12.4 2.8 20.9h-35.4z"></path></svg>
+
+                </div>
+                <div class="menu-item__text">
+                  Groups
+                </div>
+              </a>
+            </li>
+          <li class="menu-item ic-app-header__menu-list-item ">
+            <a id="global_nav_calendar_link" href="https://oregonstate.instructure.com/calendar" class="ic-app-header__menu-list-link">
+              <div class="menu-item-icon-container" aria-hidden="true">
+                <svg xmlns="http://www.w3.org/2000/svg" class="ic-icon-svg ic-icon-svg--calendar" version="1.1" x="0" y="0" viewBox="0 0 280 280" enable-background="new 0 0 280 280" xml:space="preserve"><path d="M197.07,213.38h16.31V197.07H197.07Zm-16.31,16.31V180.76h48.92v48.92Zm-48.92-16.31h16.31V197.07H131.85Zm-16.31,16.31V180.76h48.92v48.92ZM66.62,213.38H82.93V197.07H66.62ZM50.32,229.68V180.76H99.24v48.92Zm146.75-81.53h16.31V131.85H197.07Zm-16.31,16.31V115.54h48.92v48.92Zm-48.92-16.31h16.31V131.85H131.85Zm-16.31,16.31V115.54h48.92v48.92ZM66.62,148.15H82.93V131.85H66.62ZM50.32,164.46V115.54H99.24v48.92ZM34,262.29H246V82.93H34ZM246,66.62V42.16A8.17,8.17,0,0,0,237.84,34H213.38v8.15a8.15,8.15,0,1,1-16.31,0V34H82.93v8.15a8.15,8.15,0,0,1-16.31,0V34H42.16A8.17,8.17,0,0,0,34,42.16V66.62Zm-8.15-48.92a24.49,24.49,0,0,1,24.46,24.46V278.6H17.71V42.16A24.49,24.49,0,0,1,42.16,17.71H66.62V9.55a8.15,8.15,0,0,1,16.31,0v8.15H197.07V9.55a8.15,8.15,0,1,1,16.31,0v8.15Z"></path></svg>
+
+              </div>
+              <div class="menu-item__text">
+                Calendar
+              </div>
+            </a>
+          </li>
+          <li class="menu-item ic-app-header__menu-list-item ">
+            <a id="global_nav_conversations_link" href="https://oregonstate.instructure.com/conversations" class="ic-app-header__menu-list-link">
+              <div class="menu-item-icon-container" aria-hidden="true">
+                <svg xmlns="http://www.w3.org/2000/svg" class="ic-icon-svg ic-icon-svg--inbox" version="1.1" x="0" y="0" viewBox="0 0 280 280" enable-background="new 0 0 280 280" xml:space="preserve"><path d="M91.72,120.75h96.56V104.65H91.72Zm0,48.28h80.47V152.94H91.72Zm0-96.56h80.47V56.37H91.72Zm160.94,34.88H228.52V10.78h-177v96.56H27.34A24.17,24.17,0,0,0,3.2,131.48V244.14a24.17,24.17,0,0,0,24.14,24.14H252.66a24.17,24.17,0,0,0,24.14-24.14V131.48A24.17,24.17,0,0,0,252.66,107.34Zm0,16.09a8.06,8.06,0,0,1,8,8v51.77l-32.19,19.31V123.44ZM67.58,203.91v-177H212.42v177ZM27.34,123.44H51.48v79.13L19.29,183.26V131.48A8.06,8.06,0,0,1,27.34,123.44ZM252.66,252.19H27.34a8.06,8.06,0,0,1-8-8V202l30,18H230.75l30-18v42.12A8.06,8.06,0,0,1,252.66,252.19Z"></path></svg>
+
+                <span class="menu-item__badge" style="">55</span>
+              </div>
+              <div class="menu-item__text">
+                Inbox
+              </div>
+            </a>
+          </li>
+
+
+
+          <li class="ic-app-header__menu-list-item">
+           <a id="global_nav_help_link" class="ic-app-header__menu-list-link" data-track-category="help system" data-track-label="help button" href="http://help.instructure.com/">
+              <div class="menu-item-icon-container" role="presentation">
+                <svg xmlns="http://www.w3.org/2000/svg" class="ic-icon-svg menu-item__icon svg-icon-help" version="1.1" x="0" y="0" viewBox="0 0 200 200" enable-background="new 0 0 200 200" xml:space="preserve" fill="currentColor"><path d="M100,127.88A11.15,11.15,0,1,0,111.16,139,11.16,11.16,0,0,0,100,127.88Zm8.82-88.08a33.19,33.19,0,0,1,23.5,23.5,33.54,33.54,0,0,1-24,41.23,3.4,3.4,0,0,0-2.74,3.15v9.06H94.42v-9.06a14.57,14.57,0,0,1,11.13-14,22.43,22.43,0,0,0,13.66-10.27,22.73,22.73,0,0,0,2.31-17.37A21.92,21.92,0,0,0,106,50.59a22.67,22.67,0,0,0-19.68,3.88,22.18,22.18,0,0,0-8.65,17.64H66.54a33.25,33.25,0,0,1,13-26.47A33.72,33.72,0,0,1,108.82,39.8ZM100,5.2A94.8,94.8,0,1,0,194.8,100,94.91,94.91,0,0,0,100,5.2m0,178.45A83.65,83.65,0,1,1,183.65,100,83.73,83.73,0,0,1,100,183.65" transform="translate(-5.2 -5.2)"></path></svg>
+
+              </div>
+              <div class="menu-item__text">
+                Help
+              </div>
+</a>          </li>
+        </ul>
+      </div>
+      <div class="ic-app-header__secondary-navigation">
+        <ul class="ic-app-header__menu-list">
+          <li class="menu-item ic-app-header__menu-list-item">
+            <button id="primaryNavToggle" class="ic-app-header__menu-list-link ic-app-header__menu-list-link--nav-toggle" aria-label="Minimize global navigation" title="Minimize global navigation">
+              <div class="menu-item-icon-container" aria-hidden="true">
+                <svg xmlns="http://www.w3.org/2000/svg" class="ic-icon-svg ic-icon-svg--navtoggle" version="1.1" x="0" y="0" width="40" height="32" viewBox="0 0 40 32" xml:space="preserve">
+  <path d="M39.5,30.28V2.48H37.18v27.8Zm-4.93-13.9L22.17,4,20.53,5.61l9.61,9.61H.5v2.31H30.14l-9.61,9.61,1.64,1.64Z"></path>
+</svg>
+
+              </div>
+            </button>
+          </li>
+        </ul>
+      </div>
+    <div id="global_nav_tray_container"></div>
+  </header>
+
+
+  <div id="instructure_ajax_error_box">
+    <div style="text-align: right; background-color: #fff;"><a href="https://oregonstate.instructure.com/courses/1706554/assignments/7426250#" class="close_instructure_ajax_error_box_link">Close</a></div>
+    <iframe id="instructure_ajax_error_result" src="./Program 1 - matrices_files/saved_resource.html" style="border: 0;" title="Error"></iframe>
+  </div>
+
+
+
+  <div id="wrapper" class="ic-Layout-wrapper">
+      <div class="ic-app-nav-toggle-and-crumbs no-print">
+          <button type="button" id="courseMenuToggle" class="Button Button--link ic-app-course-nav-toggle" aria-live="polite" aria-label="Hide Courses Navigation Menu" title="Hide Courses Navigation Menu">
+            <i class="icon-hamburger" aria-hidden="true"></i>
+          </button>
+          <div class="ic-app-crumbs">
+        <nav id="breadcrumbs" role="navigation" aria-label="breadcrumbs"><ul><li class="home"><a href="https://oregonstate.instructure.com/"><span class="ellipsible">      <i class="icon-home" title="My Dashboard">
+        <span class="screenreader-only">My Dashboard</span>
+      </i>
+</span></a></li><li><a href="https://oregonstate.instructure.com/courses/1706554"><span class="ellipsible">OPERATING SYSTEMS I CS344</span></a></li><li><a href="https://oregonstate.instructure.com/courses/1706554/assignments"><span class="ellipsible">Assignments</span></a></li><li><a href="https://oregonstate.instructure.com/courses/1706554/assignments/7426250"><span class="ellipsible">Program 1 - matrices</span></a></li></ul></nav>
+        </div>
+      </div>
+    <div id="main" class="ic-Layout-columns">
+        <div class="ic-Layout-watermark"></div>
+        <div id="left-side" class="ic-app-course-menu list-view" style="display: block">
+              <span id="section-tabs-header-subtitle" class="ellipsis">Winter 2019</span>
+            <nav role="navigation" aria-label="Courses Navigation Menu"><ul id="section-tabs"><li class="section"><a href="https://oregonstate.instructure.com/courses/1706554" title="Home" class="home" tabindex="0">Home</a></li><li class="section"><a href="https://oregonstate.instructure.com/courses/1706554/announcements" title="Announcements" class="announcements" tabindex="0">Announcements</a></li><li class="section"><a href="https://oregonstate.instructure.com/courses/1706554/assignments/syllabus" title="Syllabus" class="syllabus" tabindex="0">Syllabus</a></li><li class="section"><a href="https://oregonstate.instructure.com/courses/1706554/assignments" title="Assignments" class="assignments active" tabindex="0">Assignments</a></li><li class="section"><a href="https://oregonstate.instructure.com/courses/1706554/external_tools/138355" title="Piazza" class="context_external_tool_138355" tabindex="0">Piazza</a></li><li class="section"><a href="https://oregonstate.instructure.com/courses/1706554/external_tools/136617" title="Slack" class="context_external_tool_136617" tabindex="0">Slack</a></li><li class="section"><a href="https://oregonstate.instructure.com/courses/1706554/wiki" title="Pages" class="pages" tabindex="0">Pages</a></li><li class="section"><a href="https://oregonstate.instructure.com/courses/1706554/users" title="People" class="people" tabindex="0">People</a></li><li class="section"><a href="https://oregonstate.instructure.com/courses/1706554/grades" title="Grades" class="grades" tabindex="0">Grades</a></li><li class="section"><a href="https://oregonstate.instructure.com/courses/1706554/quizzes" title="Quizzes" class="quizzes" tabindex="0">Quizzes</a></li><li class="section"><a href="https://oregonstate.instructure.com/courses/1706554/files" title="Files" class="files" tabindex="0">Files</a></li><li class="section"><a href="https://oregonstate.instructure.com/courses/1706554/external_tools/130331" title="Media Gallery" class="context_external_tool_130331" tabindex="0">Media Gallery</a></li></ul></nav>
+        </div>
+      <div id="not_right_side" class="ic-app-main-content">
+        <div id="content-wrapper" class="ic-Layout-contentWrapper">
+
+          <div id="content" class="ic-Layout-contentMain" role="main">
+
+
+
+
+
+
+<div id="assignment_show" class="assignment content_underline_links">
+    <!--Student View-->
+    <div class="assignment-title">
+      <div class="title-content">
+        <h1 class="title">
+          Program 1 - matrices
+        </h1>
+      </div>
+      <div class="assignment-buttons">
+
+
+
+      </div>
+    </div>
+    <ul class="student-assignment-overview">
+      <li>
+        <span class="title">Due</span>
+        <span class="value">
+          <span class="date_text">
+                <span class="display_date">Jan 28</span> by
+                <span class="display_time">11:59pm</span>
+          </span>
+        </span>
+      </li>
+      <li>
+        <span class="title">Points</span>
+        <span class="value">160</span>
+      </li>
+        <li>
+          <span class="title">Submitting</span>
+          <span class="value">a file upload</span>
+        </li>
+
+  <li>
+    <span class="title">Available</span>
+    <span class="value">
+        until Jan 30 at 11:59pm
+    </span>
+  </li>
+
+      <div class="clear"></div>
+    </ul>
+
+  <div class="clear"></div>
+
+    This assignment was locked Jan 30 at 11:59pm.
+
+  <div class="clear"></div>
+
+  <div class="description user_content student-version enhanced"><h1>Program 1 – CS 344</h1>
+<p>This assignment asks you to write bash shell scripts to compute matrix operations. The purpose is to get you familiar with the Unix shell, shell programming, Unix utilities, standard input, output, and error, pipelines, process ids, exit values, and signals (at a basic level).</p>
+<p>What you're going to submit is your script, called simply "matrix".</p>
+<h2>Overview</h2>
+<p>In this assignment, you will write a bash shell script that calculates basic matrix operations using input from either a file or stdin. The input will be whole number values separated by tabs into a rectangular matrix. Your script should be able to print the dimensions of a matrix, transpose a matrix, calculate the mean vector of a matrix, add two matrices, and multiply two matrices.</p>
+<p>You will be using bash builtins and Unix utilities to complete the assignment. Some commands to read up on are <code>while</code>, <code>cat</code>, <code>read</code>, <code>expr</code>, <code>cut</code>, <code>head</code>, <code>tail</code>, <code>wc</code>, and <code>sort</code>.</p>
+<p>Your script must be called simply "matrix". The general format of the matrix command is:</p>
+<pre><span style="font-weight: bold;">matrix</span> <span style="font-style: italic;">OPERATION</span> [<span style="font-style: italic;">ARGUMENT</span>]...</pre>
+<p>Refer to <span style="color: #8b008b; font-weight: bold;">man(1)</span> (You can do this with the command `man 1 man`) for an explanation of the conventional notation regarding command syntax, to understand the line above. Note that many terminals render italic font style as an underline:</p>
+<pre><span style="font-weight: bold;">matrix</span> <span style="text-decoration: underline;">OPERATION</span> [<span style="text-decoration: underline;">ARGUMENT</span>]...</pre>
+<h2>Specifications</h2>
+<p>Your program must perform the following operations: dims, transpose, mean, add, and multiply. Usage is as follows:</p>
+<pre><span style="font-weight: bold;">matrix dims</span> [<em>MATRIX</em>]
+<span style="font-weight: bold;">matrix transpose</span> [<em>MATRIX</em>]
+<span style="font-weight: bold;">matrix mean</span> [<em>MATRIX</em>]
+<span style="font-weight: bold;">matrix add</span> <em>MATRIX_LEFT</em> <em>MATRIX_RIGHT</em>
+<span style="font-weight: bold;">matrix multiply</span> <em>MATRIX_LEFT</em> <em>MATRIX_RIGHT</em>
+</pre>
+<p>The dims, transpose, and mean operations should either perform their respective operations on the file named <em>MATRIX</em>, or on a matrix provided via stdin. The add and multiply operations do not need to process input via stdin.</p>
+<ul>
+<li>dims should print the dimensions of the matrix as the number of rows, followed by a space, then the number of columns.</li>
+<li>transpose should reflect the elements of the matrix along the main diagonal. Thus, an MxN matrix will become an NxM matrix and the values along the main diagonal will remain unchanged.</li>
+<li>mean should take an MxN matrix and return an 1xN row vector, where the first element is the mean of column one, the second element is the mean of column two, and so on.</li>
+<li>add should take two MxN matrices and add them together element-wise to produce an MxN matrix. add should return an error if the matrices do not have the same dimensions.</li>
+<li>multiply should take an MxN and NxP matrix and produce an MxP matrix. Note that, unlike addition, matrix multiplication is not commutative. That is A*B != B*A.</li>
+</ul>
+<p>Here is a brief example of what the output should look like.</p>
+<pre><span style="font-weight: bold; color: red;">$ cat m1</span>
+1	2	3	4
+5	6	7	8
+<span style="font-weight: bold; color: red;">$ cat m2</span>
+1	2
+3	4
+5	6
+7	8
+<span style="font-weight: bold; color: red;">$ ./matrix dims m1</span>
+2 4
+<span style="font-weight: bold; color: red;">$ cat m2 | ./matrix dims</span>
+4 2
+<span style="font-weight: bold; color: red;">$ ./matrix add m1 m1</span>
+2	4	6	8
+10	12	14	16
+<span style="font-weight: bold; color: red;">$ ./matrix add m2 m2</span>
+2	4
+6	8
+10	12
+14	16
+<span style="font-weight: bold; color: red;">$ ./matrix mean m1</span>
+3	4	5	6
+<span style="font-weight: bold; color: red;">$ ./matrix transpose m1</span>
+1	5
+2	6
+3	7
+4	8
+<span style="font-weight: bold; color: red;">$ ./matrix multiply m1 m2</span>
+50	60
+114	140
+</pre>
+<p>You must check for the right number and format of arguments to matrix. This means that, for example, you must check that a given input file is readable, before attempting to read it. You are not required to test if the input file <em>itself</em> is valid. In other words, the behavior of matrix is undefined when the matrix input is not a valid matrix. for the purposes of this assignment, a valid matrix is a tab-delimited table containing at least one element, where each element is a signed integer, every entry is defined, and the table is rectangular.</p>
+<p>The following are examples of invalid matrices. Our grading script (see below) does not send these as <em>input</em> into your matrix program. Similarly, you aren't allowed to send matrices with these characteristics as <em>output</em> from your script either, and we will test your output to make sure it doesn't. If any of these are found in your output, the grading script will deduct points:</p>
+<ul>
+<li>An empty matrix.</li>
+<li>A matrix where the final entry on a row is followed by a tab character.</li>
+<li>A matrix with empty lines.</li>
+<li>A matrix&nbsp;with any<span>&nbsp;</span>element that is blank or not an integer.</li>
+</ul>
+<p>Here is a valid matrix file, m1:</p>
+<pre><span style="font-weight: bold; color: red;">$ cat m1</span>
+8	5	6
+3	2	2
+1	6	7
+5	0	7
+2	2	4
+<span style="font-weight: bold; color: red;">$ cat -A m1 </span><span style="color: #00cccc;">  # The '-A' flag shows tabs as '^I' and newlines as '$'. This is a good way to check correctness.</span>
+8^I5^I6$
+3^I2^I2$
+1^I6^I7$
+5^I0^I7$
+2^I2^I4$
+<span style="font-weight: bold; color: red;">$</span>
+</pre>
+<p>If the inputs are valid -- your program should output only to stdout, and nothing to stderr. The return value should be 0.</p>
+<p>If the inputs are invalid -- your program should output only to stderr, and nothing to stdout. The return value should be any number except 0. The error message you print is up to you; you will receive points as long as you print <em>something</em> to stderr and return a non-zero value.</p>
+<p>Your program will be tested with matrices up to dimension 100 x 100.</p>
+<p>Though optional, I do recommend that you use temporary files; arrays are not recommended. For this assignment, anytemporary files you use should be put in the current working directory. (A more standard place for temporary files is in /tmp but don't do that for this assignment; it makes grading easier if they are in the current directory.) <em>Be sure any temporary file you create uses the process id as part of its name, so that there will not be conflicts if the program is running more than once.</em> Be sure you remove any temporary files when your program is done. You should also use the trap command to catch interrupt, hangup, and terminate signals to remove the temporary files if the program is terminated unexpectedly.</p>
+<p>All values and results are and must be integers. You may use the <code>expr</code> command to do your calculations, or any other bash shell scripting method, such as <code>((expr))</code>. Do not use any other languages other than bash shell scripting: this means that, among others, <span style="background-color: #ffff00;"><strong>awk, sed, tcl, bc, perl, &amp; the python languages and tools are off-limits for this assignment.</strong></span> Note that <code>expr</code> only works with whole numbers. When you calculate the average you must round to the nearest integer, where half values round away from 0 (i.e. 7.5 rounds up to 8, but -7.5 rounds down to -8). This is the most common form of rounding. When doing truncating integer division (as bash does), this formula works to divide two numbers and end up with the proper rounding:</p>
+<pre>(a + (b/2)*( (a&gt;0)*2-1 )) / b</pre>
+<p>You can learn more about rounding methods here:</p>
+<p><a href="https://en.wikipedia.org/wiki/Rounding#Round_half_away_from_zero" class="external" target="_blank" rel="noreferrer noopener"><span><span>Rounding – Wikipedia</span><span class="screenreader-only">&nbsp;(Links to an external site.)</span></span><span class="ui-icon ui-icon-extlink ui-icon-inline" title="Links to an external site."><span class="screenreader-only">Links to an external site.</span></span></a></p>
+<h2>Grading With a Script</h2>
+<p>To make it easy to see how you're doing, you can download the actual grading script here:</p>
+<p><a class="instructure_file_link" title="p1gradingscript" href="https://oregonstate.instructure.com/courses/1706554/files/73152712/download?verifier=TB12iuUjYw9UvLiKnn3NW0GtEJfvtODIP8rwJi7k&amp;wrap=1" data-api-endpoint="https://oregonstate.instructure.com/api/v1/courses/1706554/files/73152712" data-api-returntype="File">p1gradingscript</a></p>
+<p>To use the script, just place it in the same directory as your matrix script and run it like this:</p>
+<pre>$ ./p1gradingscript matrix</pre>
+<p>Be aware that this script might take a minute or two to run, depending on how speedy your algorithms and code are, since there's a lot of matrix math in there. The grading script has generous time-outs for each test -- if your script takes too long to complete a command, the test will time out and you will receive 0 points for that particular test. If you have any doubt about your running time being acceptable, just add a note into your code as a comment at the top to warn the TA. When we run your script for grading, we will do this to put your results into a file we can examine more easily:</p>
+<pre>$ ./p1gradingscript matrix &gt; grading_result.username</pre>
+<p>To compare yours to a perfect solution, you can download here a completely correct run of the script that shows what you should get if everything is working correctly:</p>
+<p><a class="instructure_file_link" title="p1perfectoutput" href="https://oregonstate.instructure.com/courses/1706554/files/73152725/download?verifier=Dc27YyBTb0EGuin7DZzD2cyGC2ocDOkMhU10QUxG&amp;wrap=1" data-api-endpoint="https://oregonstate.instructure.com/api/v1/courses/1706554/files/73152725" data-api-returntype="File">p1perfectoutput</a></p>
+<p>The p1gradingscript itself is a good resource for seeing how some of the more complex shell scripting commands work, too.</p>
+<h2>Summary</h2>
+<p>Your script must support the following operations:</p>
+<ul style="font-family: monospace; font-size: small;">
+<li>
+<span style="font-weight: bold;">matrix dims</span> [<em>MATRIX</em>]
+<ul>
+<li>Prints error message to stderr, nothing to stdout and return value != 0 if:
+<ul>
+<li>Argument count is greater than 1 (e.g. `matrix dims m1 m2`).</li>
+<li>Argument count is 1 but the file named by argument 1 is not readable (e.g. `matrix dims no_such_file`).</li>
+</ul>
+</li>
+<li>Otherwise, prints "<em>ROWS</em> <em>COLS</em>" (Space separated!) to stdout, nothing to stderr, and returns 0.</li>
+</ul>
+</li>
+<li>
+<span style="font-weight: bold;">matrix transpose</span> [<em>MATRIX</em>]
+<ul>
+<li>Prints error message to stderr, nothing to stdout and return value != 0 if:
+<ul>
+<li>Argument count is greater than 1 (e.g. `matrix transpose m1 m2`).</li>
+<li>Argument count is 1 but the file named by argument 1 is not readable (e.g. `matrix transpose no_such_file`).</li>
+</ul>
+</li>
+<li>Otherwise, prints the transpose of the input, in a valid matrix format to stdout, nothing to stderr, and returns 0.</li>
+</ul>
+</li>
+<li>
+<span style="font-weight: bold;">matrix mean</span> [<em>MATRIX</em>]
+<ul>
+<li>Prints error message to stderr, nothing to stdout and return value != 0 if:
+<ul>
+<li>Argument count is greater than 1 (e.g. `matrix mean m1 m2`).</li>
+<li>Argument count is 1 but the file named by argument 1 is not readable (e.g. `matrix mean no_such_file`).</li>
+</ul>
+</li>
+<li>Otherwise, prints a row vector mean of the input matrix, in a valid matrix format to stdout, nothing to stderr, and returns 0. All values must round to the nearest integer, with ***.5 values rounded away from zero.</li>
+</ul>
+</li>
+<li>
+<span style="font-weight: bold;">matrix add</span> <em>MATRIX_LEFT</em> <em>MATRIX_RIGHT</em>
+</li>
+<ul>
+<li>Prints error message to stderr, nothing to stdout and return value != 0 if:
+<ul>
+<li>Argument count does not equal 2 (e.g. `matrix add m1 m2 m3` or `matrix add m1`).</li>
+<li>Argument count is 2 but the file named by either argument is not readable (e.g. `matrix add m1 no_such_file`).</li>
+<li>The dimensions of the input matrices do not allow them to be added together following the rules of matrix addition.</li>
+</ul>
+</li>
+<li>Otherwise, prints the sum of both matricies, in a valid matrix format to stdout, nothing to stderr, and returns 0.</li>
+</ul>
+<li>
+<span style="font-weight: bold;">matrix multiply</span> <em>MATRIX_LEFT</em> <em>MATRIX_RIGHT</em>
+<ul>
+<li>Prints error message to stderr, nothing to stdout and return value != 0 if:
+<ul>
+<li>Argument count does not equal 2 (e.g. `matrix multiply m1 m2 m3` or `matrix multiply m1`).</li>
+<li>Argument count is 2 but the file named by either argument is not readable (e.g. `matrix multiply m1 no_such_file`).</li>
+<li>The dimensions of the input matrices do not allow them to be multiplied together following the rules of matrix multiplication.</li>
+</ul>
+</li>
+<li>Otherwise, prints the product of both matricies, with the first argument as the left matrix and the second argumentas the right matrix, in a valid matrix format to stdout, nothing to stderr, and returns 0. (`matrix multiply A B` should return A*B, not B*A)</li>
+</ul>
+</li>
+`</ul>
+<p>An invalid command must result in an error message to stderr, nothing to stdout, and a return value != 0.</p>
+<h2>Hints</h2>
+<ul>
+<li>Try writing each part as a separate function (see the <a title="1.4 bash Functions" href="https://oregonstate.instructure.com/courses/1706554/pages/1-dot-4-bash-functions" data-api-endpoint="https://oregonstate.instructure.com/api/v1/courses/1706554/pages/1-dot-4-bash-functions" data-api-returntype="Page">1.4 bash Functions</a> reading). You can use <code>$1 "${@:2}"</code> to call the function named by argument 1, with the remaining arguments passed to it. For example, <code>matrix multiply m1 m2</code> will expand <code>$1 "${@:2}"</code> to <code>multiply m1 m2</code> inside your script, which will call the function named "multiply". This fancy bash method of calling functions would go at the bottom of your script, after the functions are defined.</li>
+<li>You'll need to use the read command extensively to read in data from a file. Note that it reads in one line at a time <em>from the stdin buffer</em> and stores the line in a variable called REPLY, unless specified. Generally, read is used in a while loop, where a file is redirected to stdin <em>of the while loop</em>. Calling <code>read &lt; myfile</code> multiple times will repeatedly read the <em>first</em> line of myfile.</li>
+<li>The expr command and the shell can have conflicts over special characters.&nbsp; If you try expr 5 * ( 4 + 2 ), the shell will think * is a filename wild card and the parentheses mean command grouping.&nbsp;You have to use backslashes, like this:
+<pre>expr 5 \* \( 4 + 2 \)</pre>
+</li>
+<li>I <em style="font-weight: bold;">highly</em> recommend that you develop this program directly on the class server (os1). Doing so will prevent you from having problems transferring the program back and forth, which can cause compatibility issues. Keep in mind that students caught developing on flip risk losing points on the assignment. If you are using Windows as your operating system, windows may replace newlines in files with newline-carriage returns. These will be displayed as ^M characters in vim. To remove them, use the utility <code>dos2unix</code><span style="font-size: 1rem;">.</span>
+<pre>$ dos2unix bustedFile</pre>
+</li>
+<li>Consider the following snippet of code. This will allow you to use one variable to hold the path to a file with passed-in contents, no matter if they came via stdin or via a file specified on the command line:
+<pre>datafilepath="datafile$$"
+if [ "$#" = "1" ]
+then
+    cat &gt; "$datafilepath"
+elif [ "$#" = "2" ]
+then
+    datafilepath=$2
+fi</pre>
+</li>
+<li>Want to remove the last character from a string? Try this:
+<pre><strong>$ myvar="abcde"</strong>
+<strong>$ myvar=${myvar%?}</strong>
+<strong>$ echo $myvar</strong>
+abcd</pre>
+</li>
+<li>Want to display all the characters in a file or string, even the non-printing tabs and newlines? Try <code>cat -A</code>
+</li>
+</ul>
+<h2>What to Turn in and When</h2>
+<p>Simply submit your "matrix" script file. Your script must be entirely contained in this one file. Do not split this assignment into multiple files or programs. As our Syllabus says,&nbsp;<span>please&nbsp;be aware that neither the&nbsp;Instructor nor the TA(s)&nbsp;are alerted to comments added to the text boxes in Canvas that are alongside your assignment submissions, and they may not be seen. No notifications (email or otherwise) are sent out&nbsp;when these&nbsp;comments are added, so we aren't aware that you have added content! If you need to make a meta-comment about this assignment, please include it in a #comment near the top of the script&nbsp;itself, or email the person directly who will be grading it (see the <a title="Home Page" href="https://oregonstate.instructure.com/courses/1706554/pages/home-page" data-api-endpoint="https://oregonstate.instructure.com/api/v1/courses/1706554/pages/home-page" data-api-returntype="Page">Home</a> page for grading responsibilities).</span></p>
+<p>The due date given below is the last minute that this can be turned in for full credit. The "available until" date is NOT the due date, but instead closes off submissions for this assignment automatically once 48 hours past the due date has been reached, in accordance with our <a title="Course Syllabus" href="https://oregonstate.instructure.com/courses/1706554/assignments/syllabus">Syllabus Grading Policies</a>.</p>
+<h2>Grading</h2>
+<p>148 points are available for your script (which is the only file you'll submit) successfully passing the grading script, while the final 12 points will be based on your style, readability, and commenting. Comment well, often, and verbosely: we want to see that you are telling us WHY you are doing things, in addition to telling us WHAT you are doing.</p>
+<p>The TAs will use this exact set of instructions:&nbsp;<span class="instructure_file_holder link_holder"><a class="instructure_file_link" title="Program1 Grading.pdf" href="https://oregonstate.instructure.com/courses/1706554/files/73152724/download?verifier=8ZAc8jM8mOUiJKoMUCk3QCeMGAOgTEMZTBWalXWB&amp;wrap=1" data-api-endpoint="https://oregonstate.instructure.com/api/v1/courses/1706554/files/73152724" data-api-returntype="File">Program1 Grading.pdf</a><a class="file_preview_link" aria-hidden="true" href="https://oregonstate.instructure.com/courses/1706554/files/73152724/download?verifier=8ZAc8jM8mOUiJKoMUCk3QCeMGAOgTEMZTBWalXWB&amp;wrap=1" title="Preview the document" style="padding-left: 5px;"><img src="./Program 1 - matrices_files/preview.png" alt="Preview the document"></a></span> to grade your submission.</p></div>
+
+
+  <div style="display: none;">
+    <span class="timestamp">1548748799</span>
+    <span class="due_date_string">01/28/2019</span>
+    <span class="due_time_string">11:59pm</span>
+  </div>
+</div>
+
+
+
+
+
+
+  <div id="rubrics" style="margin-bottom: 10px;">
+    <div style="display: none;" id="rubric_parameters">
+      <input type="hidden" name="rubric_association[association_type]" value="Assignment">
+      <input type="hidden" name="rubric_association[association_id]" value="7426250">
+      <input type="hidden" name="rubric_association[purpose]" value="grading">
+    </div>
+
+<div id="rubric_long_description_dialog" style="display: none;">
+  <div class="editing">
+    <form id="edit_criterion_form" class="no-margin-bottom">
+      <div>
+        <label class="rating_form_label">Description
+          <textarea class="description" rows="1" name="description"></textarea>
+        </label>
+      </div>
+      <div>
+        <label class="rating_form_label">Long Description
+          <textarea class="long_description" rows="4" name="long_description"></textarea>
+        </label>
+      </div>
+      <div class="button-container">
+        <button type="button" class="btn btn button-secondary cancel_button">Cancel</button>
+        <button type="button" class="btn save_button btn-primary">Update Criterion</button>
+      </div>
+    </form>
+  </div>
+  <div class="displaying">
+    <div class="long_description">
+    </div>
+  </div>
+</div>
+<div id="rubric_criterion_comments_dialog" style="display: none;">
+  <div class="criterion_description" style="border-bottom: 1px solid #ccc; padding: 5px 0; font-size: 1.2em; font-weight: bold; margin-bottom: 5px;" tabindex="-1"></div>
+  <div class="editing">
+    <label for="criterion_comments_textarea">
+      Additional Comments:
+    </label>
+    <textarea id="criterion_comments_textarea" class="criterion_comments" name="criterion_comments" style="width: 370px;"></textarea>
+    <div class="button-container">
+      <button type="button" class="btn btn button-secondary cancel_button">Cancel</button>
+      <button type="button" class="btn save_button">Update Comments</button>
+    </div>
+  </div>
+  <div class="displaying">
+    Additional Comments:
+    <div class="criterion_comments" style="margin-top: 10px;">
+    </div>
+  </div>
+</div>
+<div id="rubric_rating_dialog" style="display: none;">
+  <div class="description" style="border-bottom: 1px solid #ccc; padding: 5px 0; font-size: 1.2em; font-weight: bold; margin-bottom: 5px;">
+    <span id="edit_rating_form_criterion_description"></span>
+  </div>
+  <div class="editing">
+    <form id="edit_rating_form" class="no-margin-bottom">
+      <div class="toggle_for_hide_points">
+        <div><label id="rating_form_score_label" class="rating_form_label">Rating Score</label></div>
+        <span id="rating_form_max_score_label" hidden="">Rating max score</span>
+        <input id="points" aria-labelledby="rating_form_score_label" type="text" size="2" name="points" class="no-margin-bottom span1">
+        <span class="range_rating">to &gt;
+          <input aria-label="Rating min score" type="text" size="2" name="min_points" class="no-margin-bottom span1 min_points" placeholder="min">
+        </span>pts
+      </div>
+      <div>
+        <label for="rating_form_title" class="rating_form_label">Rating Title</label>
+        <input id="rating_form_title" type="text" class="rating_description" style="width: 90%;" name="description">
+      </div>
+      <div>
+        <label for="rating_form_description" class="rating_form_label">Rating Description</label>
+        <textarea id="rating_form_description" rows="4" style="width: 90%;" class="rating_long_description" name="rating_long_description" form="edit_rating_form"></textarea>
+      </div>
+      <div class="button-container">
+        <button type="button" class="btn button-secondary cancel_button">Cancel</button>
+        <button type="button" class="btn btn-primary save_button ok_button">Update Rating</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+  </div>
+
+<div class="rubric_container rubric  " id="default_rubric" style="display: none;">
+  <div class="screenreader-only"><h2>Rubric</h2></div>
+  <div class="rubric_title">
+    <div style="display: none;" class="links displaying pull-right">
+      <a href="https://oregonstate.instructure.com/courses/1706554/rubrics/%7B%7B%20id%20%7D%7D" class=" edit_rubric_link no-print no-hover" style="" title="Edit Rubric" aria-label="Edit Rubric" role="button"><i class="icon-edit standalone-icon"></i></a>
+      <a href="https://oregonstate.instructure.com/search/rubrics?q=" class="find_rubric_link no-print no-hover" style="" title="Find Another Rubric" aria-label="Find Another Rubric" role="button"><i class="icon-search standalone-icon"></i></a>
+        <a href="https://oregonstate.instructure.com/courses/1706554/rubric_associations/%7B%7B%20rubric_association_id%20%7D%7D" class="delete_rubric_link no-print no-hover" style="" title="Delete Rubric" aria-label="Delete Rubric" role="button"><i class="icon-trash standalone-icon"></i></a>
+      <div style="display: none;">
+        <div class="use_for_grading">&nbsp;</div>
+        <div class="free_form_criterion_comments">&nbsp;</div>
+        <div class="hide_score_total">&nbsp;</div>
+        <div class="hide_outcome_results">&nbsp;</div>
+        <div class="hide_points">&nbsp;</div>
+        <div class="rubric_association_id">&nbsp;</div>
+        <div class="user_id">&nbsp;</div>
+        <div class="assessment_type"></div>
+        <a href="https://oregonstate.instructure.com/courses/1706554/rubric_associations/%7B%7B%20rubric_association_id%20%7D%7D/assessments/%7B%7B%20assessment_id%20%7D%7D" rel="nofollow" class="edit_assessment_link">&nbsp;</a>
+        <a href="https://oregonstate.instructure.com/courses/1706554/rubrics/%7B%7B%20rubric_id%20%7D%7D" class="edit_rubric_url">&nbsp;</a>
+          <a href="https://oregonstate.instructure.com/courses/1706554/rubric_associations/%7B%7B%20association_id%20%7D%7D" class="delete_rubric_url">&nbsp;</a>
+      </div>
+    </div>
+    <div style="float: right; font-size: 0.8em; display: none;" class="links displaying locked">
+      <span style="">Can't change a rubric once you've started using it.</span>
+        <a href="https://oregonstate.instructure.com/courses/1706554/rubric_associations/%7B%7B%20association_id%20%7D%7D" class="delete_rubric_url" style="display: none;">&nbsp;</a>
+    </div>
+
+    <div class="editing" style="float: right;">
+      <a href="https://oregonstate.instructure.com/search/rubrics?q=" class="find_rubric_link icon-search" style="" title="Find Existing Rubric">Find a Rubric</a>
+    </div>
+    <div class="editing" style="text-align: left">
+      <label for="rubric-title">Title:</label>
+      <input id="rubric-title" type="text" class="no-margin-bottom" name="title" value="Some Rubric" style="width: 200px;" maxlength="255" aria-label="Title:">
+      <a href="https://oregonstate.instructure.com/search/rubrics?q=" style="display: none;"><img alt="" src="./Program 1 - matrices_files/find-6164443e2a.png"> Find Rubric</a>
+    </div>
+    <div class="displaying">
+      <span class="title" tabindex="-1">Title</span>
+    </div>
+    <div class="has-assessments-warning" style="display: none;">
+      You've already rated students with this rubric.  Any major changes could affect their assessment results.
+    </div>
+  </div>
+<table class="rubric_table">
+<caption>
+  <div class="screenreader-only">
+    <span class="title">Title</span>
+  </div>
+</caption>
+<thead>
+  <tr>
+    <th scope="col">Criteria</th>
+    <th scope="col">Ratings</th>
+    <th scope="col" class="toggle_for_hide_points ">
+      Pts
+    </th>
+  </tr>
+</thead>
+<tbody>
+
+<tr id="criterion_blank" class="criterion blank" style="display: none;">
+  <td class="criterion_description hover-container pad-box-micro">
+    <div class="container">
+      <div class="links editing">
+          <a href="https://oregonstate.instructure.com/courses/1706554/assignments/7426250#" class="edit_criterion_link"><i class="icon-edit standalone-icon"></i><span class="screenreader-only">Edit criterion description</span></a>
+        <a href="https://oregonstate.instructure.com/courses/1706554/assignments/7426250#" class="delete_criterion_link"><i class="icon-trash standalone-icon"></i><span class="screenreader-only">Delete criterion row</span></a>
+      </div>
+      <div class="description_content">
+        <span class="outcome_sr_content" aria-hidden="true">
+          <i class="learning_outcome_flag icon-outcomes" aria-hidden="true"></i>
+          <span class="screenreader-only">This criterion is linked to a Learning Outcome</span>
+        </span>
+        <span class="description description_title">Description of criterion</span>
+        <span class="learning_outcome_id" style="display: none;"></span>
+        <span class="criterion_id" style="display: none;"></span>
+          <div class="long_description small_description"></div>
+        <div style="display: none;" class="long_description_holder editing empty">
+          <a href="https://oregonstate.instructure.com/courses/1706554/assignments/7426250#" class="long_description_link hidden">view longer description</a>
+          <textarea class="long_description" aria-label="Long Description" style="display: none;"></textarea>
+        </div>
+        <div class="hide_when_learning_outcome ">
+          <div class="criterion_use_range_div editing toggle_for_hide_points ">
+            <label>Range
+              <input type="checkbox" class="criterion_use_range"></label>
+          </div>
+        </div>
+        <div class="threshold toggle_for_hide_points ">
+          threshold:
+          <span class="mastery_points">5</span> pts
+        </div>
+      </div>
+
+    </div>
+  </td>
+  <td style="padding: 0;">
+      <table class="ratings" style=""><tbody><tr>
+          <td id="rating_blank" class="rating edge_rating
+
+                ">
+            <div class="container">
+              <div class="rating-main">
+                  <div class="editing links">
+                    <a href="https://oregonstate.instructure.com/courses/1706554/assignments/7426250#" class="edit_rating_link"><i class="icon-edit standalone-icon"></i><span class="screenreader-only">Edit rating</span></a>
+                    <a href="https://oregonstate.instructure.com/courses/1706554/assignments/7426250#" class="delete_rating_link"><i class="icon-trash standalone-icon"></i><span class="screenreader-only">Delete rating</span></a>
+                  </div>
+                  <div class="clear"></div>
+                <span class="nobr toggle_for_hide_points ">
+                  <span class="points">5</span>
+                  <span class="range_rating" style="display: none;">to &gt;<span class="min_points">0</span></span> pts
+                </span>
+                <div class="description rating_description_value">Full Marks</div>
+                <div class="rating_long_description small_description"></div>
+                <span class="rating_id" style="display: none;">blank</span>
+              </div>
+                <div class="editing links add_rating_link">
+                  <a href="https://oregonstate.instructure.com/courses/1706554/assignments/7426250#" class="add_rating_link_after" aria-label="Add rating"><i class="icon-add icon-Solid"></i></a>
+                </div>
+            </div>
+          </td>
+          <td id="rating_blank_2" class="rating edge_rating
+                infinitesimal
+                ">
+            <div class="container">
+              <div class="rating-main">
+                  <div class="editing links">
+                    <a href="https://oregonstate.instructure.com/courses/1706554/assignments/7426250#" class="edit_rating_link"><i class="icon-edit standalone-icon"></i><span class="screenreader-only">Edit rating</span></a>
+                    <a href="https://oregonstate.instructure.com/courses/1706554/assignments/7426250#" class="delete_rating_link"><i class="icon-trash standalone-icon"></i><span class="screenreader-only">Delete rating</span></a>
+                  </div>
+                  <div class="clear"></div>
+                <span class="nobr toggle_for_hide_points ">
+                  <span class="points">0</span>
+                  <span class="range_rating" style="display: none;">to &gt;<span class="min_points">0</span></span> pts
+                </span>
+                <div class="description rating_description_value">No Marks</div>
+                <div class="rating_long_description small_description"></div>
+                <span class="rating_id" style="display: none;">blank_2</span>
+              </div>
+            </div>
+          </td>
+      </tr></tbody></table>
+      <div style="display: none; font-size: 0.8em; margin: 5px;" class="custom_ratings">
+        This area will be used by the assessor to leave comments related to this criterion.
+      </div>
+  </td>
+  <td class="nobr points_form toggle_for_hide_points ">
+    <div class="editing" style="white-space: normal">
+      <span style="white-space: nowrap; font-size: 0.8em">
+
+            <input type="text" aria-label="Points" value="5" class="criterion_points span1 no-margin-bottom">
+           pts
+      </span><br>
+    </div>
+    <div class="displaying">
+      <span style="white-space: nowrap;">
+        <span class="criterion_rating_points_holder" style="display: none;">
+          <span class="criterion_rating_points">&nbsp;</span> /
+        </span>
+        <span class="display_criterion_points">5</span> pts<br>
+      </span>
+    </div>
+    <div class="ignoring">
+      <span> -- </span>
+    </div>
+    <div class="criterion_comments">
+        <a href="https://oregonstate.instructure.com/courses/1706554/assignments/7426250#" class="no-hover criterion_comments_link" title="Additional Comments">
+          <img alt="Additional Comments" src="./Program 1 - matrices_files/rubric_comment-ddae8546ab.png">
+        </a>
+        <div class="custom_rating" style="display: none;"></div>
+    </div>
+  </td>
+</tr>
+
+  <tr id="criterion_1" class="criterion" style="display: table-row;">
+  <td class="criterion_description hover-container pad-box-micro">
+    <div class="container">
+      <div class="links editing">
+          <a href="https://oregonstate.instructure.com/courses/1706554/assignments/7426250#" class="edit_criterion_link"><i class="icon-edit standalone-icon"></i><span class="screenreader-only">Edit criterion description</span></a>
+        <a href="https://oregonstate.instructure.com/courses/1706554/assignments/7426250#" class="delete_criterion_link"><i class="icon-trash standalone-icon"></i><span class="screenreader-only">Delete criterion row</span></a>
+      </div>
+      <div class="description_content">
+        <span class="outcome_sr_content" aria-hidden="true">
+          <i class="learning_outcome_flag icon-outcomes" aria-hidden="true"></i>
+          <span class="screenreader-only">This criterion is linked to a Learning Outcome</span>
+        </span>
+        <span class="description description_title">Description of criterion</span>
+        <span class="learning_outcome_id" style="display: none;"></span>
+        <span class="criterion_id" style="display: none;"></span>
+          <div class="long_description small_description"></div>
+        <div style="display: none;" class="long_description_holder editing empty">
+          <a href="https://oregonstate.instructure.com/courses/1706554/assignments/7426250#" class="long_description_link hidden">view longer description</a>
+          <textarea class="long_description" aria-label="Long Description" style="display: none;"></textarea>
+        </div>
+        <div class="hide_when_learning_outcome ">
+          <div class="criterion_use_range_div editing toggle_for_hide_points ">
+            <label>Range
+              <input type="checkbox" class="criterion_use_range"></label>
+          </div>
+        </div>
+        <div class="threshold toggle_for_hide_points ">
+          threshold:
+          <span class="mastery_points">5</span> pts
+        </div>
+      </div>
+
+    </div>
+  </td>
+  <td style="padding: 0;">
+      <table class="ratings" style=""><tbody><tr>
+          <td id="rating_blank" class="rating edge_rating
+
+                ">
+            <div class="container">
+              <div class="rating-main">
+                  <div class="editing links">
+                    <a href="https://oregonstate.instructure.com/courses/1706554/assignments/7426250#" class="edit_rating_link"><i class="icon-edit standalone-icon"></i><span class="screenreader-only">Edit rating</span></a>
+                    <a href="https://oregonstate.instructure.com/courses/1706554/assignments/7426250#" class="delete_rating_link"><i class="icon-trash standalone-icon"></i><span class="screenreader-only">Delete rating</span></a>
+                  </div>
+                  <div class="clear"></div>
+                <span class="nobr toggle_for_hide_points ">
+                  <span class="points">5</span>
+                  <span class="range_rating" style="display: none;">to &gt;<span class="min_points">0</span></span> pts
+                </span>
+                <div class="description rating_description_value">Full Marks</div>
+                <div class="rating_long_description small_description"></div>
+                <span class="rating_id" style="display: none;">blank</span>
+              </div>
+                <div class="editing links add_rating_link">
+                  <a href="https://oregonstate.instructure.com/courses/1706554/assignments/7426250#" class="add_rating_link_after" aria-label="Add rating"><i class="icon-add icon-Solid"></i></a>
+                </div>
+            </div>
+          </td>
+          <td id="rating_blank_2" class="rating edge_rating
+                infinitesimal
+                ">
+            <div class="container">
+              <div class="rating-main">
+                  <div class="editing links">
+                    <a href="https://oregonstate.instructure.com/courses/1706554/assignments/7426250#" class="edit_rating_link"><i class="icon-edit standalone-icon"></i><span class="screenreader-only">Edit rating</span></a>
+                    <a href="https://oregonstate.instructure.com/courses/1706554/assignments/7426250#" class="delete_rating_link"><i class="icon-trash standalone-icon"></i><span class="screenreader-only">Delete rating</span></a>
+                  </div>
+                  <div class="clear"></div>
+                <span class="nobr toggle_for_hide_points ">
+                  <span class="points">0</span>
+                  <span class="range_rating" style="display: none;">to &gt;<span class="min_points">0</span></span> pts
+                </span>
+                <div class="description rating_description_value">No Marks</div>
+                <div class="rating_long_description small_description"></div>
+                <span class="rating_id" style="display: none;">blank_2</span>
+              </div>
+            </div>
+          </td>
+      </tr></tbody></table>
+      <div style="display: none; font-size: 0.8em; margin: 5px;" class="custom_ratings">
+        This area will be used by the assessor to leave comments related to this criterion.
+      </div>
+  </td>
+  <td class="nobr points_form toggle_for_hide_points ">
+    <div class="editing" style="white-space: normal">
+      <span style="white-space: nowrap; font-size: 0.8em">
+
+            <input type="text" aria-label="Points" value="5" class="criterion_points span1 no-margin-bottom">
+           pts
+      </span><br>
+    </div>
+    <div class="displaying">
+      <span style="white-space: nowrap;">
+        <span class="criterion_rating_points_holder" style="display: none;">
+          <span class="criterion_rating_points">&nbsp;</span> /
+        </span>
+        <span class="display_criterion_points">5</span> pts<br>
+      </span>
+    </div>
+    <div class="ignoring">
+      <span> -- </span>
+    </div>
+    <div class="criterion_comments">
+        <a href="https://oregonstate.instructure.com/courses/1706554/assignments/7426250#" class="no-hover criterion_comments_link" title="Additional Comments">
+          <img alt="Additional Comments" src="./Program 1 - matrices_files/rubric_comment-ddae8546ab.png">
+        </a>
+        <div class="custom_rating" style="display: none;"></div>
+    </div>
+  </td>
+</tr><tr class="summary">
+    <td colspan="4">
+      <div class="total_points_holder toggle_for_hide_points " style="float: right; ">
+        <span>Total Points:
+            <span class="rubric_total">
+              5
+            </span>
+ <span class="assessing">out of 5</span>        </span>
+      </div>
+      <div class="editing pull-left">
+        <span id="add_criterion_holder" class="criterion_link"></span>
+      </div>
+      <div class="clear"></div>
+    </td>
+  </tr>
+</tbody>
+</table>
+</div>
+<table style="display: none;">
+  <tbody><tr id="edit_rubric">
+    <td colspan="4">
+      <form id="edit_rubric_form" class="edit-rubric-form no-margin-bottom">
+        <div class="rubric_custom_ratings" style="">
+          <input type="checkbox" id="rubric_custom_rating" class="rubric_custom_rating">
+          <label for="rubric_custom_rating">I'll write free-form comments when assessing students</label>
+        </div>
+          <div class="hide_points" style="">
+            <input type="checkbox" id="hide_points" class="hide_points_checkbox">
+            <label for="hide_points">Remove points from rubric</label>
+          </div>
+          <div class="hide_outcome_results" style="">
+            <input type="checkbox" id="hide_outcome_results" class="hide_outcome_results_checkbox">
+            <label for="hide_outcome_results">Don't post Outcomes results to Learning Mastery Gradebook</label>
+          </div>
+          <div class="rubric_grading" style="">
+            <input type="checkbox" id="grading_rubric" class="grading_rubric_checkbox">
+            <label for="grading_rubric">Use this rubric for assignment grading</label>
+          </div>
+        <div class="totalling_rubric" style="">
+          <input type="checkbox" id="totalling_rubric" class="totalling_rubric_checkbox">
+          <label for="totalling_rubric">Hide score total for assessment results</label>
+        </div>
+        <div class="ic-Action-header ic-Action-header--half-margin">
+          <div class="ic-Action-header__Primary">
+            <button type="button" class="Button cancel_button">Cancel</button>
+            <button type="submit" class="Button Button--primary save_button">Create Rubric</button>
+          </div>
+        </div>
+      </form>
+    </td>
+  </tr>
+</tbody></table>
+
+
+  <div id="assignment_external_tools"><div></div></div>
+
+
+
+
+
+          </div>
+        </div>
+        <div id="right-side-wrapper" class="ic-app-main-content__secondary">
+          <aside id="right-side" role="complementary">
+
+<div id="sidebar_content">
+
+
+<div class="details">
+  <h3>Submission</h3>
+    <div class="header">
+        <i class="icon-check" aria-hidden="true"></i>
+        Submitted!
+    </div>
+  <div class="content">
+    <span class="">
+        Jan 28 at  9:40pm
+    </span>
+
+    <div>
+      <a href="https://oregonstate.instructure.com/courses/1706554/assignments/7426250/submissions/6201466">
+        Submission Details
+      </a>
+    </div>
+
+        <div>
+          <a href="https://oregonstate.instructure.com/courses/1706554/assignments/7426250/submissions/6201466?download=73693357">
+            Download matrix
+          </a>
+        </div>
+        <span class="assignment_presenter_for_submission" style="display: none;">pending_upload</span>
+        <span class="react_pill_container"><span data-position="ejUGLpegzxp3m" data-uid="Position Popover Tooltip"><svg aria-describedby="eDm7jjpHnebxP" name="IconUpload" viewBox="0 0 1920 1920" rotate="0" width="1em" height="1em" aria-hidden="true" role="presentation" focusable="false" class="_3Ny7iUg _2fBixYa _3m0_yEn" data-position-target="ejUGLpegzxp3m" data-uid="InlineSVG SVGIcon PopoverTrigger PositionTarget"><g role="presentation"><path d="M1510.854 1779.583l328.006-328.007 81.14 81.37-361.566 361.566H361.566L0 1532.946l81.255-81.37 327.891 328.007h1101.708zM962.334 25l500.284 500.285-81.14 81.37-361.795-361.681v1187.559H904.869V244.973L543.188 606.655l-81.14-81.37L962.333 25z" fill-rule="evenodd" stroke="none" stroke-width="1"></path></g></svg></span></span>
+
+    <div class="module">
+          <div>Grade: 160 <span style="font-size: 0.8em;">(160 pts possible)</span></div>
+          <div>Graded Anonymously: no</div>
+
+    </div>
+
+
+    <div class="comments module">
+        <h4>Comments: </h4>
+
+        No Comments
+    </div>
+  </div>
+</div>
+
+
+</div>
+
+          </aside>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+
+    <div style="display:none;"><!-- Everything inside of this should always stay hidden -->
+        <div id="page_view_id">7e79eabb-26fd-43da-9b6a-af7307b92c1b</div>
+    </div>
+  <div id="aria_alerts" class="hide-text affix" role="alert" aria-live="assertive"></div>
+  <div id="StudentTray__Container"></div>
+
+
+<script>
+  INST = {"environment":"production","allowMediaComments":true,"kalturaSettings":{"domain":"nv.instructuremedia.com","resource_domain":"nv.instructuremedia.com","rtmp_domain":"iad.rtmp.instructuremedia.com","partner_id":"9","subpartner_id":"0","player_ui_conf":"0","kcw_ui_conf":"0","upload_ui_conf":"0","max_file_size_bytes":534773760,"do_analytics":false,"hide_rte_button":true,"js_uploader":true},"googleAnalyticsAccount":"UA-9138420-1","logPageViews":true,"maxVisibleEditorButtons":3,"editorButtons":[{"name":"LibApps Library Content","id":115898,"url":"https://osulibrary.libapps.com/libapps/lti_launch_manual.php","icon_url":"https://libapps.s3.amazonaws.com/apps/libapps/images/favicon_lib.png","canvas_icon_class":null,"width":800,"height":600},{"name":"Embed Media","id":130331,"url":"https://391241.kaf.kaltura.com/browseandembed/index/browseandembed","icon_url":"https://lmsadm.ucsadm.oregonstate.edu/static/icons.gif","canvas_icon_class":null,"width":1100,"height":600}]};
+  ENV = {"ASSET_HOST":"https://du11hjcvx0uqb.cloudfront.net","active_brand_config_json_url":"https://du11hjcvx0uqb.cloudfront.net/dist/brandable_css/b31f9ca56685a67f9ead9a024d0d7cb2/variables-750d72b9d3e5d522f965bf904110c132.json","url_to_what_gets_loaded_inside_the_tinymce_editor_css":["https://du11hjcvx0uqb.cloudfront.net/dist/brandable_css/b31f9ca56685a67f9ead9a024d0d7cb2/variables-750d72b9d3e5d522f965bf904110c132.css","https://du11hjcvx0uqb.cloudfront.net/dist/brandable_css/new_styles_normal_contrast/bundles/what_gets_loaded_inside_the_tinymce_editor-00732f6556.css"],"url_for_high_contrast_tinymce_editor_css":["https://du11hjcvx0uqb.cloudfront.net/dist/brandable_css/default/variables-high_contrast-750d72b9d3e5d522f965bf904110c132.css","https://du11hjcvx0uqb.cloudfront.net/dist/brandable_css/new_styles_high_contrast/bundles/what_gets_loaded_inside_the_tinymce_editor-077da306dd.css"],"current_user_id":"6201466","current_user_roles":["user","student"],"current_user_disabled_inbox":false,"files_domain":"cluster37.canvas-user-content.com","DOMAIN_ROOT_ACCOUNT_ID":10020000000097009,"k12":false,"use_responsive_layout":false,"help_link_name":"Help","help_link_icon":"help","use_high_contrast":false,"LTI_LAUNCH_FRAME_ALLOWANCES":["geolocation *","microphone *","camera *","midi *","encrypted-media *"],"DEEP_LINKING_POST_MESSAGE_ORIGIN":"https://oregonstate.instructure.com","DEEP_LINKING_LOGGING":null,"SETTINGS":{"open_registration":false,"eportfolios_enabled":true,"collapse_global_nav":false,"show_feedback_link":true,"enable_profiles":true},"ARC_RECORDING_FEATURE_ENABLED":true,"current_user":{"id":"6201466","display_name":"Zachary Horine","avatar_image_url":"https://secure.gravatar.com/avatar/38d6cfaefaaab464d5ba8bb7c0602a2a?s=128\u0026d=identicon","html_url":"https://oregonstate.instructure.com/about/6201466","avatar_is_fallback":false},"page_view_update_url":"/page_views/7e79eabb-26fd-43da-9b6a-af7307b92c1b?page_view_token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpIjoiN2U3OWVhYmItMjZmZC00M2RhLTliNmEtYWY3MzA3YjkyYzFiIiwidSI6MTAwMjAwMDAwMDYyMDE0NjYsImMiOiIyMDE5LTAzLTA1VDE3OjIwOjQyLjcwWiJ9.MI4I7IH63PW6yqblvMKI19jICk_CPOYIANacI-4AyLA","context_asset_string":"course_1706554","ping_url":"https://oregonstate.instructure.com/api/v1/courses/1706554/ping","TIMEZONE":"America/Los_Angeles","CONTEXT_TIMEZONE":"America/Los_Angeles","LOCALE":"en","BIGEASY_LOCALE":"en_US","FULLCALENDAR_LOCALE":"en","MOMENT_LOCALE":"en","RICH_CONTENT_SERVICE_ENABLED":true,"RICH_CONTENT_APP_HOST":"rich-content-iad.inscloudgate.net","RICH_CONTENT_CDN_HOST":"dvgcns7dz7zc.cloudfront.net/rce_service/versions/","RICH_CONTENT_SKIP_SIDEBAR":null,"JWT":"ZXlKaGJHY2lPaUprYVhJaUxDSmxibU1pT2lKQk1qVTJSME5OSW4wLi5CQkVGQXk1RW03YXNlUm5qLnhqZFZzRnUzTm11ektBY05rZm1Jbmw4dDB2RFJxZzV1bGdDY1hOcFBnZ1F6S3NUU3Y3WE1fWllpLWE5OHJzb0VfWm81SE9lalUzbXNDZGJPUlRiVl9mc1BEM3JodEJuUG4wa1B2SnluaVdGNERNNUZoZkZTTVVUbEEwZ2djRG5BQUxSeDdNVU9PeHNUOG02Szd6WVdDalpjRkFHN3dlTF9fdm9oWG9SS3hoaTl3RjZ5Vm5FczNmZW9BejFCZ0ZBenNKYzNOR2tNcHZOdk1uenU1eWw4Y0xzRjI1dG1pMmo2YjE3c3dVRWY4QmNfbW1RXzk4Z2lPNTBlUmJ2bFZmM3cwWDZUclNtLU8zcEJNMGFqLWlrRGRSY2w4SmJ0a1hhc3g2SV9ERVhUNV9JamhnaGVKX0NabmRyc2FpcUZpeWctbGRTdmoyQXNNWVFZMW84QzF4dUtHcmxLcVhMMGhnY3VKaTAwZHRvWGFZeTdFMEhuZXF4eHB3aXh3cHlqUTRsVWlFOHlaS2phSE5rU3dTVGVPQU1hN2JjT1YxMWNCbmpRVVZJOTB0VjEwUVotWElrVjJYbnFtX0lobER2Y1d5VnBpcHZBQ2VNZFVFS2dtcW13cGQ1cUtaMXdBRVNrWXE0OVhDRHgzcGdNZVNNclR4Y3FIYy1WN2ZURVU1UWprQU1kMWVHZUxkQ1UxN2xaMldSODR0MEJvU0xqOGY4UC1OZXFHZmRzWjRDcmxaaDRVcHFiU19LREtaNXZRWHpNWVVlNmpvYkNUdUtBVUxadWdZSUZLTzhMMDhMOEg0Q2l0YjNMUV9yVlotZmlmTDJEaVJFeDVXUElocnRHNjJZUWduYlc3ZzBfUGF0aG1mLUl0bk0tbDRZLWt2Sks3Tm5XZzU5MzFmMmhpUGxpcnZ2QzhYOTFhRDFHZnRqYWJxYWdhSUFraU9nWnUtZktDc2xwT3RrOXBocGVaOVl2V0VEVFg2X2FGVUVzbnV4T1FYQjhqaUowV3VONDNXREtSMlR0cXk0VlIta3FxR2hzOGN5dFM4c003VmNoSGxCN3UwQnA4NjllQ3RQcjlVdkFnVzFGM1AwU19pcGg4Q3BSS2cudVY2blk0WjN6dGdVLTgwN2lhQlFSUQ==","RICH_CONTENT_CAN_UPLOAD_FILES":false,"RICH_CONTENT_FILES_TAB_DISABLED":false,"ROOT_OUTCOME_GROUP":{"id":"782199","title":"OPERATING SYSTEMS I (CS_344_001_W2019)","vendor_guid":null,"url":"/api/v1/courses/1706554/outcome_groups/782199","subgroups_url":"/api/v1/courses/1706554/outcome_groups/782199/subgroups","outcomes_url":"/api/v1/courses/1706554/outcome_groups/782199/outcomes","can_edit":false,"import_url":"/api/v1/courses/1706554/outcome_groups/782199/import","context_id":"1706554","context_type":"Course","description":null},"COURSE_ID":1706554,"ASSIGNMENT_ID":7426250,"EXTERNAL_TOOLS":[],"EULA_URL":null,"PERMISSIONS":{"context":{"read_as_admin":false,"manage_assignments":false},"assignment":{"update":false,"submit":false}},"PREREQS":{},"badge_counts":{"submissions":0},"notices":[]};
+</script>
+
+<script src="./Program 1 - matrices_files/navigation_header.bundle-71fab862aa.js" defer="defer"></script>
+<script src="./Program 1 - matrices_files/readSpeaker031518.js" defer="defer"></script>
+
+</div> <!-- #application -->
+
+
+<span dir="ltr" data-uid="Portal"><span data-position-content="ejUGLpegzxp3m" class="_3H7s5be -aZpLD6 _2D36PB5 _2g8tUVv -PNMxeg" data-uid="PositionContent" style="border-width: 0px; top: 0px; left: -9999em; position: absolute; overflow: hidden; display: none;"><span class="_3H7s5be _3eCVm7x _1FNpDqD _3_ilZvx _1H3UgK- _3FQLpN0 _2cH2LXu" style="border-radius: 0.25rem; border-width: 0.0625rem; width: auto; height: auto;"><span class="_3BAOhI6 _3SO8o7M undefined"></span><span id="eDm7jjpHnebxP" class="_1FF9rQ3 _3eg3R-N" role="tooltip" data-uid="PopoverContent">Uploading Submission</span></span></span></span><div id="nav-tray-portal" style="position: relative; z-index: 99;"></div><script type="text/javascript" src="./Program 1 - matrices_files/ReadSpeaker.js"></script><div id="readspeaker_button" class="rsbtn_toggleskin rs_skip rs_preserve no-print rstoggleoff" style="width: 300px; left: 0px; top: 789px;"><a href="JavaScript: void(0);" title="Activate ReadSpeaker" class="rsbtn_toggle" data-rsevent-id="rs_533297"></a>
+<a href="JavaScript: void(0);" title="Move player" class="rsbtn_move" data-rsevent-id="rs_841549"></a>
+<a href="https://media.readspeaker.com/documents/help_pages/launcher.php?p=toggleskin&amp;lang=en_us" title="Read about the Listening-service." class="rsbtn_abouthelp" data-rsevent-id="rs_741456"></a>
+<a class="rsbtn_play" accesskey="L" title="Listen to the selected text" href="https://app-na.readspeaker.com/cgi-bin/rsent?customerid=8840&amp;lang=en_us&amp;region=na&amp;readid=assignment_show&amp;url=" data-rsevent-id="rs_625988" role="button">
+	<span class="rsbtn_left rsimg rspart"><span class="rsbtn_text">Listen<span></span></span></span>
+	<span class="rsbtn_right rsimg rsplay rspart"></span>
+</a>
+<a href="JavaScript: void(0);" title="Close" class="rsbtn_toggle_close rsimg rspart" data-rsevent-id="rs_406549"></a></div></body></html>
