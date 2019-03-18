@@ -18,6 +18,8 @@ int main(int argc, char *argv[]) {
    if (argc != 2) {fprintf(stderr,"Usage: otp_enc_d [port]\n"); exit(1);}
 
    char chars[28] = "ABCDEFGHIJKLMNOPQRSTUVWXYZ ";
+   int pid;
+   int listenSocketFD, establishedConnectionFD, charsRead,numPackets,i,j,k;
    int packetSize = 512;
    int truePacketSize = 511;
    socklen_t sizeOfClientInfo;
@@ -30,17 +32,14 @@ int main(int argc, char *argv[]) {
    serverAddress.sin_addr.s_addr = INADDR_ANY; // Any address is allowed for connection to this process
 
    // Set up socket
-   int listenSocketFD = socket(AF_INET, SOCK_STREAM, 0);
-   if (listenSocketFD < 0) {
-      fprintf(stderr,"Error: Could not open socket\n"); exit(1);
-   }
+   if (listenSocketFD < 0) {fprintf(stderr,"Error: Could not open socket\n"); exit(1);}
+   listenSocketFD = socket(AF_INET, SOCK_STREAM, 0); // Create the socket
 
    // Enable socket and start listening
    if (bind(listenSocketFD, (struct sockaddr *)&serverAddress, sizeof(serverAddress)) < 0) // Connect socket to port
       fprintf(stderr,"Error: Could not bind socket to port %d\n", portNumber); exit(1);
    listen(listenSocketFD, 5); // Flip the socket on - it can now receive up to 5 connections
 
-   int establishedConnectionFD, charsRead,numPackets;
    char keybuffer[packetSize];// For storeing key packets
    while(1){
       // Accept a connection, blocking if one is not available until one connects
@@ -48,7 +47,7 @@ int main(int argc, char *argv[]) {
       establishedConnectionFD = accept(listenSocketFD, (struct sockaddr *)&clientAddress, &sizeOfClientInfo); // Accept
       if (establishedConnectionFD < 0) {fprintf(stderr,"Error: Did not accept\n"); exit(1);}
 
-      int pid = fork();
+      pid = fork();
       if(pid == -1){// Failed to create child
          exit(1);
       }
@@ -106,9 +105,6 @@ int main(int argc, char *argv[]) {
                printf("Server: Packet droped too small\n\n");
             }
 
-            int i = 0;
-            int j = 0;
-            int k = 0;
             char cypher[packetSize];
             //Send back the encrypted text
             memset(cypher, '\0', packetSize);
