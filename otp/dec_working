@@ -1,0 +1,159 @@
+//✔ 💢
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <unistd.h>
+#include <sys/types.h>
+#include <sys/socket.h>
+#include <netinet/in.h>
+
+void error(const char *msg) { perror(msg); exit(1); } // Error function used for reporting issues
+
+int main(int argc, char *argv[]){
+	int mainPid = getpid();
+	int pid;
+	int childStatus = -5;
+	int listenSocketFD, establishedConnectionFD, portNumber, charsRead,numPackets,i,j,k,l;
+    int packetSize = 512;
+	int packetSizem = 511;
+	socklen_t sizeOfClientInfo;
+	char chars[27] = {'A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z',' '};
+	char buffer[packetSize];// For storeing key packets
+	char buffer2[packetSize];// For storeing plaintext packets
+	char cypher[packetSize];
+	struct sockaddr_in serverAddress, clientAddress;
+
+	if (argc < 2) { fprintf(stderr,"USAGE: %s port\n", argv[0]); exit(1); } // Check usage & args
+
+	// Set up the address struct for this process (the server)
+	memset((char *)&serverAddress, '\0', sizeof(serverAddress)); // Clear out the address struct
+	portNumber = atoi(argv[1]); // Get the port number, convert to an integer from a string
+	serverAddress.sin_family = AF_INET; // Create a network-capable socket
+	serverAddress.sin_port = htons(portNumber); // Store the port number
+	serverAddress.sin_addr.s_addr = INADDR_ANY; // Any address is allowed for connection to this process
+
+	// Set up the socket
+	listenSocketFD = socket(AF_INET, SOCK_STREAM, 0); // Create the socket
+	if (listenSocketFD < 0) error("ERROR opening socket");
+
+	// Enable the socket to begin listening
+	if (bind(listenSocketFD, (struct sockaddr *)&serverAddress, sizeof(serverAddress)) < 0) // Connect socket to port
+		error("ERROR on binding");
+	listen(listenSocketFD, 5); // Flip the socket on - it can now receive up to 5 connections
+
+	//TODO: While loop here to make sure wee keep looking for connections
+	while(1){
+		// Accept a connection, blocking if one is not available until one connects
+		sizeOfClientInfo = sizeof(clientAddress); // Get the size of the address for the client that will connect
+		establishedConnectionFD = accept(listenSocketFD, (struct sockaddr *)&clientAddress, &sizeOfClientInfo); // Accept
+		if (establishedConnectionFD < 0) error("ERROR on accept");
+
+		//TODO: add fork at this point
+		/*
+			✔ 💢
+			[✔] Fork off a child porcess. Only do 5 times ? and just refuse conecctions after that point?
+				[✔] Store the child id and then wait to kill it
+				[✔] Set up exit contition where we kill all child processes
+		*/
+		pid = fork();
+		if(pid == -1){// Failed to create child
+			exit(1);
+		}
+		else if(pid == 0){// Child process
+			//Preform our two checks
+			//The first packet we get should be "otp_enc"
+			memset(buffer, '\0', packetSize);
+			charsRead = recv(establishedConnectionFD, buffer, 7, 0); // Read the client's message from the socket
+			if (charsRead < 0) error("ERROR reading from socket");
+			//printf("SERVER: I received this from the client: \"%s\"\n", buffer);
+			if(!strcmp(buffer,"otp_dec")){
+				charsRead = send(establishedConnectionFD, "ack", 3, 0); // Send success back
+				if (charsRead < 0) error("ERROR writing to socket");
+			}
+			else{
+				charsRead = send(establishedConnectionFD, "fek", 3, 0); // Tell the process to kill it'self then kill ourself
+				if (charsRead < 0) error("ERROR writing to socket");
+				close(establishedConnectionFD); // Close the existing socket which is connected to the client
+				close(listenSocketFD); // Close the listening socket
+				exit(1);
+			}
+
+
+			//The second packet is the number of packet we are expecting
+			memset(buffer, '\0', packetSize);
+			charsRead = recv(establishedConnectionFD, buffer, 7, 0); // Read the client's message from the socket
+			if (charsRead < 0) error("ERROR reading from socket");
+			numPackets = atoi(buffer);
+			numPackets = numPackets;
+			//printf("SERVER: I received this from the client: \"%d\"\n", numPackets);
+
+
+			while(numPackets > 0){// The connection is open if we get an end of transmission packet then set on = 0
+				/*
+					✔ 💢
+					[✔] Verify that we are talking to otp_enc
+					[✔] Tell the otp_enc to transmit
+					[✔] Take in the key
+					[✔] Take in the plain text
+					[✔] Write the cypher text to the client
+					[✔] If the charsRead != packet size then continue to wait for a full packet
+				*/
+
+				// Get the message from the client and display it
+
+				//Grab the key
+				memset(buffer, '\0', packetSize);
+				while((charsRead = recv(establishedConnectionFD, buffer, packetSizem, 0)) < packetSizem){} // Read the client's message from the socket
+				if (charsRead < 0) error("ERROR reading from socket");
+				if(charsRead > 254){
+					//printf("SERVER: I received this key from the client: \"%s\"\n%d\n\n", buffer,strlen(buffer));
+				}
+				else{
+					printf("Server: Packet droped too small\n\n");
+				}
+
+				//Grab the plaintext
+				memset(buffer2, '\0', packetSize);
+				while((charsRead = recv(establishedConnectionFD, buffer2, packetSizem, 0)) < packetSizem){} // Read the client's message from the socket
+				if (charsRead < 0) error("ERROR reading from socket");
+				if(charsRead > 254){
+					//printf("SERVER: I received this text from the client: \"%s\"\n%d\n\n", buffer2,strlen(buffer2));
+				}
+				else{
+					printf("Server: Packet droped too small\n\n");
+				}
+
+
+				//Send back the encrypted text
+				memset(cypher, '\0', packetSize);
+				for(i=0;i<packetSize;i++){
+					j = buffer[i] - 65;// Key
+					k = buffer2[i] - 65;// CipherText
+					if(j == -33){j=26;}// For " "
+					if(k == -33){k=26;}
+					if(j >= 0 && k >= 0){
+                        l = k-j;
+                        if(l < 0){
+                            l = l + 27;
+                        }
+						cypher[i] = chars[l % 27];
+						//printf("%c:%d|%c:%d|%c:%d\n",buffer[i],j,buffer2[i],k,cypher[i],cypher[i]-65);
+					}
+				}
+				for(j=strlen(cypher);j<packetSizem;j++){// Fill the packet with * if it isn't a full packet
+					cypher[j] = '*';
+				}
+
+
+				//printf("SERVER: Sending this to the client: '%s'\n%d\n",cypher,strlen(cypher));
+				//Send a Success message back to the client
+				while((charsRead = send(establishedConnectionFD, cypher, strlen(cypher), 0)) != packetSizem){} // Send success back
+				if (charsRead < 0) error("ERROR writing to socket");
+				numPackets--;
+			}
+			return 0;
+		}
+        close(establishedConnectionFD); // Close the existing socket which is connected to the client
+	}
+	close(listenSocketFD); // Close the listening socket
+}
