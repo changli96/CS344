@@ -19,6 +19,7 @@ int main(int argc, char *argv[]) {
 
    char chars[28] = "ABCDEFGHIJKLMNOPQRSTUVWXYZ ";
    int packetSize = 512;
+   int truePacketSize = 511;
    socklen_t sizeOfClientInfo;
 
    struct sockaddr_in serverAddress, clientAddress;
@@ -85,7 +86,7 @@ int main(int argc, char *argv[]) {
 
             //Grab the key
             memset(keybuffer, '\0', packetSize);
-            while((charsRead = recv(establishedConnectionFD, keybuffer, packetSize-1, 0)) < packetSize-1){} // Read the client's message from the socket
+            while((charsRead = recv(establishedConnectionFD, keybuffer, truePacketSize, 0)) < truePacketSize){} // Read the client's message from the socket
             if (charsRead < 0) {fprintf(stderr,"Error: Could not read from socket\n"); exit(1);}
             if(charsRead > 254){
                //printf("SERVER: I received this from the client: \"%s\"\n%d\n\n", keybuffer,strlen(keybuffer));
@@ -96,7 +97,7 @@ int main(int argc, char *argv[]) {
 
             //Grab the plaintext
             memset(plaintext, '\0', packetSize);
-            while((charsRead = recv(establishedConnectionFD, plaintext, packetSize-1, 0)) < packetSize-1){} // Read the client's message from the socket
+            while((charsRead = recv(establishedConnectionFD, plaintext, truePacketSize, 0)) < truePacketSize){} // Read the client's message from the socket
             if (charsRead < 0) {fprintf(stderr,"Error: Could not read from socket\n"); exit(1);}
             if(charsRead > 254){
                //printf("SERVER: I received this from the client: \"%s\"\n%d\n\n", plaintext,strlen(plaintext));
@@ -124,7 +125,7 @@ int main(int argc, char *argv[]) {
                }
             }
             if(numPackets == 1){
-               for(j=0;j<packetSize-1;j++){
+               for(j=0;j<truePacketSize;j++){
                   if(cypher[j] == '\0' || cypher[j] == '\n'){
                      cypher[j] = '*';
                   }
@@ -132,7 +133,7 @@ int main(int argc, char *argv[]) {
             }
 
             //Send a Success message back to the client
-            while((charsRead = send(establishedConnectionFD, cypher, strlen(cypher), 0)) != packetSize-1){} // Send success back
+            while((charsRead = send(establishedConnectionFD, cypher, strlen(cypher), 0)) != truePacketSize){} // Send success back
             if (charsRead < 0) {fprintf(stderr,"Error: Could not write to socket\n"); exit(1);}
             numPackets--;
          }

@@ -64,11 +64,11 @@ int main(int argc, char *argv[]) {
    struct sockaddr_in serverAddress;
    struct hostent* serverHostInfo;
    int packetSize = 512;
+   int truePacketSize = 511;
    char buffer[packetSize];
    char *local = "localhost";
 
-
-   int numSegments = plaintextSize/packetSize-1 + 1;// calculate number of packets to create
+   int numSegments = plaintextSize/truePacketSize + 1;// calculate number of packets to create
    memset(buffer, '\0', sizeof(buffer)); // Clear buffer
 
    if(plaintextSize > keySize){// Check to make sure that the key is not shorter than the plaintext
@@ -119,12 +119,12 @@ int main(int argc, char *argv[]) {
       fgets(buffer,packetSize,keyFile);
       // Fill the packet with * if it isn't a full packet
       if(i == numSegments-1){
-         for(j=0;j<packetSize-1;j++){
+         for(j=0;j<truePacketSize;j++){
             if(buffer[j] == '\0' || buffer[j] == '\n'){buffer[j] = '*';}
          }
       }
       //Send the packet while there are still bits to send
-      while((charsWritten = send(socketFD, buffer, strlen(buffer), 0)) != packetSize-1){}
+      while((charsWritten = send(socketFD, buffer, strlen(buffer), 0)) != truePacketSize){}
       if (charsWritten < 0) {fprintf(stderr, "Error: could not write to socket"); exit(1);}
       if (charsWritten < strlen(buffer)) printf("CLIENT: WARNING: Not all data written to socket!\n");
 
@@ -133,18 +133,18 @@ int main(int argc, char *argv[]) {
       fgets(buffer,packetSize,plaintextFile);
       // Fill the packet with * if it isn't a full packet
       if(i == numSegments-1){
-         for(j=0;j<packetSize-1;j++){
+         for(j=0;j<truePacketSize;j++){
             if(buffer[j] == '\0' || buffer[j] == '\n'){buffer[j] = '*';}
          }
       }
       //Send the packet while there are still bits to send
-      while((charsWritten = send(socketFD, buffer, strlen(buffer), 0)) != packetSize-1){}
+      while((charsWritten = send(socketFD, buffer, strlen(buffer), 0)) != truePacketSize){}
       if (charsWritten < 0) {fprintf(stderr, "Error: could not write to socket"); exit(1);}
       if (charsWritten < strlen(buffer)) printf("CLIENT: WARNING: Not all data written to socket!\n");
 
 
       memset(buffer, '\0', sizeof(buffer));
-      while((charsRead = recv(socketFD, buffer, packetSize-1, 0) < packetSize-1)){} // Read data, leave \0
+      while((charsRead = recv(socketFD, buffer, truePacketSize, 0) < truePacketSize)){} // Read data, leave \0
       if (charsRead < 0) {fprintf(stderr, "Error: could not read from socket"); exit(1);}
       if(i == numSegments-1){
          for(j=0;j<strlen(buffer);j++){
