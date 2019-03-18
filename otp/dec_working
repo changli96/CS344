@@ -1,0 +1,221 @@
+//✔ 💢
+#include <stdio.h>
+#include <stdlib.h>
+#include <unistd.h>
+#include <string.h>
+#include <sys/types.h>
+#include <sys/socket.h>
+#include <netinet/in.h>
+#include <netdb.h>
+
+void error(const char *msg) { perror(msg); exit(0); } // Error function used for reporting issues
+
+long file_size(char *name){// For getting the size of a file
+	FILE *fp = fopen(name,"rb");
+
+	long size = -1;
+	if(fp){
+		fseek(fp,0,SEEK_END);
+		size = ftell(fp)+1;
+		fclose(fp);
+	}
+	return size;
+}
+
+int testChar(int testme){
+	int i,good = 0;
+	char chars[27] = {' ','A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z'};
+	for(i=0;i<27;i++){
+		if(testme == chars[i]){// It's a valid char
+			return 1;
+		}
+	}
+	if(testme == 88 || testme == 10){// Pesky end of file chars
+		return 1;
+	}
+	return 0;
+}
+
+int main(int argc, char *argv[])
+{
+	int socketFD, portNumber, charsWritten, charsRead,i,j,k;
+	struct sockaddr_in serverAddress;
+	struct hostent* serverHostInfo;
+	int packetSize = 512;
+	int packetSizem = 511;
+	char buffer[packetSize];
+	int testme;
+	char *local = "localhost";
+	FILE *fpPlainText,*fpKey;
+	long plaintextSize = file_size(argv[1]);
+	long keySize = file_size(argv[2]);
+	int numSegments = plaintextSize/packetSizem + 1;// +1 for the remainder
+	memset(buffer, '\0', sizeof(buffer)); // Clear out the buffer again for reuse
+
+	if (argc < 4) { fprintf(stderr,"USAGE: %s plaintext key port\n", argv[0]); exit(0); } // Check usage & args
+
+	if(plaintextSize > keySize){// Check to make sure that the key is not shorter than the plaintext
+		fprintf(stderr,"Error Key not long enough\n");
+		exit(1);
+	}
+
+	//Check to see if the files exist
+	fpPlainText = fopen(argv[1],"r");
+	fpKey = fopen(argv[2],"r");
+	if(!fpPlainText || !fpKey){// If we fail to open the files then throw an error and exit
+		fprintf(stderr,"Error couldn't open files\n");
+		exit(1);
+	}
+
+	// Verify that we have good text in files
+	while((testme = fgetc(fpKey)) != EOF){
+		if(!testChar(testme)){
+			fprintf(stderr,"Error invalid chars\n");
+			exit(1);
+		}
+	}
+	while((testme = fgetc(fpPlainText)) != EOF){
+		if(!testChar(testme)){
+			fprintf(stderr,"Error invalid chars\n");
+			exit(1);
+		}
+	}
+
+	// Reset the file pointers
+	fclose(fpPlainText);
+	fclose(fpKey);
+	fpPlainText = fopen(argv[1],"r");
+	fpKey = fopen(argv[2],"r");
+
+	for(i=0;i<sizeof(buffer);i++){
+		buffer[i] = 0;
+	}
+
+
+	// Set up the server address struct
+	memset((char*)&serverAddress, '\0', sizeof(serverAddress)); // Clear out the address struct
+	portNumber = atoi(argv[3]); // Get the port number, convert to an integer from a string
+	serverAddress.sin_family = AF_INET; // Create a network-capable socket
+	serverAddress.sin_port = htons(portNumber); // Store the port number
+	serverHostInfo = gethostbyname(local); // Convert the machine name into a special form of address
+	if (serverHostInfo == NULL) { fprintf(stderr, "CLIENT: ERROR, no such host\n"); exit(0); }
+	memcpy((char*)&serverAddress.sin_addr.s_addr, (char*)serverHostInfo->h_addr, serverHostInfo->h_length); // Copy in the address
+
+	// Set up the socket
+	socketFD = socket(AF_INET, SOCK_STREAM, 0); // Create the socket
+	if (socketFD < 0) error("CLIENT: ERROR opening socket");
+
+	// Connect to server
+	if (connect(socketFD, (struct sockaddr*)&serverAddress, sizeof(serverAddress)) < 0) // Connect socket to address
+		error("CLIENT: ERROR connecting");
+
+	//TODO:
+	/*
+		✔ 💢
+		[✔] Connect to the server and send our id
+		[✔] Check for the go flag or kill ourself
+		[✔] Tokenise input into 200B chunks (we'll use the 56 bytes for control)
+		[✔] For each chunck check that we have only valid input
+		[✔] Send the chunck off to the server
+		[💢] Recive a chunck from the server and output it to stdout
+	*/
+	//Let the server know that we are
+	strcpy(buffer,"otp_enc");
+	charsWritten = send(socketFD, buffer, strlen(buffer), 0); // Write to the server who we are
+	if (charsWritten < 0) error("CLIENT: ERROR writing to socket");
+	if (charsWritten < strlen(buffer)) printf("CLIENT: WARNING: Not all data written to socket!\n");
+	memset(buffer, '\0', sizeof(buffer)); // Clear out the buffer again for reuse
+	charsRead = recv(socketFD, buffer, 3, 0); // Wait for an ack form the server
+	if (charsRead < 0) error("CLIENT: ERROR reading from socket");
+	if (strcmp(buffer,"ack")){fprintf(stderr,"Error bad port");exit(1);}// We didn't get an ack
+
+	sprintf(buffer,"%d",numSegments);
+	charsWritten = send(socketFD, buffer, strlen(buffer), 0); // Write to the server who we are
+	if (charsWritten < 0) error("CLIENT: ERROR writing to socket");
+	if (charsWritten < strlen(buffer)) printf("CLIENT: WARNING: Not all data written to socket!\n");
+
+	// Dont forget while(send != buffersize) this will make sure that we send the whole packet
+
+	// Send the key then send the plaintext packet
+	for(i=0;i<numSegments;i++){// For each segment we are going to send
+
+		// Grab the key
+		memset(buffer, '\0', packetSize);
+		fgets(buffer,packetSize,fpKey);
+
+		// Fill the packet with * if it isn't a full packet
+			if(i == numSegments-1){
+				for(j=0;j<packetSizem;j++){
+					if(buffer[j] == '\0' || buffer[j] == '\n'){
+						buffer[j] = '*';
+					}
+				}
+			}
+
+		//Send the packet and keep doing so untill the whole paket has been sent
+		//printf("'%s'\n\n",buffer);
+		while((charsWritten = send(socketFD, buffer, strlen(buffer), 0)) != packetSizem){} // Write to the server
+		if (charsWritten < 0) error("CLIENT: ERROR writing to socket");
+		if (charsWritten < strlen(buffer)) printf("CLIENT: WARNING: Not all data written to socket!\n");
+
+		// Grab the plantext
+		memset(buffer, '\0', packetSize);
+		fgets(buffer,packetSize,fpPlainText);
+
+		// Fill the packet with * if it isn't a full packet
+		if(i == numSegments-1){
+			for(j=0;j<packetSizem;j++){
+				if(buffer[j] == '\0' || buffer[j] == '\n'){
+					buffer[j] = '*';
+				}
+			}
+		}
+
+
+		//Send the packet and keep doing so untill the whole paket has been sent
+		//printf("'%s'\n\n",buffer);
+		while((charsWritten = send(socketFD, buffer, strlen(buffer), 0)) != packetSizem){} // Write to the server
+		if (charsWritten < 0) error("CLIENT: ERROR writing to socket");
+		if (charsWritten < strlen(buffer)) printf("CLIENT: WARNING: Not all data written to socket!\n");
+
+		memset(buffer, '\0', sizeof(buffer)); // Clear out the buffer again for reuse
+		while((charsRead = recv(socketFD, buffer, packetSizem, 0) < packetSizem)){} // Read data from the socket, leaving \0 at end
+		if (charsRead < 0) error("CLIENT: ERROR reading from socket");
+		if(i == numSegments-1){
+			for(j=0;j<strlen(buffer);j++){
+				if(buffer[j] != '*' && testChar(buffer[j])){
+					printf("%c", buffer[j]);
+				}
+				else{
+					break;
+				}
+			}
+		}
+		else{
+			printf("%s",buffer);
+		}
+	}
+	printf("\n");
+
+
+	/* Get input message from user FIXME: Un comment block when we are ready to connect to the server
+	printf("CLIENT: Enter text to send to the server, and then hit enter: ");
+	memset(buffer, '\0', sizeof(buffer)); // Clear out the buffer array
+	fgets(buffer, sizeof(buffer) - 1, stdin); // Get input from the user, trunc to buffer - 1 chars, leaving \0
+	buffer[strcspn(buffer, "\n")] = '\0'; // Remove the trailing \n that fgets adds
+
+	// Send message to server
+	charsWritten = send(socketFD, buffer, strlen(buffer), 0); // Write to the server
+	if (charsWritten < 0) error("CLIENT: ERROR writing to socket");
+	if (charsWritten < strlen(buffer)) printf("CLIENT: WARNING: Not all data written to socket!\n");
+
+	// Get return message from server
+	memset(buffer, '\0', sizeof(buffer)); // Clear out the buffer again for reuse
+	charsRead = recv(socketFD, buffer, sizeof(buffer) - 1, 0); // Read data from the socket, leaving \0 at end
+	if (charsRead < 0) error("CLIENT: ERROR reading from socket");
+	printf("CLIENT: I received this from the server: \"%s\"\n", buffer);
+
+	close(socketFD); // Close the socket
+	*/
+	return 0;
+}
