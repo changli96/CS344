@@ -26,7 +26,7 @@ int main(int argc, char *argv[]) {
    char cypher[packetSize];
    struct sockaddr_in serverAddress, clientAddress;
    memset((char *)&serverAddress, '\0', sizeof(serverAddress)); // Clear out the address struct
-   portNumber = atoi(argv[1]); // Get the port number, convert to an integer from a string
+   int portNumber = atoi(argv[1]); // Get the port number, convert to an integer from a string
    serverAddress.sin_family = AF_INET; // Create a network-capable socket
    serverAddress.sin_port = htons(portNumber); // Store the port number
    serverAddress.sin_addr.s_addr = INADDR_ANY; // Any address is allowed for connection to this process
@@ -36,17 +36,17 @@ int main(int argc, char *argv[]) {
    listenSocket = socket(AF_INET, SOCK_STREAM, 0); // Create the socket
 
    // Enable socket and start listening
-   if (bind(listenSocketFD, (struct sockaddr *)&serverAddress, sizeof(serverAddress)) < 0) {// Connect socket to port
+   if (bind(listenSocket, (struct sockaddr *)&serverAddress, sizeof(serverAddress)) < 0) {// Connect socket to port
       fprintf(stderr,"Error: Could not bind socket to port %d\n", portNumber);
       exit(1);
    }
-   listen(listenSocketFD, 5); // Flip the socket on - it can now receive up to 5 connections
+   listen(listenSocket, 5); // Flip the socket on - it can now receive up to 5 connections
 
    while(1){
       // Accept a connection, blocking if one is not available until one connects
       sizeOfClientInfo = sizeof(clientAddress); // Get the size of the address for the client that will connect
-      establishedConnectionFD = accept(listenSocketFD, (struct sockaddr *)&clientAddress, &sizeOfClientInfo); // Accept
-      if (establishedConnectionFD < 0) {
+      establishedConnection = accept(listenSocket, (struct sockaddr *)&clientAddress, &sizeOfClientInfo); // Accept
+      if (establishedConnection < 0) {
          fprintf(stderr,"Error: Could not accept connection\n");
          exit(1);
       }
