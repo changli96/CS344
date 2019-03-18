@@ -7,7 +7,6 @@
 
 #include <unistd.h>
 #include <stdio.h>
-#include <time.h>
 #include <stdlib.h>
 #include <string.h>
 #include <sys/types.h>
@@ -19,14 +18,16 @@ int main(int argc, char *argv[]) {
 
    char chars[28] = "ABCDEFGHIJKLMNOPQRSTUVWXYZ ";
    int pid;
-   int listenSocketFD, establishedConnectionFD, charsRead,numPackets,i,j,k;
+   int listenSocketFD, establishedConnectionFD, portNumber, charsRead,numPackets,i,j,k;
    int packetSize = 512;
    int truePacketSize = 511;
    socklen_t sizeOfClientInfo;
-
+   char keybuffer[packetSize];// For storeing key packets
+   char plaintext[packetSize];// For storeing plaintext packets
+   char cypher[packetSize];
    struct sockaddr_in serverAddress, clientAddress;
    memset((char *)&serverAddress, '\0', sizeof(serverAddress)); // Clear out the address struct
-   int portNumber = atoi(argv[1]); // Get the port number, convert to an integer from a string
+   portNumber = atoi(argv[1]); // Get the port number, convert to an integer from a string
    serverAddress.sin_family = AF_INET; // Create a network-capable socket
    serverAddress.sin_port = htons(portNumber); // Store the port number
    serverAddress.sin_addr.s_addr = INADDR_ANY; // Any address is allowed for connection to this process
@@ -36,16 +37,20 @@ int main(int argc, char *argv[]) {
    listenSocketFD = socket(AF_INET, SOCK_STREAM, 0); // Create the socket
 
    // Enable socket and start listening
-   if (bind(listenSocketFD, (struct sockaddr *)&serverAddress, sizeof(serverAddress)) < 0) // Connect socket to port
-      fprintf(stderr,"Error: Could not bind socket to port %d\n", portNumber); exit(1);
+   if (bind(listenSocketFD, (struct sockaddr *)&serverAddress, sizeof(serverAddress)) < 0) {// Connect socket to port
+      fprintf(stderr,"Error: Could not bind socket to port %d\n", portNumber);
+      exit(1);
+   }
    listen(listenSocketFD, 5); // Flip the socket on - it can now receive up to 5 connections
 
-   char keybuffer[packetSize];// For storeing key packets
    while(1){
       // Accept a connection, blocking if one is not available until one connects
       sizeOfClientInfo = sizeof(clientAddress); // Get the size of the address for the client that will connect
       establishedConnectionFD = accept(listenSocketFD, (struct sockaddr *)&clientAddress, &sizeOfClientInfo); // Accept
-      if (establishedConnectionFD < 0) {fprintf(stderr,"Error: Did not accept\n"); exit(1);}
+      if (establishedConnectionFD < 0) {
+         fprintf(stderr,"Error: Could not accept connection\n");
+         exit(1);
+      }
 
       pid = fork();
       if(pid == -1){// Failed to create child
@@ -79,7 +84,6 @@ int main(int argc, char *argv[]) {
          numPackets = numPackets;
          //printf("SERVER: I received this from the client: \"%d\"\n", numPackets);
 
-         char plaintext[packetSize];
          // Get the message from the client and display it
          while(numPackets > 0){// The connection is open if we get an end of transmission packet then set on = 0
 
@@ -105,7 +109,6 @@ int main(int argc, char *argv[]) {
                printf("Server: Packet droped too small\n\n");
             }
 
-            char cypher[packetSize];
             //Send back the encrypted text
             memset(cypher, '\0', packetSize);
             for(i=0;i<packetSize;i++){
