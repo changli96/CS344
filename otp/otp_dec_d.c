@@ -35,8 +35,10 @@ int main(int argc, char *argv[]) {
    listenSocket = socket(AF_INET, SOCK_STREAM, 0); // Create the socket
 
    // Enable socket and start listening
-   if (bind(listenSocket, (struct sockaddr *)&serverAddress, sizeof(serverAddress)) < 0) // Connect socket to port
-      fprintf(stderr,"Error: Could not bind socket to port %d\n", portNumber); exit(1);
+   if (bind(listenSocket, (struct sockaddr *)&serverAddress, sizeof(serverAddress)) < 0){ // Connect socket to port
+      fprintf(stderr,"Error: Could not bind socket to port %d\n", portNumber);
+      exit(1);
+   }
    listen(listenSocket, 5); // Flip the socket on - it can now receive up to 5 connections
 
    char keybuffer[packetSize];// For storeing key packets
